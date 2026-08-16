@@ -20,6 +20,7 @@ const rootFilesToCopy = [
   'sitemap.xml',
   'sw.js',
   'terms.html',
+  'thankyou.html',
   '_headers',
   '_redirects',
 ];

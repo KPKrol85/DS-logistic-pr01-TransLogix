@@ -27,6 +27,10 @@ All significant changes to this project are documented in this file.
 
 - Added a Playwright end-to-end suite covering the contact form, fleet lightbox, mobile navigation, the offline page, the service worker offline fallback, and services filtering, with a `pretest:e2e` hook running the local link check first.
 
+### Fixed
+
+- Fixed the build package configuration to include `thankyou.html`, so the contact-form confirmation route is present in `dist/`.
+
 ### Changed
 
 - Rewrote the privacy policy, cookie policy, and terms of service as complete documents adapted from the KP_Code legal templates, aligning the disclosures with the site's actual behavior (Netlify-hosted form handling, embedded Google map, browser-only pricing calculators, browser storage keys, no analytics), stating that TransLogix is a fictional brand presented in a demonstration project, and removing the embedded template comments and unresolved variants from the published pages.

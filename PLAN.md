@@ -24,9 +24,9 @@
 **Goal:** Make the contact form end on a real confirmation page in the deployed package, with exactly one confirmation mechanism.
 
 - [ ] **PH1-01 — Include `thankyou.html` in the deployable package** — **Priority:** Critical
-  - [ ] add `thankyou.html` to `rootFilesToCopy` in `scripts/build-dist.js`
-  - [ ] confirm the packaged root file set covers every page referenced by the form action (`contact.html`), the service-worker precache list (`sw.js`), the page canonical URLs and `sitemap.xml`
-  - [ ] rebuild the package locally and verify that `dist/thankyou.html` exists with the header and footer partials inlined and the minified asset references rewritten
+  - [x] add `thankyou.html` to `rootFilesToCopy` in `scripts/build-dist.js`
+  - [x] confirm the packaged root file set covers every page referenced by the form action (`contact.html`), the service-worker precache list (`sw.js`), the page canonical URLs and `sitemap.xml`
+  - [x] rebuild the package locally and verify that `dist/thankyou.html` exists with the header and footer partials inlined and the minified asset references rewritten
   - [ ] verify after deployment that `/thankyou.html` returns HTTP 200 on the production origin
   - **Completion condition:** a successful contact submission lands on the confirmation page in the deployed site and the service-worker install step no longer skips `/thankyou.html`
   - **Source:** `daily-AUDIT.md` — P0-01

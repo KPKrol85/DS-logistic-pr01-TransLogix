@@ -2,53 +2,62 @@
 
 **Audit date:** 2026-08-16
 **Project type:** Static multi-page website (vanilla HTML, modular CSS, ES modules) with a Node-based build, Netlify static-hosting configuration, service worker and web manifest
-**Audit mode:** Static repository review (plus two read-only requests to the deployed origin)
+**Audit mode:** Static repository review (plus one read-only request to the deployed origin)
 
 ## Overall assessment
 
-The implementation is mature and internally consistent: source and generated layers are clearly separated, generated assets are currently in sync with their inputs, module initialization is defensive, and the QA tooling (html-validate, JSON-LD validation, local-link check, pa11y-ci over 12 URLs, gzip budgets, Playwright e2e against the built package) is proportionate to the project scope.
+The architecture is stable and the source/generated split is clean: canonical sources, a hand-written dependency-free build, and QA tooling proportionate to the project scope. All four dependency-free static checks in `scripts/` were executed during this audit and passed (asset verification, local-link check, JSON-LD validation, gzip budgets), and the tracked minified assets are newer than every one of their inputs.
 
-One blocker exists. The deployable package produced by `scripts/build-dist.js` omits `thankyou.html`, and the production origin confirms a 404 on that path — so the contact form, the site's primary conversion path, ends on a missing page. Everything else found is lower-impact: one metadata contradiction against visible content, one public figure with two sources of truth, and a set of duplication and coverage gaps that create drift risk rather than current breakage.
+Two areas carry real risk. The deployable package produced by `scripts/build-dist.js` still omits `thankyou.html`, and the production origin still answers 404 on that path, so the contact form — the primary conversion path — ends on a missing page. Separately, the reveal animation hides all main content behind `opacity: 0` with no non-JavaScript fallback, unlike the header, which is correctly gated behind the `.js` class; if the module graph does not execute, the six content pages render an empty page body between header and footer.
 
-Apart from the build-package defect the project is ready for normal continued development.
+The remaining findings are contradictions in published data (address, footer statistic) and drift or coverage gaps that create maintenance risk rather than current breakage. Apart from the build-package defect the project is ready for normal continued development.
 
 ## Verified strengths
 
-- Source and generated layers are separated and currently synchronized: `assets/css/style.min.css` (mtime 2026-05-16 14:48) is newer than every file in `assets/css/modules/`, and `assets/js/main.min.js` is newer than `assets/js/main.js`; `build:dist` also regenerates both before packaging.
-- Defensive initialization across the JS layer: every exported `init*` returns early when its anchor elements are absent (`assets/js/nav.js`, `tabs.js`, `lightbox.js`, `stats.js`, `service-detail.js`), and all `localStorage`/`sessionStorage` access is wrapped in `try/catch` (`assets/js/theme-init.js`, `theme.js`, `site-consent.js`, `services-filters.js`).
-- Data-driven views build DOM safely with `createElement`/`textContent`/`replaceChildren` instead of string injection (`assets/js/service-detail.js`, `assets/js/services-filters.js:28-78`).
-- The strict CSP in `_headers` (`script-src 'self'; style-src 'self'`, no `unsafe-inline`) is actually honoured by the markup: no `<style>` blocks, no `style="…"` attributes and no executable inline scripts exist in any source page.
-- Consistent indexing policy: `index,follow` plus a canonical URL on all nine public pages, `noindex,follow` on `404.html`, `offline.html` and `thankyou.html`, and `sitemap.xml` listing exactly the indexable set.
-- Accessible interaction patterns implemented natively: roving `tabindex` with Arrow/Home/End handling in `assets/js/tabs.js`, and a lightbox with focus trap, `Escape` handling and focus return in `assets/js/lightbox.js:160-250`.
-- Build and QA scripts are dependency-free plain Node (`scripts/build-dist.js`, `build-js.js`, `check-local-links.js`, `verify-assets.js`, `validate-jsonld.js`), so the packaging step is reproducible without a bundler toolchain.
-- No committed secrets, `TODO`/`FIXME` markers or debug logging in shipped source; the only `console` calls are progress output inside `scripts/` and error paths in the service worker and data loaders.
+- All four dependency-free QA scripts pass on the current tree: `verify-assets.js` ("All referenced assets exist"), `check-local-links.js` (12 files scanned), `validate-jsonld.js` (11 blocks), `check-budgets.js` (CSS 10 844 B gzip / 12 000 B limit; module graph 16 228 B gzip / 18 000 B limit across 17 files).
+- Generated output is in sync with its sources: `assets/css/style.min.css` (2026-05-16 14:48) is newer than every file in `assets/css/modules/` (latest 14:46) and `assets/js/main.min.js` (15:10) is newer than `assets/js/main.js` (07:22); `build:dist` regenerates both before packaging.
+- Defensive initialization across the JS layer: every exported `init*` returns early when its anchor elements are missing (`assets/js/nav.js:8`, `tabs.js`, `lightbox.js`, `stats.js:3`, `service-detail.js:16`, `gallery-filters.js:6`), and all `localStorage`/`sessionStorage` access is wrapped in `try/catch` (`theme-init.js:6`, `theme.js:4`, `site-consent.js:4`, `services-filters.js:3`).
+- The data-driven views build DOM with `createElement`/`textContent`/`replaceChildren` rather than string injection (`assets/js/services-filters.js:28-76`, `service-detail.js:62-79`).
+- The strict CSP in `_headers:10` (`script-src 'self'; style-src 'self'`, no `unsafe-inline`) is honoured by the markup: no `<style>` blocks, no `style="…"` attributes and no executable inline scripts exist in any source page or partial.
+- The mobile-navigation breakpoint matches on both sides: `assets/js/nav.js:10` uses `matchMedia("(min-width: 900px)")` and `assets/css/modules/header.css:393` switches the nav to desktop layout at the same width; the closed panel is `visibility: hidden` (`header.css:181-186`), so its links are not reachable while `aria-hidden="true"` is set.
+- Consistent indexing policy: `index,follow` on the nine public pages, `noindex,follow` on `404.html`, `offline.html` and `thankyou.html`, and `sitemap.xml` listing exactly the indexable set.
+- Accessible interaction patterns implemented natively: roving `tabindex` with Arrow/Home/End handling (`assets/js/tabs.js:11-31`), lightbox with focus trap, `Escape` and focus return (`assets/js/lightbox.js:166-251`), skip link present on all 12 pages.
+- No committed secrets, no `TODO`/`FIXME` markers and no debug logging in shipped source; the only `console` calls in `assets/js/` are two error paths in data loaders.
 
 ## P0 — Critical risks
 
 ### [P0-01] `thankyou.html` is excluded from the deployable package and 404s in production
 
 - **Classification:** Defect
-- **Evidence:** `scripts/build-dist.js:8-25` (`rootFilesToCopy`), `contact.html:110`, `sw.js:15`
-- **Current behavior:** The contact form posts to `action="/thankyou.html"` and the service worker precaches `/thankyou.html`, but `rootFilesToCopy` in `scripts/build-dist.js` lists every other root page and omits `thankyou.html`, so the file is never copied into `dist/`. `README.md:218` documents `dist/` as the publish directory, and the deployed origin serves inlined partials (i.e. the `dist/` package). A request to `https://transport-pr01-translogix.netlify.app/thankyou.html` returned HTTP 404 when checked on 2026-08-16.
-- **Impact:** A visitor who successfully submits the contact form is redirected to a 404 page, so the primary conversion flow gives no confirmation. The `thankyou.html` canonical URL and the sitemap-adjacent SW precache entry also point at an unavailable resource, and the SW install step logs a skipped asset on every deploy.
-- **Recommended direction:** Include `thankyou.html` in the packaged root file set so the built output matches the pages the form, the service worker and the page's own canonical reference.
+- **Evidence:** `scripts/build-dist.js:8-25` (`rootFilesToCopy`), `contact.html:110`, `sw.js:15`, `README.md:191`
+- **Current behavior:** The contact form posts to `action="/thankyou.html"` (submitted natively via `form.submit()` in `assets/js/form.js:120-123`) and the service worker precaches `/thankyou.html`, but `rootFilesToCopy` lists every other root page and omits `thankyou.html`, so the file never reaches `dist/`. `README.md:191` describes the step as copying "the root HTML pages", and `README.md:218` documents `dist/` as the publish directory. A request to `https://transport-pr01-translogix.netlify.app/thankyou.html` returned HTTP 404 when re-checked on 2026-08-16.
+- **Impact:** A visitor who successfully submits the contact form lands on a 404, so the primary conversion flow gives no confirmation. The page's own canonical URL and the service-worker precache entry point at an unavailable resource, and the SW install step logs a skipped asset on every deploy.
+- **Recommended direction:** Include `thankyou.html` in the packaged root file set so the built output matches the pages the form, the service worker and the page's canonical reference already assume.
 
 ## P1 — Important issues worth fixing next
 
-### [P1-01] Organization structured data states a different address than every visible instance
-
-- **Classification:** Contract mismatch
-- **Evidence:** `index.html:64-70` versus `partials/footer.html:54-60` and `contact.html:93`
-- **Current behavior:** The `Organization` JSON-LD on the home page declares `ul. Przemysłowa 10`, `Warszawa`, `postalCode: "00-000"`, while the shared footer, the contact page and the embedded map all use `ul. Marynarki Wojennej 12, 33-100 Tarnów`. `00-000` is a placeholder rather than a valid Polish postal code.
-- **Impact:** The site's machine-readable business record contradicts the human-readable one on every page, which is exactly the kind of inconsistency structured-data consumers flag; it also weakens the "realistic business" presentation the project is built to demonstrate.
-- **Recommended direction:** Align the JSON-LD `PostalAddress` with the address used in the footer and on the contact page, including a valid postal code.
-
-### [P1-02] Footer statistic renders one number in markup and a different one after script execution
+### [P1-01] Reveal animation hides all main content when the module graph does not run
 
 - **Classification:** Defect
-- **Evidence:** `partials/footer.html:8`, `assets/js/stats.js:17-24`
-- **Current behavior:** The markup contains `<h3 data-stat="deliveries" data-value="550">612+</h3>`. `initFooterStats()` reads `data-value` and overwrites the text, so the figure visibly changes from `612+` to `550+` shortly after load, on every page that includes the footer.
-- **Impact:** A public figure has two conflicting sources of truth in one element and visibly changes in front of the user; whichever value is intended, the other is wrong everywhere the footer appears.
+- **Evidence:** `assets/css/modules/utilities.css:2-6`, `assets/js/reveal.js:2-21`, `index.html:93,106,153,198,264`, contrasted with `assets/css/modules/header.css:181`
+- **Current behavior:** `.reveal { opacity: 0; transform: translateY(18px); }` is declared unconditionally; visibility is restored only when `initReveal()` adds `is-visible`. The header solves the same problem correctly by scoping its hidden state to `.js .nav__panel`, and `boot.js` maintains the `no-js`/`js` class pair, but no CSS rule references `no-js` anywhere. Every main content block on `index.html` (5), `services.html` (2), `contact.html` (2), `pricing.html` (2), `fleet.html` (1) and `service.html` (1) carries the class.
+- **Impact:** With scripting unavailable, or after any error that stops `assets/js/main.js` before `initReveal()` (it runs 25th in a single top-level sequence), the six content pages render header and footer around an empty body. The failure is silent and total for the page content, unlike the guarded per-module failures elsewhere in the codebase.
+- **Recommended direction:** Scope the hidden state to the `.js` class as the header already does, so content is visible by default and only animated when scripting is active.
+
+### [P1-02] Organization structured data states a different address than every visible instance
+
+- **Classification:** Contract mismatch
+- **Evidence:** `index.html:64-70` versus `partials/footer.html:52-56` and `contact.html:93,103-104`
+- **Current behavior:** The `Organization` JSON-LD on the home page declares `ul. Przemysłowa 10`, `Warszawa`, `postalCode: "00-000"`, while the shared footer `<address>`, the contact page and the embedded map all use `ul. Marynarki Wojennej 12, 33-100 Tarnów`. `00-000` is a placeholder rather than a valid Polish postal code.
+- **Impact:** The machine-readable business record contradicts the human-readable one on every page, which is exactly what structured-data consumers flag, and it undercuts the realistic-business presentation the project is built to demonstrate.
+- **Recommended direction:** Align the JSON-LD `PostalAddress` with the address used in the footer and on the contact page, including a valid postal code, and mirror the change in `assets/data/jsonld/index.json`.
+
+### [P1-03] Footer statistic renders one number in markup and a different one after script execution
+
+- **Classification:** Defect
+- **Evidence:** `partials/footer.html:8`, `assets/js/stats.js:17-23`
+- **Current behavior:** The markup contains `<h3 data-stat="deliveries" data-value="550">612+</h3>`. `initFooterStats()` reads `data-value` and overwrites the text, so the figure visibly changes from `612+` to `550+` shortly after load, on every page that includes the footer. The same conflicting pair exists in the unused copy at `templates/partials/footer.html:6`.
+- **Impact:** A published figure has two sources of truth in a single element and visibly changes in front of the visitor; whichever value is intended, the other is wrong site-wide.
 - **Recommended direction:** Keep one authoritative value — either drive the markup from `data-value` or drop the attribute and let the static text stand.
 
 ## P2 — Minor refinements
@@ -56,16 +65,16 @@ Apart from the build-package defect the project is ready for normal continued de
 ### [P2-01] Duplicate copies of canonical markup and metadata exist with no check comparing them
 
 - **Classification:** Maintenance risk
-- **Evidence:** `templates/partials/footer.html` versus `partials/footer.html`; `assets/data/jsonld/*.json` versus the inline blocks in the root pages
-- **Current behavior:** `templates/partials/` is not used by the runtime or by `scripts/build-dist.js`, but it is still validated by `qa:html` and `assets:verify` — and it has already drifted: the canonical footer wraps company data in `<address>`, uses `class="footer"` and the separator `|`, while the template copy has none of these. The nine files in `assets/data/jsonld/` are byte-equivalent to the inline JSON-LD today, but nothing compares them; `scripts/validate-jsonld.js:92` only reads root HTML.
-- **Impact:** Two sets of files look authoritative while only one is; edits applied to the canonical copies silently leave the duplicates stale, and the drift is invisible to the existing QA scripts.
+- **Evidence:** `templates/partials/footer.html` versus `partials/footer.html`; `assets/data/jsonld/*.json` versus the inline blocks in the root pages; `scripts/validate-jsonld.js:92`
+- **Current behavior:** `README.md:286` documents `templates/partials/` as unused by the build and the runtime while still validated by `qa:html` and `assets:verify` — and it has already drifted from the canonical copy: no `<address>` wrapper, `class="footer section"` instead of `class="footer"`, a different copyright separator. The nine files in `assets/data/jsonld/` are byte-equivalent to the inline blocks today (verified by normalized comparison), but nothing compares them; `validate-jsonld.js` reads root HTML only.
+- **Impact:** Two sets of files look authoritative while only one is; edits to the canonical copies silently leave the duplicates stale, and the drift is invisible to the existing QA scripts.
 - **Recommended direction:** Either remove the unused copies or add a check that fails when a copy diverges from its canonical source.
 
 ### [P2-02] `h3` in legal sections renders at the same size as the `h2` above it
 
 - **Classification:** Defect
-- **Evidence:** `assets/css/modules/pages.css:1421-1424`, `assets/css/modules/base.css:135-137`
-- **Current behavior:** `.legal-section h2` is set to `var(--fs-07)`, and the global `h3` rule uses the same `var(--fs-07)`. `privacy.html`, `cookies.html` and `terms.html` all use `h3` subsections, which therefore render identically to their parent headings.
+- **Evidence:** `assets/css/modules/pages.css:1421-1423`, `assets/css/modules/base.css:135-137`
+- **Current behavior:** `.legal-section h2` is set to `var(--fs-07)`, and the global `h3` rule uses the same `var(--fs-07)` (1.25rem). `privacy.html`, `cookies.html` and `terms.html` all use `h3` subsections, which therefore render identically to their parent headings.
 - **Impact:** The document hierarchy on the three longest pages is visually flat, making the legal content harder to scan even though the underlying semantics are correct.
 - **Recommended direction:** Give `.legal-section h3` its own step below `--fs-07`.
 
@@ -73,17 +82,17 @@ Apart from the build-package defect the project is ready for normal continued de
 
 - **Classification:** Source-visible risk
 - **Evidence:** `404.html`, `offline.html`, `thankyou.html` in combination with `partials/footer.html:8-18`
-- **Current behavior:** These pages contain a single `h1` and no `h2` in `main`, so the next heading in document order is the footer statistics `h3`, producing the sequence `h1 → h3 → h3 → h3 → h2 …`. The nine content pages are unaffected because their sections supply `h2` headings.
-- **Impact:** Screen-reader users navigating by heading level encounter a skipped level on all three system pages; these URLs are inside the `pa11y-ci` set, so it is also a likely source of future QA noise.
+- **Current behavior:** These pages contain a single `h1` and no `h2` in `main`, so the next heading in document order is the footer statistics `h3`, producing `h1 → h3 → h3 → h3 → h2 …`. The nine content pages are unaffected because their sections supply `h2` headings.
+- **Impact:** Screen-reader users navigating by heading level meet a skipped level on all three system pages; those URLs are in the `pa11y-ci` set, so this is also a likely source of future QA noise.
 - **Recommended direction:** Give the footer statistics a heading level consistent with their `h2` section context, or add the missing section heading on the system pages.
 
-### [P2-04] `services.json` references image files that do not exist, and asset verification cannot see them
+### [P2-04] Asset references in data files and image variants sit outside the coverage of `verify-assets.js`
 
 - **Classification:** Maintenance risk
-- **Evidence:** `assets/data/services.json:35,57,79` and four further records (`assets/img/solo.svg`, `assets/img/refrigerated.svg`, `assets/img/mega.svg`), `scripts/verify-assets.js:88-96`
-- **Current behavior:** Seven of the eight service records carry an `image` field pointing at one of three SVG files that are not present in the repository. Nothing breaks today because `services-filters.js` resolves `service.icon || service.image` and every record has a valid `icon`. `verify-assets.js` extracts only `link[href]`, `script[src]`, `img[src]` and `source[src]`, so neither these JSON references nor any `srcset` value in the fleet and hero markup is verified.
-- **Impact:** Dead references sit in the canonical service data waiting to surface if `icon` is ever removed, and the asset check gives more confidence than its actual coverage supports.
-- **Recommended direction:** Remove or correct the stale `image` values, and extend the asset check to `srcset` and to referenced data files.
+- **Evidence:** `assets/data/services.json:35,57,79,101,123,145,167`; `scripts/verify-assets.js:88-105`; `assets/img/fleet/mega/1 (1).webp` versus `index.html:250-251` and `fleet.html:458-459`
+- **Current behavior:** Seven of the eight service records carry an `image` field pointing at `assets/img/solo.svg`, `refrigerated.svg` or `mega.svg`, none of which exist; nothing breaks today because `services-filters.js:37` resolves `service.icon || service.image` and every record has a valid `icon`. Separately, the Mega fleet picture is the only one without a WebP `<source>` — the variant exists in the repository under the download-artifact name `1 (1).webp` and is referenced nowhere. `verify-assets.js` extracts only `link[href]`, `script[src]`, `img[src]` and `source[src]`, so neither the JSON references, nor any `srcset` value, nor orphaned files are seen by the check that just reported "All referenced assets exist".
+- **Impact:** Dead references sit in the canonical service data waiting to surface if `icon` is ever dropped, WebP-capable browsers without AVIF support fall back to JPEG on one card, and the asset check gives more confidence than its coverage supports.
+- **Recommended direction:** Remove or correct the stale `image` values, rename the orphaned variant and reference it, and extend the asset check to `srcset` and to referenced data files.
 
 ### [P2-05] No `.gitattributes`, so 24 files permanently report as modified
 
@@ -96,32 +105,40 @@ Apart from the build-package defect the project is ready for normal continued de
 ### [P2-06] Current-page marking never applies on the extensionless routes the host serves
 
 - **Classification:** Contract mismatch
-- **Evidence:** `_redirects:1-4`, `assets/js/aria-current.js:6-16`
-- **Current behavior:** `_redirects` rewrites `/services`, `/fleet`, `/pricing` and `/contact` to their `.html` counterparts with status 200, so the browser URL keeps the extensionless form. `applyAriaCurrent()` compares `href` against the last path segment, which is then `services` rather than `services.html`, so no link matches and no `aria-current="page"` is set.
-- **Impact:** On the clean URLs the navigation loses its current-page indication for assistive technology and for the associated styling.
+- **Evidence:** `_redirects:1-4`, `assets/js/aria-current.js:5-16`
+- **Current behavior:** `_redirects` rewrites `/services`, `/fleet`, `/pricing` and `/contact` to their `.html` counterparts with status 200, so the browser URL keeps the extensionless form. `applyAriaCurrent()` compares each `href` against the last path segment, which is then `services` rather than `services.html`, so no link matches and no `aria-current="page"` is set.
+- **Impact:** On the clean URLs the navigation loses its current-page indication for assistive technology and for the associated `aria-current` styling in header and footer.
 - **Recommended direction:** Normalize both sides of the comparison so extensionless and `.html` paths resolve to the same key.
 
 ### [P2-07] The offer list has no non-JavaScript baseline
 
 - **Classification:** Source-visible risk
-- **Evidence:** `services.html:119` (`<div id="services-list" …></div>`), `assets/js/services-filters.js:92-104`
-- **Current behavior:** `services.html` ships an empty results container; all eight offers are rendered client-side from `assets/data/services.json`. A fetch failure is handled with an explanatory message, but with scripting unavailable the page shows filter controls and no offers, and there is no `<noscript>` fallback anywhere in the project.
-- **Impact:** The main offer page — an indexable, sitemap-listed URL — has no content for non-executing clients, while the rest of the site (after the build inlines the partials) degrades gracefully.
+- **Evidence:** `services.html:119` (`<div id="services-list" …></div>`), `assets/js/services-filters.js:92-111`, contrasted with `service.html:157-160`
+- **Current behavior:** `services.html` ships an empty results container; all eight offers are rendered client-side from `assets/data/services.json`. A fetch failure is handled with an explanatory message, but with scripting unavailable the page shows filter controls and no offers. `service.html` is the only page in the project with a `<noscript>` fallback.
+- **Impact:** The main offer page — indexable and listed in the sitemap — has no content for non-executing clients; combined with [P1-01] this page would be empty twice over.
 - **Recommended direction:** Provide a static baseline list or a `noscript` message so the offer page is never empty.
 
 ### [P2-08] Lighthouse CI audits the source root instead of the deployable package
 
 - **Classification:** Contract mismatch
-- **Evidence:** `lighthouserc.json:4` (`"staticDistDir": "."`), `playwright.config.js:24` (`npm run build && npx http-server dist`)
+- **Evidence:** `lighthouserc.json:4` (`"staticDistDir": "."`), `playwright.config.js:24-28` (`npm run build && npx http-server dist`)
 - **Current behavior:** The e2e suite runs against the built `dist/`, while Lighthouse CI collects from the repository root, where pages load the unminified `style.css` with eight `@import` requests and fetch the header and footer at runtime.
 - **Impact:** Performance, best-practice and SEO scores describe a layer that is never deployed, so the assertion thresholds do not measure the shipped package.
 - **Recommended direction:** Point the Lighthouse collection at the build output, consistent with the e2e configuration.
 
-### [P2-09] The entry consent dialog does not state the demo nature of the project
+### [P2-09] The contact page carries a second, unreachable success mechanism
+
+- **Classification:** Maintenance risk
+- **Evidence:** `assets/js/form.js:238-244`, `contact.html:150`
+- **Current behavior:** `initContactForm()` reveals `#contact-success` when the URL carries `?success=1`, but nothing in the repository ever produces that URL: the form action is `/thankyou.html` and `_redirects` contains no rule adding the parameter. The inline success message is therefore dead in the current flow.
+- **Impact:** Two confirmation paths exist for one form while only one is live, so a maintainer can reasonably assume the inline message covers the success case that [P0-01] currently breaks.
+- **Recommended direction:** Keep one confirmation path — either wire the query parameter into the submit flow or drop the unused branch and its markup.
+
+### [P2-10] The entry consent dialog does not state the demo nature of the project
 
 - **Classification:** Contract mismatch
-- **Evidence:** `assets/js/site-consent.js:20-40`
-- **Current behavior:** The blocking dialog shown before first use asks the visitor to accept the terms and links to the three legal documents, but its own text says nothing about the site being a demonstration project with a fictional brand. That disclosure exists only inside `terms.html:192-194`, `privacy.html:119-126` and `cookies.html:85`.
+- **Evidence:** `assets/js/site-consent.js:20-38`
+- **Current behavior:** The blocking dialog shown before first use asks the visitor to accept the terms and links to the three legal documents, but its own text says nothing about the site being a demonstration project with a fictional brand. That disclosure exists only inside `terms.html:192-194`, `privacy.html:119,126` and `cookies.html:85,112`.
 - **Impact:** The project's only pre-entry disclosure surface can be accepted without the visitor ever seeing that TransLogix is a portfolio demonstration, which is the one thing the disclosure is meant to establish up front.
 - **Recommended direction:** State the demo/portfolio character in one sentence in the dialog itself, keeping the links to the full documents.
 
@@ -129,33 +146,34 @@ Apart from the build-package defect the project is ready for normal continued de
 
 ### Package-level smoke check for the built output
 
-- **Evidence:** `scripts/build-dist.js` maintains an explicit file list, and `scripts/check-local-links.js` and `scripts/verify-assets.js` both resolve against the repository root, never against `dist/`.
+- **Evidence:** `scripts/build-dist.js:8-25` maintains an explicit file list, while `scripts/check-local-links.js:8` and `scripts/verify-assets.js:23-28` both resolve against the repository root and never against `dist/` — which is why all three checks passed while [P0-01] was live.
 - **Potential value:** A check that resolves form actions, service-worker precache entries, canonical URLs and sitemap entries against the built package would have caught [P0-01] before deployment and would keep the packaging list honest as pages are added.
 - **Scope boundary:** Optional hardening of the existing script set; the current checks are correct within the source layer they were written for.
 
 ### Consent-gated loading for the embedded map
 
 - **Evidence:** `contact.html:101-107` loads a Google Maps `iframe` on page load; the site otherwise ships no analytics and no third-party requests, and the legal pages describe this behavior accurately.
-- **Potential value:** Deferring the embed until the visitor asks for it would make the contact page's third-party footprint match the "no tracking before consent" posture the rest of the project already demonstrates.
+- **Potential value:** Deferring the embed until the visitor asks for it would make the contact page's third-party footprint match the "no tracking before consent" posture the rest of the project demonstrates.
 - **Scope boundary:** Optional; the current behavior is disclosed rather than hidden, and this is a product decision, not a code defect.
 
 ### Module boundaries in `services-filters.js`
 
-- **Evidence:** `assets/js/services-filters.js:165-173` runs DOM lookups and registers an `input` listener at module scope, outside the exported `initServicesFilters()`, duplicating the range handler already registered inside it.
-- **Potential value:** Moving the price-label update into the init function would make the module's side effects match the pattern used by every other module and remove the second listener on the same control.
+- **Evidence:** `assets/js/services-filters.js:165-173` runs DOM lookups and registers an `input` listener at module scope, outside the exported `initServicesFilters()`, duplicating the range handler already registered inside it at line 148.
+- **Potential value:** Moving the price-label update into the init function would match the pattern used by every other module and remove the second listener on the same control.
 - **Scope boundary:** Optional cleanup; the current code works because the module is loaded after the markup is parsed.
 
 ## Verification performed
 
-- Inspected: all 12 root HTML pages, `partials/`, `templates/partials/`, all eight CSS modules plus `style.css`, all 20 files in `assets/js/`, all 11 files in `scripts/`, all seven Playwright specs, `package.json`, `postcss.config.js`, `playwright.config.js`, `.htmlvalidate.json`, `.pa11yci.json`, `lighthouserc.json`, `perf-budgets.json`, `sw.js`, `assets/icons/site.webmanifest`, `assets/data/services.json`, `assets/data/jsonld/*.json`, `_headers`, `_redirects`, `robots.txt`, `sitemap.xml`, `.gitignore`, `README.md`, `CHANGELOG.md`.
-- Read-only Git checks executed: `git status --short`, `git log --oneline`, `git tag`, `git diff --ignore-cr-at-eol --stat` (six commits, no tags, empty content diff).
-- Static analyses executed against the repository file index: resolution of every `src`/`href`/`srcset`/`data-*` reference in HTML, `sw.js` and the manifest (no broken references); byte comparison of inline JSON-LD against `assets/data/jsonld/` (identical); heading-order and duplicate-`id` extraction per page with partials inlined; modification-time comparison of generated assets against their sources.
-- External verification: two requests to the production origin on 2026-08-16 — `/` (responds, partials inlined) and `/thankyou.html` (HTTP 404).
-- Not executed: `qa:html`, `qa:jsonld`, `qa:links`, `qa:a11y`, `qa:budget`, `qa:lighthouse`, `assets:verify` and `test:e2e`. `node_modules/` is absent in the working copy and installing dependencies is outside the scope of this audit. `npm run build` was not run because it writes `dist/` and regenerates tracked minified assets.
-- Verification limitations: no browser rendering, so responsive behavior, contrast and actual screen-reader output were not verified; accessibility findings are source-level only and no WCAG conformance claim is made. The repository contains no `netlify.toml`, so build and publish settings live host-side; the `dist/`-as-publish-directory conclusion rests on `README.md:218` plus the observed production HTML, which serves statically inlined partials.
+- Inspected: all 12 root HTML pages, `partials/`, `templates/partials/`, all eight CSS modules plus `style.css`, all 20 files in `assets/js/`, all 11 files in `scripts/`, `postcss.config.js` and both local PostCSS plugins, the seven Playwright specs and their helper, `package.json`, `playwright.config.js`, `.htmlvalidate.json`, `.pa11yci.json`, `lighthouserc.json`, `perf-budgets.json`, `sw.js`, `assets/icons/site.webmanifest`, `assets/data/services.json`, `assets/data/jsonld/*.json`, `_headers`, `_redirects`, `robots.txt`, `sitemap.xml`, `.gitignore`, `README.md`, `CHANGELOG.md`.
+- Executed (read-only, dependency-free Node scripts already in the repository): `node scripts/verify-assets.js` (pass), `node scripts/check-local-links.js` (pass, 12 files), `node scripts/validate-jsonld.js` (pass, 11 blocks), `node scripts/check-budgets.js` (pass, both budgets under limit). None of these write files.
+- Read-only Git checks: `git status --porcelain`, `git log --oneline`, `git diff --ignore-cr-at-eol --stat` (seven commits, empty content diff).
+- Static analyses run against the file index: normalized comparison of every inline JSON-LD block against `assets/data/jsonld/` (all nine identical), heading-order extraction per page with the footer partial inlined, modification-time comparison of generated assets against their sources, reference sweep for orphaned image files, breakpoint inventory across all CSS modules.
+- External verification: one request to the production origin on 2026-08-16 — `/thankyou.html` returned HTTP 404.
+- Not executed: `qa:html`, `qa:a11y`, `qa:lighthouse` and `test:e2e`. `node_modules/` is absent from the working copy and installing dependencies is outside the scope of this audit. `npm run build` was not run because it writes `dist/` and regenerates tracked minified assets.
+- Verification limitations: no browser rendering, so responsive behavior, contrast and actual assistive-technology output were not verified; accessibility findings are source-level only and no WCAG conformance claim is made. The repository contains no `netlify.toml`, so build and publish settings live host-side; the `dist/`-as-publish-directory conclusion rests on `README.md:218` plus the observed 404 for a page that exists in the source root and is missing from the package.
 
 ## Senior rating
 
 **Rating:** 7/10
 
-Architecture, source organization and QA tooling are consistently strong for a static multi-page project, generated output is in sync with its sources, and the accessible interaction patterns are implemented natively rather than bolted on with ARIA. The rating is held back by one confirmed production defect on the primary conversion path caused by a hand-maintained file list in the packaging script, by a metadata contradiction and a duplicated public figure, and by verification gaps — asset checks blind to `srcset` and data files, Lighthouse pointed at the source layer, and duplicated markup and metadata copies that nothing compares. None of these affect the core architecture, and all are small, well-scoped corrections.
+Source organization, build reproducibility and the QA script set are consistently strong for a static multi-page project: the four checks that can run without dependencies all pass, generated output is in sync with its inputs, the CSP is actually honoured by the markup, and the accessible interaction patterns are implemented natively rather than bolted on with ARIA. The rating is held back by one confirmed production defect on the primary conversion path caused by a hand-maintained packaging list, by a content layer that disappears entirely if scripting does not run, and by two published-data contradictions. Each is a small, well-scoped correction; none touches the core architecture.

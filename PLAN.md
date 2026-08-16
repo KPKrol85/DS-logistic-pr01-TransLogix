@@ -44,7 +44,7 @@
 **Goal:** Ensure every indexable page renders its main content when the module graph does not execute.
 
 - [ ] **PH2-01 — Gate the reveal hidden state behind the `.js` class** — **Priority:** High
-  - [ ] scope `.reveal { opacity: 0; transform: … }` in `assets/css/modules/utilities.css` to the `.js` class, matching the pattern already used by `.js .nav__panel` in `assets/css/modules/header.css`
+  - [ ] scope `.reveal { opacity: 0; transform: … }` in `assets/css/modules/utilities.css` to the `.js` class, matching the pattern already used by `.js .nav__panel` 3in `assets/css/modules/header.css`
   - [ ] confirm `assets/js/boot.js` sets the `js` class early enough that no visible flash is introduced on the six affected pages
   - [ ] regenerate `assets/css/style.min.css` through `npm run build:css` and re-run `npm run qa:budget`
   - [ ] verify with scripting disabled that `index.html`, `services.html`, `service.html`, `fleet.html`, `pricing.html` and `contact.html` render their main content

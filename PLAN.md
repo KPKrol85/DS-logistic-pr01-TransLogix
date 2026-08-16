@@ -51,10 +51,10 @@
   - **Completion condition:** disabling JavaScript leaves all `.reveal` content visible, and the animation still runs when scripting is active
   - **Source:** `daily-AUDIT.md` — P1-01
 
-- [ ] **PH2-02 — Provide a non-JavaScript baseline for the offer listing** — **Priority:** Medium
-  - [ ] add a static baseline or a `noscript` fallback for `#services-list` in `services.html`, following the `noscript` pattern already used in `service.html`
-  - [ ] keep `assets/data/services.json` as the single source of the offer data for the scripted path
-  - [ ] verify the page is never empty for a non-executing client and that `qa:html` still passes
+- [x] **PH2-02 — Provide a non-JavaScript baseline for the offer listing** — **Priority:** Medium
+  - [x] add a static baseline or a `noscript` fallback for `#services-list` in `services.html`, following the `noscript` pattern already used in `service.html`
+  - [x] keep `assets/data/services.json` as the single source of the offer data for the scripted path
+  - [x] verify the page is never empty for a non-executing client and that `qa:html` still passes
   - **Completion condition:** `services.html` presents offer content without JavaScript, and the client-side filtering path is unchanged
   - **Depends on:** `PH2-01`
   - **Source:** `daily-AUDIT.md` — P2-07

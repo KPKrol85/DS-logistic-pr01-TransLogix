@@ -6,6 +6,20 @@ function extractDisplayedCount(text) {
   return match ? Number(match[1]) : null;
 }
 
+test('services present a usable offer baseline without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+
+  await page.goto('/services.html');
+
+  const servicesList = page.locator('#services-list');
+  await expect(servicesList.getByRole('heading', { name: 'Dostępne usługi' })).toBeVisible();
+  await expect(servicesList.getByRole('listitem')).toHaveCount(8);
+  await expect(servicesList.getByRole('link', { name: 'Zapytaj o transport' })).toBeVisible();
+
+  await context.close();
+});
+
 test('services filters update visible results', async ({ page }) => {
   await grantSiteConsent(page);
   await page.goto('/services.html');

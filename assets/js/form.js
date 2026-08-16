@@ -235,13 +235,6 @@ function initPricingForm() {
 function initContactForm() {
   const form = document.getElementById("contact-form");
   if (!form) return;
-  const success = document.getElementById("contact-success");
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("success") === "1" && success) {
-    success.hidden = false;
-    success.tabIndex = -1;
-    success.focus?.();
-  }
 
   attachValidation(form, { allowNativeSubmit: true });
 }

@@ -31,10 +31,10 @@
   - **Completion condition:** a successful contact submission lands on the confirmation page in the deployed site and the service-worker install step no longer skips `/thankyou.html`
   - **Source:** `daily-AUDIT.md` — P0-01
 
-- [ ] **PH1-02 — Consolidate the contact form confirmation path to one mechanism** — **Priority:** Medium
-  - [ ] decide which confirmation surface is authoritative: the `thankyou.html` redirect or the inline `#contact-success` message
-  - [ ] remove the unreachable path — either the `?success=1` branch in `assets/js/form.js` together with the `#contact-success` markup in `contact.html`, or the redirect target
-  - [ ] verify the contact Playwright spec still reflects the retained flow
+- [x] **PH1-02 — Consolidate the contact form confirmation path to one mechanism** — **Priority:** Medium
+  - [x] decide which confirmation surface is authoritative: the `thankyou.html` redirect or the inline `#contact-success` message
+  - [x] remove the unreachable path — either the `?success=1` branch in `assets/js/form.js` together with the `#contact-success` markup in `contact.html`, or the redirect target
+  - [x] verify the contact Playwright spec still reflects the retained flow
   - **Completion condition:** exactly one success mechanism exists in source and it is the one the deployed form actually triggers
   - **Depends on:** `PH1-01`
   - **Source:** `daily-AUDIT.md` — P2-09

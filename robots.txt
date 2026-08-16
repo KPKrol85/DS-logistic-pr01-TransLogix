@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://transport-pr01-translogix.netlify.app/sitemap.xml
+

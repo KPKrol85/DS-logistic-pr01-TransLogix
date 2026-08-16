@@ -1,0 +1,31 @@
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.center {
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

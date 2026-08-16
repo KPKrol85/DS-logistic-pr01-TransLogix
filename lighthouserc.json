@@ -1,0 +1,50 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": ".",
+      "numberOfRuns": 1,
+      "settings": {
+        "preset": "mobile"
+      },
+      "url": [
+        "http://localhost:8080/",
+        "http://localhost:8080/services.html",
+        "http://localhost:8080/contact.html",
+        "http://localhost:8080/fleet.html",
+        "http://localhost:8080/pricing.html"
+      ]
+    },
+    "assert": {
+      "preset": "lighthouse:no-pwa",
+      "assertions": {
+        "categories:performance": [
+          "warn",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:accessibility": [
+          "warn",
+          {
+            "minScore": 0.95
+          }
+        ],
+        "categories:best-practices": [
+          "warn",
+          {
+            "minScore": 0.95
+          }
+        ],
+        "categories:seo": [
+          "warn",
+          {
+            "minScore": 0.95
+          }
+        ]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

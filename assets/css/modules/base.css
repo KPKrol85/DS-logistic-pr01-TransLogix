@@ -1,0 +1,155 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: var(--lh-base);
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+  box-shadow: var(--ring);
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--color-accent);
+  color: #0f172a;
+  padding: var(--space-02) var(--space-04);
+  border-radius: var(--radius-sm);
+  z-index: 999;
+  transition: left var(--transition);
+}
+
+.skip-link:focus {
+  left: var(--space-04);
+}
+
+@font-face {
+  font-family: "Manrope";
+  src:
+    local("Manrope Regular"),
+    local("Manrope-Regular"),
+    url("../../fonts/manrope/Manrope-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Manrope";
+  src:
+    local("Manrope Medium"),
+    local("Manrope-Medium"),
+    url("../../fonts/manrope/Manrope-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Manrope";
+  src:
+    local("Manrope SemiBold"),
+    local("Manrope-SemiBold"),
+    url("../../fonts/manrope/Manrope-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src:
+    local("Space Grotesk SemiBold"),
+    local("SpaceGrotesk-SemiBold"),
+    url("../../fonts/space-grotesk/SpaceGrotesk-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src:
+    local("Space Grotesk Bold"),
+    local("SpaceGrotesk-Bold"),
+    url("../../fonts/space-grotesk/SpaceGrotesk-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--space-04);
+  font-family: var(--font-heading);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-tight);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-10);
+}
+
+h2 {
+  font-size: var(--fs-08);
+}
+
+h3 {
+  font-size: var(--fs-07);
+}
+
+h4 {
+  font-size: var(--fs-06);
+}
+
+p {
+  margin: 0 0 var(--space-04);
+  font-size: var(--fs-04);
+  color: var(--color-muted);
+  line-height: var(--lh-base);
+  text-wrap: pretty;
+}
+
+.lead {
+  color: var(--color-muted);
+  line-height: var(--lh-relaxed);
+  text-wrap: pretty;
+}

@@ -1,0 +1,14 @@
+{
+        "@context": "https://schema.org",
+        "@type": "PrivacyPolicy",
+        "name": "Polityka prywatności - TransLogix",
+        "url": "https://transport-pr01-translogix.netlify.app/privacy.html",
+        "publisher": {
+          "@type": "Organization",
+          "name": "TransLogix",
+          "url": "https://transport-pr01-translogix.netlify.app/",
+          "logo": "https://transport-pr01-translogix.netlify.app/assets/img/logo/logo-translogix-light.svg"
+        },
+        "inLanguage": "pl-PL",
+        "description": "Zasady przetwarzania danych osobowych klientów i partnerów TransLogix."
+      }

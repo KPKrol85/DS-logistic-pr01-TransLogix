@@ -1,0 +1,11 @@
+{
+  "budgets": {
+    "assets/css/style.min.css": {
+      "max_gzip_bytes": 12000
+    },
+    "assets/js/main.min.js": {
+      "type": "module_graph",
+      "max_gzip_bytes": 18000
+    }
+  }
+}

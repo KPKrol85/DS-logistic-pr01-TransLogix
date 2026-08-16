@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="pl" class="no-js">
+  <head>
+    <!-- Core metadata -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Early theme boot -->
+    <script src="assets/js/theme-init.js"></script>
+    <script src="assets/js/boot.js"></script>
+
+    <!-- SEO -->
+    <title>Flota pojazdów | TransLogix</title>
+    <meta
+      name="description"
+      content="Poznaj flotę TransLogix: ciągniki siodłowe, naczepy, zestawy do transportu międzynarodowego oraz pojazdy specjalistyczne. Nowoczesny tabor, regularny serwis i monitoring GPS 24/7." />
+    <meta name="author" content="KP_Code_" />
+    <meta name="robots" content="index,follow" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#020617" />
+    <link rel="canonical" href="https://transport-pr01-translogix.netlify.app/fleet.html" />
+
+    <!-- Theme and icons -->
+    <link rel="icon" type="image/png" href="/assets/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/icons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="TransLogix" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="/assets/icons/site.webmanifest" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <!-- Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Flota pojazdów | TransLogix" />
+    <meta property="og:description" content="Sprawdź flotę pojazdów TransLogix: nowoczesne ciągniki siodłowe, naczepy i pojazdy specjalistyczne do transportu w całej Europie." />
+    <meta property="og:url" content="https://transport-pr01-translogix.netlify.app/fleet.html" />
+    <meta property="og:site_name" content="TransLogix" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:image" content="https://transport-pr01-translogix.netlify.app/assets/img/og-img/og-1200x630.jpg" />
+    <meta property="og:image:alt" content="TransLogix – transport and logistics B2B" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Flota pojazdów | TransLogix" />
+    <meta name="twitter:description" content="Zobacz flotę TransLogix – pojazdy przygotowane do transportu krajowego i międzynarodowego, monitorowane 24/7." />
+    <meta name="twitter:image" content="https://transport-pr01-translogix.netlify.app/assets/img/og-img/og-1200x630.jpg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Flota pojazdów – TransLogix",
+        "url": "https://transport-pr01-translogix.netlify.app/fleet.html",
+        "description": "Strona prezentująca flotę pojazdów TransLogix: ciągniki siodłowe, naczepy oraz pojazdy specjalistyczne.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "TransLogix",
+          "url": "https://transport-pr01-translogix.netlify.app/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TransLogix",
+          "url": "https://transport-pr01-translogix.netlify.app/",
+          "logo": "https://transport-pr01-translogix.netlify.app/assets/img/logo/logo-translogix-light.svg"
+        }
+      }
+    </script>
+  </head>
+
+  <!-- Body -->
+  <body>
+    <a class="skip-link" href="#main">Przejdź do treści głównej</a>
+
+    <!-- Header -->
+    <div data-partial="header"></div>
+
+    <!-- Main -->
+    <main id="main">
+      <section class="section">
+        <div class="container stack reveal">
+          <p class="eyebrow">Flota</p>
+          <h1>Sprzęt, który dowozi wyniki</h1>
+          <p class="lead">Od lekkich busów po zestawy Mega i chłodnie. Każdy pojazd z GPS, telematyką i pełnym serwisem.</p>
+          <div class="filters" role="group" aria-label="Filtry floty">
+            <button class="filter-chip" type="button" data-filter="all">Wszystko</button>
+            <button class="filter-chip" type="button" data-filter="solo">Busy</button>
+            <button class="filter-chip" type="button" data-filter="truck">Ciężarówki</button>
+            <button class="filter-chip" type="button" data-filter="chlodnia">Chłodnie</button>
+            <button class="filter-chip" type="button" data-filter="set">Zestawy</button>
+          </div>
+          <h2 class="visually-hidden">Dostępne typy pojazdów</h2>
+          <div class="fleet-grid" id="fleet-grid" aria-live="polite">
+            <article class="card fleet-card" data-type="solo" data-load="6" data-purpose="uniwersalny">
+              <div class="fleet-card__media">
+                <div class="fleet-card__gallery">
+                  <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="solo" data-title="Bus dostawczy" aria-label="Otwórz galerię: Bus dostawczy">
+                    <picture>
+                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/bus/1.avif" type="image/avif" />
+                      <img data-fleet-main-image src="assets/img/fleet/bus/1.jpg" alt="Bus dostawczy TransLogix w trasie" loading="lazy" width="800" height="600" />
+                    </picture>
+                  </button>
+                  <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Bus dostawczy">
+                    <button
+                      type="button"
+                      class="fleet-card__thumb is-active"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/bus/1.avif"
+                      data-main-jpg="assets/img/fleet/bus/1.jpg"
+                      data-main-alt="Bus dostawczy TransLogix w trasie"
+                      aria-label="Pokaż zdjęcie 1: Bus dostawczy"
+                      aria-pressed="true"
+                      aria-current="true">
+                      <img src="assets/img/fleet/bus/1.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/bus/2.avif"
+                      data-main-jpg="assets/img/fleet/bus/2.jpg"
+                      data-main-alt="Bus dostawczy TransLogix przy załadunku"
+                      aria-label="Pokaż zdjęcie 2: Bus dostawczy"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/bus/2.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/bus/3.avif"
+                      data-main-jpg="assets/img/fleet/bus/3.jpg"
+                      data-main-alt="Bus dostawczy TransLogix na trasie miejskiej"
+                      aria-label="Pokaż zdjęcie 3: Bus dostawczy"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/bus/3.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/bus/4.avif"
+                      data-main-jpg="assets/img/fleet/bus/4.jpg"
+                      data-main-alt="Bus dostawczy TransLogix gotowy do dystrybucji"
+                      aria-label="Pokaż zdjęcie 4: Bus dostawczy"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/bus/4.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+             <!-- Fleet Card Content -->
+              <div class="fleet-card__content">
+                <h3>Bus dostawczy</h3>
+                <p class="fleet-card__summary">Ładowność do 3,5t, winda, idealny do dostaw miejskich.</p>
+                <span class="badge">Miejski</span>
+                <div class="fleet-card__single">
+                  <p class="fleet-card__lead">
+                    Lekki bus dostawczy do dystrybucji miejskiej i ostatniej mili. Winda ułatwia obsługę w punktach bez rampy, a kompaktowe wymiary pozwalają na sprawną obsługę centrów miast.
+                  </p>
+                  <div class="fleet-card__highlights">
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Ładowność</span>
+                      <span class="fleet-highlight__value">do 3,5 t</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Winda</span>
+                      <span class="fleet-highlight__value">1,5 t</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Palety</span>
+                      <span class="fleet-highlight__value">do 6</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Tryb</span>
+                      <span class="fleet-highlight__value">miejski</span>
+                    </div>
+                  </div>
+                  <div class="fleet-card__details">
+                    <h4>Szczegóły oferty</h4>
+                    <ul class="fleet-details">
+                      <li>
+                        <strong>Załadunek:</strong>
+                        tył + winda
+                      </li>
+                      <li>
+                        <strong>Obsługa:</strong>
+                        dostawy miejskie, punkty bez rampy
+                      </li>
+                      <li>
+                        <strong>Monitoring:</strong>
+                        GPS + telematyka
+                      </li>
+                      <li>
+                        <strong>Zastosowanie:</strong>
+                        last-mile, dystrybucja miejska, retail
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="fleet-card__footer">
+                    <span class="badge badge--subtle">Miejski</span>
+                    <a class="btn btn--primary fleet-card__quote" href="contact.html#quote">Zamów wycenę</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Fleet Card -->
+            <article class="card fleet-card" data-type="truck" data-load="1.2" data-purpose="express">
+              <div class="fleet-card__media">
+                <div class="fleet-card__gallery">
+                  <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="truck" data-title="Ciężarówka plandeka" aria-label="Otwórz galerię: Ciężarówka plandeka">
+                    <picture>
+                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/truck/truck-1.avif" type="image/avif" />
+                      <img data-fleet-main-image src="assets/img/fleet/truck/truck-1.jpg" alt="Ciężarówka plandeka TransLogix podczas postoju" loading="lazy" width="800" height="600" />
+                    </picture>
+                  </button>
+                  <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Ciężarówka plandeka">
+                    <button
+                      type="button"
+                      class="fleet-card__thumb is-active"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/truck/truck-1.avif"
+                      data-main-jpg="assets/img/fleet/truck/truck-1.jpg"
+                      data-main-alt="Ciężarówka plandeka TransLogix podczas postoju"
+                      aria-label="Pokaż zdjęcie 1: Ciężarówka plandeka"
+                      aria-pressed="true"
+                      aria-current="true">
+                      <img src="assets/img/fleet/truck/truck-1.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/truck/truck-2.avif"
+                      data-main-jpg="assets/img/fleet/truck/truck-2.jpg"
+                      data-main-alt="Ciężarówka plandeka TransLogix z przestrzenią ładunkową"
+                      aria-label="Pokaż zdjęcie 2: Ciężarówka plandeka"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/truck/truck-2.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/truck/truck-3.avif"
+                      data-main-jpg="assets/img/fleet/truck/truck-3.jpg"
+                      data-main-alt="Ciężarówka plandeka TransLogix na placu logistycznym"
+                      aria-label="Pokaż zdjęcie 3: Ciężarówka plandeka"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/truck/truck-3.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/truck/truck-4.avif"
+                      data-main-jpg="assets/img/fleet/truck/truck-4.jpg"
+                      data-main-alt="Ciężarówka plandeka TransLogix przygotowana do transportu"
+                      aria-label="Pokaż zdjęcie 4: Ciężarówka plandeka"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/truck/truck-4.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Fleet Card Content -->
+              <div class="fleet-card__content">
+                <h3>Ciężarówka plandeka</h3>
+                <p class="fleet-card__summary">18 europalet, do 10t ładowności, pasy i plandeka XL.</p>
+                <span class="badge">Express</span>
+                <div class="fleet-card__single">
+                  <p class="fleet-card__lead">
+                    Uniwersalna ciężarówka plandeka do transportu krajowego i międzynarodowego. Większa przestrzeń ładunkowa umożliwia przewóz paletowych ładunków przy zachowaniu elastycznego
+                    załadunku i rozładunku.
+                  </p>
+                  <div class="fleet-card__highlights">
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Załadunek</span>
+                      <span class="fleet-highlight__value">boczny + tył</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Ładowność</span>
+                      <span class="fleet-highlight__value">do 10 t</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Europalety</span>
+                      <span class="fleet-highlight__value">do 18</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Zasięg</span>
+                      <span class="fleet-highlight__value">PL / UE</span>
+                    </div>
+                  </div>
+                  <div class="fleet-card__details">
+                    <h4>Szczegóły oferty</h4>
+                    <ul class="fleet-details">
+                      <li>
+                        <strong>Wyposażenie:</strong>
+                        pasy, narożniki, plandeka XL
+                      </li>
+                      <li>
+                        <strong>Monitoring:</strong>
+                        GPS + telematyka
+                      </li>
+                      <li>
+                        <strong>Bezpieczeństwo:</strong>
+                        regularny serwis
+                      </li>
+                      <li>
+                        <strong>Zastosowanie:</strong>
+                        transport paletowy, dystrybucja, trasy krajowe i UE
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="fleet-card__footer">
+                    <span class="badge badge--subtle">Express</span>
+                    <a class="btn btn--primary fleet-card__quote" href="contact.html#quote">Zamów wycenę</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Fleet Card -->
+            <article class="card fleet-card" data-type="chlodnia" data-load="10" data-purpose="chlodnia">
+              <div class="fleet-card__media">
+                <div class="fleet-card__gallery">
+                  <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="chlodnia" data-title="Ciężarówka chłodnia" aria-label="Otwórz galerię: Ciężarówka chłodnia">
+                    <picture>
+                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/chlodnia/1.avif" type="image/avif" />
+                      <img data-fleet-main-image src="assets/img/fleet/chlodnia/1.jpg" alt="Ciężarówka chłodnia TransLogix z zabudową temperaturową" loading="lazy" width="800" height="600" />
+                    </picture>
+                  </button>
+                  <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Ciężarówka chłodnia">
+                    <button
+                      type="button"
+                      class="fleet-card__thumb is-active"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/chlodnia/1.avif"
+                      data-main-jpg="assets/img/fleet/chlodnia/1.jpg"
+                      data-main-alt="Ciężarówka chłodnia TransLogix z zabudową temperaturową"
+                      aria-label="Pokaż zdjęcie 1: Ciężarówka chłodnia"
+                      aria-pressed="true"
+                      aria-current="true">
+                      <img src="assets/img/fleet/chlodnia/1.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/chlodnia/2.avif"
+                      data-main-jpg="assets/img/fleet/chlodnia/2.jpg"
+                      data-main-alt="Ciężarówka chłodnia TransLogix z agregatem temperatury"
+                      aria-label="Pokaż zdjęcie 2: Ciężarówka chłodnia"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/chlodnia/2.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/chlodnia/3.avif"
+                      data-main-jpg="assets/img/fleet/chlodnia/3.jpg"
+                      data-main-alt="Ciężarówka chłodnia TransLogix przy rampie"
+                      aria-label="Pokaż zdjęcie 3: Ciężarówka chłodnia"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/chlodnia/3.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/chlodnia/4.avif"
+                      data-main-jpg="assets/img/fleet/chlodnia/4.jpg"
+                      data-main-alt="Ciężarówka chłodnia TransLogix gotowa do transportu temperaturowego"
+                      aria-label="Pokaż zdjęcie 4: Ciężarówka chłodnia"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/chlodnia/4.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fleet Card Content -->
+              <div class="fleet-card__content">
+                <h3>Ciężarówka chłodnia</h3>
+                <p class="fleet-card__summary">18 europalet, chłodnia 2–8°C, rejestracja temperatury, plandeka XL.</p>
+                <span class="badge">Chłodnia</span>
+                <div class="fleet-card__single">
+                  <p class="fleet-card__lead">
+                    Transport paletowy w kontrolowanej temperaturze dla produktów wrażliwych. Chłodnia na bazie ciężarówki plandeka zapewnia większą ładowność, stabilne warunki 2–8°C i elastyczny
+                    załadunek.
+                  </p>
+                  <div class="fleet-card__highlights">
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Temperatura</span>
+                      <span class="fleet-highlight__value">2–8°C</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Rejestracja</span>
+                      <span class="fleet-highlight__value">logger</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Europalety</span>
+                      <span class="fleet-highlight__value">do 18</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Załadunek</span>
+                      <span class="fleet-highlight__value">boczny + tył</span>
+                    </div>
+                  </div>
+                  <div class="fleet-card__details">
+                    <h4>Szczegóły oferty</h4>
+                    <ul class="fleet-details">
+                      <li>
+                        <strong>Utrzymanie:</strong>
+                        2–8°C
+                      </li>
+                      <li>
+                        <strong>Wyposażenie:</strong>
+                        agregat chłodniczy, rejestrator temperatury, plandeka XL
+                      </li>
+                      <li>
+                        <strong>Monitoring:</strong>
+                        GPS + telematyka
+                      </li>
+                      <li>
+                        <strong>Zastosowanie:</strong>
+                        transport chłodniczy, paletowy, trasy krajowe i UE
+                      </li>
+                      <li>
+                        <strong>Ładowność:</strong>
+                        do 10 t
+                      </li>
+                      <li>
+                        <strong>Zasięg:</strong>
+                        PL / UE
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="fleet-card__footer">
+                    <span class="badge badge--subtle">Chłodnia</span>
+                    <a class="btn btn--primary fleet-card__quote" href="contact.html#quote">Zamów wycenę</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Fleet Card -->
+            <article class="card fleet-card" data-type="set" data-load="24" data-purpose="dalsze">
+              <div class="fleet-card__media">
+                <div class="fleet-card__gallery">
+                  <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="set" data-title="Zestaw Mega" aria-label="Otwórz galerię: Zestaw Mega">
+                    <picture>
+                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/mega/1.avif" type="image/avif" />
+                      <img data-fleet-main-image src="assets/img/fleet/mega/1.jpg" alt="Zestaw Mega TransLogix przygotowany do transportu dalekobieżnego" loading="lazy" width="800" height="600" />
+                    </picture>
+                  </button>
+                  <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Zestaw Mega">
+                    <button
+                      type="button"
+                      class="fleet-card__thumb is-active"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/mega/1.avif"
+                      data-main-jpg="assets/img/fleet/mega/1.jpg"
+                      data-main-alt="Zestaw Mega TransLogix przygotowany do transportu dalekobieżnego"
+                      aria-label="Pokaż zdjęcie 1: Zestaw Mega"
+                      aria-pressed="true"
+                      aria-current="true">
+                      <img src="assets/img/fleet/mega/1.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/mega/2.avif"
+                      data-main-jpg="assets/img/fleet/mega/2.jpg"
+                      data-main-alt="Zestaw Mega TransLogix z naczepą do dużych wolumenów"
+                      aria-label="Pokaż zdjęcie 2: Zestaw Mega"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/mega/2.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/mega/3.avif"
+                      data-main-jpg="assets/img/fleet/mega/3.jpg"
+                      data-main-alt="Zestaw Mega TransLogix na trasie linehaul"
+                      aria-label="Pokaż zdjęcie 3: Zestaw Mega"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/mega/3.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                    <button
+                      type="button"
+                      class="fleet-card__thumb"
+                      data-fleet-thumb
+                      data-main-avif="assets/img/fleet/mega/4.avif"
+                      data-main-jpg="assets/img/fleet/mega/4.jpg"
+                      data-main-alt="Zestaw Mega TransLogix gotowy do przewozu międzynarodowego"
+                      aria-label="Pokaż zdjęcie 4: Zestaw Mega"
+                      aria-pressed="false">
+                      <img src="assets/img/fleet/mega/4.jpg" alt="" loading="lazy" width="800" height="600" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Fleet Card Content -->
+              <div class="fleet-card__content">
+                <h3>Zestaw Mega</h3>
+                <p class="fleet-card__summary">100 m³, kurtyny XL, możliwość dopięcia dodatkowej przyczepy, zabezpieczenia i monitoring.</p>
+                <span class="badge">Linehaul</span>
+                <div class="fleet-card__single">
+                  <p class="fleet-card__lead">
+                    Zestaw Mega przeznaczony do transportu dalekobieżnego i bardzo dużych wolumenów. Konstrukcja zestawu umożliwia dopięcie dodatkowej przyczepy, co pozwala elastycznie zwiększyć
+                    kubaturę ładunku w zależności od potrzeb klienta. Kurtyny XL przyspieszają załadunek, a zaawansowane systemy zabezpieczeń wspierają bezpieczne trasy krajowe i międzynarodowe.
+                  </p>
+                  <div class="fleet-card__highlights">
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Kubatura</span>
+                      <span class="fleet-highlight__value">100 m³+</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Konfiguracja</span>
+                      <span class="fleet-highlight__value">zestaw + przyczepa</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Załadunek</span>
+                      <span class="fleet-highlight__value">kurtyny XL</span>
+                    </div>
+                    <div class="fleet-highlight">
+                      <span class="fleet-highlight__label">Zasięg</span>
+                      <span class="fleet-highlight__value">UE</span>
+                    </div>
+                  </div>
+                  <div class="fleet-card__details">
+                    <h4>Szczegóły oferty</h4>
+                    <ul class="fleet-details">
+                      <li>
+                        <strong>Zabezpieczenia:</strong>
+                        pasy, belki, podłoga antypoślizgowa
+                      </li>
+                      <li>
+                        <strong>Monitoring:</strong>
+                        GPS + telematyka
+                      </li>
+                      <li>
+                        <strong>Elastyczność:</strong>
+                        możliwość dopięcia dodatkowej przyczepy
+                      </li>
+                      <li>
+                        <strong>Zastosowanie:</strong>
+                        długie trasy, hub-to-hub, bardzo duże wolumeny
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="fleet-card__footer">
+                    <span class="badge badge--subtle">Linehaul</span>
+                    <a class="btn btn--primary fleet-card__quote" href="contact.html#quote">Zamów wycenę</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lightbox-title" hidden>
+      <div class="lightbox__dialog">
+        <h3 class="lightbox__title" id="lightbox-title">Galeria pojazdu</h3>
+        <button class="btn lightbox__close" type="button" data-lightbox-close aria-label="Zamknij">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+        <div class="lightbox__hero-frame">
+          <img class="lightbox__hero" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+        </div>
+        <ul class="lightbox__grid"></ul>
+        <div class="lightbox__controls">
+          <button class="btn" type="button" data-lightbox-prev aria-label="Poprzednie">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-arrow-left-icon lucide-arrow-left"
+              aria-hidden="true"
+              focusable="false">
+              <path d="m12 19-7-7 7-7" />
+              <path d="M19 12H5" />
+            </svg>
+          </button>
+          <button class="btn" type="button" data-lightbox-next aria-label="Następne">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-arrow-right-icon lucide-arrow-right"
+              aria-hidden="true"
+              focusable="false">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+        <div class="lightbox__zoom" aria-hidden="true" hidden>
+          <button class="lightbox__zoom-close" type="button" aria-label="Zamknij podgląd">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+          <img class="lightbox__zoom-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div data-partial="footer"></div>
+
+    <!-- script -->
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+# TransLogix — Development Plan
+
+**Last reviewed:** 2026-08-16
+**Project type:** Static multi-page website (vanilla HTML, modular CSS, ES modules) with a dependency-free Node build, Netlify static-hosting configuration, service worker and web manifest
+**Plan status:** Active
+
+## Planning principles
+
+- The plan reflects the current verified state of the repository, not earlier documentation.
+- Source files are canonical; `dist/`, `assets/css/style.min.css` and `assets/js/main.min.js` are generated and are never edited directly.
+- A main item is checked only when every required subtask and its completion condition are satisfied.
+- Completed significant changes are recorded separately in `CHANGELOG.md`.
+- Findings converted from `daily-AUDIT.md` carry their source identifier for traceability.
+
+## Current priorities
+
+1. `PH1-01` — Ship `thankyou.html` in the deployable package so the contact flow stops ending on a 404.
+2. `PH2-01` — Gate the reveal hidden state behind the `.js` class so content survives a non-executing module graph.
+3. `PH3-01` — Align the `Organization` structured data with the published company address.
+4. `PH3-02` — Remove the conflicting delivery figure from the footer statistic.
+
+## Phase 1 — Contact conversion path
+
+**Goal:** Make the contact form end on a real confirmation page in the deployed package, with exactly one confirmation mechanism.
+
+- [ ] **PH1-01 — Include `thankyou.html` in the deployable package** — **Priority:** Critical
+  - [ ] add `thankyou.html` to `rootFilesToCopy` in `scripts/build-dist.js`
+  - [ ] confirm the packaged root file set covers every page referenced by the form action (`contact.html`), the service-worker precache list (`sw.js`), the page canonical URLs and `sitemap.xml`
+  - [ ] rebuild the package locally and verify that `dist/thankyou.html` exists with the header and footer partials inlined and the minified asset references rewritten
+  - [ ] verify after deployment that `/thankyou.html` returns HTTP 200 on the production origin
+  - **Completion condition:** a successful contact submission lands on the confirmation page in the deployed site and the service-worker install step no longer skips `/thankyou.html`
+  - **Source:** `daily-AUDIT.md` — P0-01
+
+- [ ] **PH1-02 — Consolidate the contact form confirmation path to one mechanism** — **Priority:** Medium
+  - [ ] decide which confirmation surface is authoritative: the `thankyou.html` redirect or the inline `#contact-success` message
+  - [ ] remove the unreachable path — either the `?success=1` branch in `assets/js/form.js` together with the `#contact-success` markup in `contact.html`, or the redirect target
+  - [ ] verify the contact Playwright spec still reflects the retained flow
+  - **Completion condition:** exactly one success mechanism exists in source and it is the one the deployed form actually triggers
+  - **Depends on:** `PH1-01`
+  - **Source:** `daily-AUDIT.md` — P2-09
+
+## Phase 2 — Non-JavaScript rendering baseline
+
+**Goal:** Ensure every indexable page renders its main content when the module graph does not execute.
+
+- [ ] **PH2-01 — Gate the reveal hidden state behind the `.js` class** — **Priority:** High
+  - [ ] scope `.reveal { opacity: 0; transform: … }` in `assets/css/modules/utilities.css` to the `.js` class, matching the pattern already used by `.js .nav__panel` in `assets/css/modules/header.css`
+  - [ ] confirm `assets/js/boot.js` sets the `js` class early enough that no visible flash is introduced on the six affected pages
+  - [ ] regenerate `assets/css/style.min.css` through `npm run build:css` and re-run `npm run qa:budget`
+  - [ ] verify with scripting disabled that `index.html`, `services.html`, `service.html`, `fleet.html`, `pricing.html` and `contact.html` render their main content
+  - **Completion condition:** disabling JavaScript leaves all `.reveal` content visible, and the animation still runs when scripting is active
+  - **Source:** `daily-AUDIT.md` — P1-01
+
+- [ ] **PH2-02 — Provide a non-JavaScript baseline for the offer listing** — **Priority:** Medium
+  - [ ] add a static baseline or a `noscript` fallback for `#services-list` in `services.html`, following the `noscript` pattern already used in `service.html`
+  - [ ] keep `assets/data/services.json` as the single source of the offer data for the scripted path
+  - [ ] verify the page is never empty for a non-executing client and that `qa:html` still passes
+  - **Completion condition:** `services.html` presents offer content without JavaScript, and the client-side filtering path is unchanged
+  - **Depends on:** `PH2-01`
+  - **Source:** `daily-AUDIT.md` — P2-07
+
+## Phase 3 — Published content and data integrity
+
+**Goal:** Remove contradictions between machine-readable data, visible content and the legal documents.
+
+- [ ] **PH3-01 — Align the `Organization` structured data with the published address** — **Priority:** High
+  - [ ] replace the `PostalAddress` in the `index.html` JSON-LD block with the address used in `partials/footer.html` and `contact.html`, including a valid postal code
+  - [ ] mirror the same change in the reference copy `assets/data/jsonld/index.json`
+  - [ ] re-run `npm run qa:jsonld`
+  - **Completion condition:** the structured-data address matches every visible instance of the company address across the site
+  - **Source:** `daily-AUDIT.md` — P1-02
+
+- [ ] **PH3-02 — Resolve the conflicting footer delivery statistic** — **Priority:** High
+  - [ ] choose one authoritative figure for `data-stat="deliveries"` in `partials/footer.html`
+  - [ ] make the markup text and the `data-value` attribute agree, or drop the attribute so `assets/js/stats.js` leaves the static text alone
+  - [ ] apply the same resolution to the copy in `templates/partials/footer.html` if that file is retained by `PH5-01`
+  - **Completion condition:** the displayed number no longer changes after script execution on any page that includes the footer
+  - **Source:** `daily-AUDIT.md` — P1-03
+
+- [ ] **PH3-03 — State the demonstration character in the entry consent dialog** — **Priority:** Medium
+  - [ ] add one sentence to the dialog text in `assets/js/site-consent.js` stating that TransLogix is a portfolio demonstration with a fictional brand, consistent with the wording already used in `terms.html`, `privacy.html` and `cookies.html`
+  - [ ] keep the existing links to the three legal documents and the current focus and acceptance behavior
+  - [ ] regenerate `assets/js/main.min.js` through `npm run build:js`
+  - **Completion condition:** the pre-entry dialog discloses the demo nature before acceptance, without changing the consent storage key or flow
+  - **Source:** `daily-AUDIT.md` — P2-10
+
+- [ ] **PH3-04 — Align the contact form consent wording with the declared legal basis** — **Priority:** Medium
+  - [ ] compare the `rodo` checkbox label in `contact.html` ("zgoda … w celu przygotowania oferty") with the processing purpose and legal basis declared in `privacy.html` (art. 6(1)(f), correspondence)
+  - [ ] restate the checkbox label so it describes the same purpose and basis as the privacy policy, or update the policy entry so the consent basis is the documented one
+  - [ ] keep the field required and its `aria-describedby` error wiring intact
+  - **Completion condition:** the form label and the privacy policy describe one consistent purpose and legal basis for contact data
+
+## Phase 4 — Accessibility and semantic corrections
+
+**Goal:** Correct source-level accessibility defects that current QA scripts do not catch.
+
+- [ ] **PH4-01 — Apply `aria-current` on the extensionless routes served by the host** — **Priority:** Medium
+  - [ ] normalize both sides of the comparison in `assets/js/aria-current.js` so `/services` and `/services.html` resolve to the same key, covering the four routes declared in `_redirects`
+  - [ ] keep the existing home-page matching for `/`, `./` and `index.html`
+  - [ ] verify current-page marking on both the extensionless and the `.html` form of each route
+  - **Completion condition:** exactly one navigation link carries `aria-current="page"` on every route form the host serves
+  - **Source:** `daily-AUDIT.md` — P2-06
+
+- [ ] **PH4-02 — Correct the heading level sequence on the system pages** — **Priority:** Medium
+  - [ ] resolve the `h1 → h3` skip on `404.html`, `offline.html` and `thankyou.html`, either by giving the footer statistics a level consistent with their `h2` section context or by supplying the missing section heading on those pages
+  - [ ] confirm the change does not alter heading order on the nine content pages, which already supply `h2` headings
+  - [ ] verify against the `pa11y-ci` URL set once dependencies are available
+  - **Completion condition:** no heading level is skipped on any of the 12 source pages
+  - **Source:** `daily-AUDIT.md` — P2-03
+
+- [ ] **PH4-03 — Give `.legal-section h3` its own typographic step** — **Priority:** Low
+  - [ ] add a rule below `--fs-07` for `.legal-section h3` in `assets/css/modules/pages.css`, where `.legal-section h2` is already defined
+  - [ ] verify the subsection hierarchy on `privacy.html`, `cookies.html` and `terms.html`
+  - [ ] regenerate `assets/css/style.min.css` and re-run `npm run qa:budget`
+  - **Completion condition:** `h3` subsections in the legal documents render visually below their parent `h2`
+  - **Source:** `daily-AUDIT.md` — P2-02
+
+## Phase 5 — Source-of-truth and QA contracts
+
+**Goal:** Remove duplicated sources of truth and close the coverage gaps that let the packaging defect pass every existing check.
+
+- [ ] **PH5-01 — Resolve the duplicated markup and structured-data copies** — **Priority:** Medium
+  - [ ] decide the fate of `templates/partials/`, which is unused by the build and the runtime, is already drifted from `partials/`, and is still validated by `qa:html` and `assets:verify`
+  - [ ] decide the fate of `assets/data/jsonld/*.json`, which is byte-equivalent to the inline blocks today but is loaded by no page and compared by no script
+  - [ ] remove the copies that are not canonical, or add a check that fails when a copy diverges from its canonical source
+  - [ ] update the maintenance section of `README.md` to match the decision
+  - **Completion condition:** every markup and structured-data file in the repository is either canonical or verified against its canonical source by a check
+  - **Source:** `daily-AUDIT.md` — P2-01
+
+- [ ] **PH5-02 — Correct stale asset references and extend asset verification** — **Priority:** Medium
+  - [ ] replace or remove the `image` values in `assets/data/services.json` that point at the non-existent `assets/img/solo.svg`, `refrigerated.svg` and `mega.svg` (seven of eight records)
+  - [ ] rename the orphaned `assets/img/fleet/mega/1 (1).webp` to the project naming pattern and reference it as the WebP `<source>` for the Mega card in `index.html` and `fleet.html`, or delete it
+  - [ ] extend `scripts/verify-assets.js` to cover `srcset` values and asset paths referenced from data files
+  - [ ] re-run `npm run assets:verify`
+  - **Completion condition:** no asset reference in markup or data files points at a missing file, and the extended check fails when one does
+  - **Source:** `daily-AUDIT.md` — P2-04
+
+- [ ] **PH5-03 — Point Lighthouse CI at the deployable package** — **Priority:** Medium
+  - [ ] change `staticDistDir` in `lighthouserc.json` from the repository root to the build output, matching the e2e configuration in `playwright.config.js`
+  - [ ] confirm the five collected URLs resolve inside the package after `npm run build`
+  - [ ] update the `lighthouserc.json` description in `README.md` (PL and EN sections) to state the new collection source
+  - **Completion condition:** Lighthouse CI measures the same layer that is deployed, with the minified CSS and inlined partials
+  - **Source:** `daily-AUDIT.md` — P2-08
+
+- [ ] **PH5-04 — Declare a line-ending policy for the repository** — **Priority:** Low
+  - [ ] add a root `.gitattributes` defining normalization for text files and binary handling for the tracked image, font and icon assets
+  - [ ] renormalize the working tree in one dedicated commit so the 24 permanently modified files return to a clean state
+  - [ ] verify that `git status --short` is empty when no content change is pending
+  - **Completion condition:** `git status` reflects real content changes only, with no line-ending noise
+  - **Source:** `daily-AUDIT.md` — P2-05
+
+## Phase 6 — Release verification
+
+**Goal:** Confirm the full quality suite on a clean dependency install and settle the release record.
+
+- [ ] **PH6-01 — Run the complete `release-check` suite on a clean install** — **Priority:** Medium
+  - [ ] install dependencies from `package-lock.json` (`node_modules/` is absent from the working copy)
+  - [ ] run `npm run release-check`, covering `qa:html`, `qa:jsonld`, `qa:links`, `qa:a11y`, `assets:verify`, `qa:budget` and `test:e2e`
+  - [ ] run `npm run qa:lighthouse` separately, since it is not part of `release-check`
+  - [ ] record every failure as a new plan item under the phase that owns the affected area
+  - **Completion condition:** the four checks never executed during the current audit cycle (`qa:html`, `qa:a11y`, `qa:lighthouse`, `test:e2e`) have a recorded outcome on the current tree
+  - **Depends on:** `PH1-01`, `PH2-01`
+  - **Source:** `daily-AUDIT.md` — Verification performed
+
+- [ ] **PH6-02 — Establish the first released version in `CHANGELOG.md`** — **Status:** Blocked — **Priority:** Low
+  - [ ] move the entries from `[Unreleased]` into a dated version section
+  - [ ] reconcile the version with the `1.0.0` value declared in `package.json` and tag the repository
+  - **Blocker:** no release version and date have been decided; the repository has no tags and `CHANGELOG.md` holds its entire history in `[Unreleased]`
+  - **Unblocks when:** the project owner confirms the version number and release date
+
+## Optional future improvements
+
+- [ ] **O-01 — Add a package-level smoke check for the built output**
+  - **Value:** `scripts/check-local-links.js` and `scripts/verify-assets.js` both resolve against the repository root, which is why every check passed while `thankyou.html` was missing from `dist/`; a check resolving form actions, precache entries, canonical URLs and sitemap entries against the package would keep the hand-maintained file list in `scripts/build-dist.js` honest
+  - **Scope boundary:** non-blocking hardening; the existing checks are correct within the source layer they target
+  - **Source:** `daily-AUDIT.md` — Extra quality improvements
+
+- [ ] **O-02 — Load the embedded map only after an explicit visitor action**
+  - **Value:** `contact.html` loads a Google Maps `iframe` on page load while the rest of the site ships no third-party requests; deferring the embed would match the no-tracking-before-consent posture the project demonstrates
+  - **Scope boundary:** non-blocking product decision; the current behavior is disclosed in the legal documents rather than hidden
+  - **Source:** `daily-AUDIT.md` — Extra quality improvements
+
+- [ ] **O-03 — Move the price-label handler inside `initServicesFilters()`**
+  - **Value:** `assets/js/services-filters.js` registers an `input` listener at module scope, duplicating the range handler already registered inside the init function; moving it would match the pattern used by every other module
+  - **Scope boundary:** non-blocking cleanup; the current code works because the module loads after the markup is parsed
+  - **Source:** `daily-AUDIT.md` — Extra quality improvements
+
+## Deferred work
+
+- [ ] **D-01 — Publish the operator's postal identification data in the legal documents**
+  - **Reason:** `terms.html` identifies the operator by name and e-mail only; the postal data required of a service provider is a decision for the project owner and is not present anywhere in the repository

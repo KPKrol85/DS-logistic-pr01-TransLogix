@@ -140,10 +140,10 @@
   - **Completion condition:** Lighthouse CI measures the same layer that is deployed, with the minified CSS and inlined partials
   - **Source:** `daily-AUDIT.md` — P2-08
 
-- [ ] **PH5-04 — Declare a line-ending policy for the repository** — **Priority:** Low
-  - [ ] add a root `.gitattributes` defining normalization for text files and binary handling for the tracked image, font and icon assets
-  - [ ] renormalize the working tree in one dedicated commit so the 24 permanently modified files return to a clean state
-  - [ ] verify that `git status --short` is empty when no content change is pending
+- [x] **PH5-04 — Declare a line-ending policy for the repository** — **Priority:** Low
+  - [x] add a root `.gitattributes` defining normalization for text files and binary handling for the tracked image, font and icon assets
+  - [x] run `git add --renormalize .` after staging the policy; no existing tracked file required an index content change
+  - [x] verify that `git status --short` reports only intentional PH5-04 changes, with no historical CRLF-only group
   - **Completion condition:** `git status` reflects real content changes only, with no line-ending noise
   - **Source:** `daily-AUDIT.md` — P2-05
 

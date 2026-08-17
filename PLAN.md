@@ -92,10 +92,10 @@
 
 **Goal:** Correct source-level accessibility defects that current QA scripts do not catch.
 
-- [ ] **PH4-01 — Apply `aria-current` on the extensionless routes served by the host** — **Priority:** Medium
-  - [ ] normalize both sides of the comparison in `assets/js/aria-current.js` so `/services` and `/services.html` resolve to the same key, covering the four routes declared in `_redirects`
-  - [ ] keep the existing home-page matching for `/`, `./` and `index.html`
-  - [ ] verify current-page marking on both the extensionless and the `.html` form of each route
+- [x] **PH4-01 — Apply `aria-current` on the extensionless routes served by the host** — **Priority:** Medium
+  - [x] normalize both sides of the comparison in `assets/js/aria-current.js` so `/services` and `/services.html` resolve to the same key, covering the four routes declared in `_redirects`
+  - [x] keep the existing home-page matching for `/`, `./` and `index.html`
+  - [x] verify current-page marking on both the extensionless and the `.html` form of each route
   - **Completion condition:** exactly one navigation link carries `aria-current="page"` on every route form the host serves
   - **Source:** `daily-AUDIT.md` — P2-06
 

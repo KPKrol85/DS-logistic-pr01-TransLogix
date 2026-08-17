@@ -37,6 +37,7 @@ All significant changes to this project are documented in this file.
 - Removed the conflicting footer deliveries `data-value`, keeping the published `612+` text as the single authoritative value before and after JavaScript initialization.
 - Added a pre-entry disclosure to the site-consent dialog stating that TransLogix is a demonstration portfolio project and the presented brand and company are fictional.
 - Aligned the required contact-form acknowledgement with the processing purpose and legal basis stated in the privacy policy.
+- Corrected current-page navigation marking so the extensionless and `.html` forms of the hosted routes resolve to the same `aria-current="page"` state without treating fragment links as page-level matches.
 
 ### Changed
 

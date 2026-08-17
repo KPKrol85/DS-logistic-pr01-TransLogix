@@ -105,13 +105,14 @@ The remaining findings include a contradiction in the published footer statistic
 - **Impact:** Real uncommitted work is indistinguishable from CRLF noise, which makes review, `git status` checks and any future pre-commit tooling unreliable.
 - **Recommended direction:** Add a line-ending policy for text files so `git status` reflects actual content changes.
 
-### [P2-06] Current-page marking never applies on the extensionless routes the host serves
+### [P2-06] Current-page marking never applies on the extensionless routes the host serves — Resolved
 
 - **Classification:** Contract mismatch
-- **Evidence:** `_redirects:1-4`, `assets/js/aria-current.js:5-16`
-- **Current behavior:** `_redirects` rewrites `/services`, `/fleet`, `/pricing` and `/contact` to their `.html` counterparts with status 200, so the browser URL keeps the extensionless form. `applyAriaCurrent()` compares each `href` against the last path segment, which is then `services` rather than `services.html`, so no link matches and no `aria-current="page"` is set.
-- **Impact:** On the clean URLs the navigation loses its current-page indication for assistive technology and for the associated `aria-current` styling in header and footer.
-- **Recommended direction:** Normalize both sides of the comparison so extensionless and `.html` paths resolve to the same key.
+- **Historical evidence:** `_redirects:1-4`, `assets/js/aria-current.js:5-16`
+- **Previous behavior:** `_redirects` rewrote `/services`, `/fleet`, `/pricing` and `/contact` to their `.html` counterparts with status 200, so the browser URL kept the extensionless form. `applyAriaCurrent()` compared each `href` against the last path segment, which was then `services` rather than `services.html`, so no link matched and no `aria-current="page"` was set.
+- **Previous impact:** On the clean URLs the navigation lost its current-page indication for assistive technology and for the associated `aria-current` styling in header and footer.
+- **Resolution (PH4-01, 2026-08-17):** Normalized the final pathname segment for both the browser location and page-level navigation links by mapping an empty segment to `index.html` and removing a trailing `.html` suffix. Links with fragments remain excluded, and the existing first-match rule still marks exactly one selected navigation link.
+- **Verification:** `node --check assets/js/aria-current.js` and `git diff --check` passed. The focused Playwright test `npx playwright test tests/e2e/aria-current.spec.js` passed 1/1, covering `/`, `/index.html`, and both extensionless and `.html` forms of `/services`, `/fleet`, `/pricing` and `/contact`; every case had exactly one `aria-current="page"`, and the contact fragment links remained unmarked.
 
 ### [P2-07] The offer list has no non-JavaScript baseline
 

@@ -23,6 +23,7 @@ const buildConsentMarkup = () => {
       <h2 class="site-consent__title" id="site-consent-title">Warunki korzystania z serwisu</h2>
       <p class="site-consent__text" id="site-consent-desc">
         Przed rozpoczęciem korzystania z serwisu zapoznaj się z regulaminem, polityką prywatności oraz polityką cookies.
+        TransLogix jest demonstracyjnym projektem portfolio KP_Code Digital Studio, a prezentowana marka i firma transportowo-logistyczna są fikcyjne.
       </p>
       <p class="site-consent__note">Przed korzystaniem z serwisu zaakceptuj Regulamin.</p>
       <div class="site-consent__actions">

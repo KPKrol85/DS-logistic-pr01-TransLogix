@@ -75,10 +75,10 @@
   - **Completion condition:** the displayed number no longer changes after script execution on any page that includes the footer
   - **Source:** `daily-AUDIT.md` — P1-03
 
-- [ ] **PH3-03 — State the demonstration character in the entry consent dialog** — **Priority:** Medium
-  - [ ] add one sentence to the dialog text in `assets/js/site-consent.js` stating that TransLogix is a portfolio demonstration with a fictional brand, consistent with the wording already used in `terms.html`, `privacy.html` and `cookies.html`
-  - [ ] keep the existing links to the three legal documents and the current focus and acceptance behavior
-  - [ ] regenerate `assets/js/main.min.js` through `npm run build:js`
+- [x] **PH3-03 — State the demonstration character in the entry consent dialog** — **Priority:** Medium
+  - [x] add one sentence to the dialog text in `assets/js/site-consent.js` stating that TransLogix is a portfolio demonstration with a fictional brand, consistent with the wording already used in `terms.html`, `privacy.html` and `cookies.html`
+  - [x] keep the existing links to the three legal documents and the current focus and acceptance behavior
+  - [x] run `npm run build:js`; the command completed successfully and `assets/js/main.min.js` remained content-identical because the build reads only `assets/js/main.js`
   - **Completion condition:** the pre-entry dialog discloses the demo nature before acceptance, without changing the consent storage key or flow
   - **Source:** `daily-AUDIT.md` — P2-10
 

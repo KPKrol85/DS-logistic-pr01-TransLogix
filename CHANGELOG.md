@@ -35,6 +35,7 @@ All significant changes to this project are documented in this file.
 - Added a non-JavaScript fallback to the services listing, keeping all eight offer names, routes, and a contact path available when the client-side renderer does not run.
 - Aligned the home-page `Organization` structured-data address with the published company address used on the contact page and in the canonical footer.
 - Removed the conflicting footer deliveries `data-value`, keeping the published `612+` text as the single authoritative value before and after JavaScript initialization.
+- Added a pre-entry disclosure to the site-consent dialog stating that TransLogix is a demonstration portfolio project and the presented brand and company are fictional.
 
 ### Changed
 

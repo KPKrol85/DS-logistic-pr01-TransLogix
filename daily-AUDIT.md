@@ -137,13 +137,14 @@ The remaining findings include a contradiction in the published footer statistic
 - **Impact:** Two confirmation paths exist for one form while only one is live, so a maintainer can reasonably assume the inline message covers the success case that [P0-01] currently breaks.
 - **Recommended direction:** Keep one confirmation path — either wire the query parameter into the submit flow or drop the unused branch and its markup.
 
-### [P2-10] The entry consent dialog does not state the demo nature of the project
+### [P2-10] The entry consent dialog does not state the demo nature of the project — Resolved
 
 - **Classification:** Contract mismatch
-- **Evidence:** `assets/js/site-consent.js:20-38`
-- **Current behavior:** The blocking dialog shown before first use asks the visitor to accept the terms and links to the three legal documents, but its own text says nothing about the site being a demonstration project with a fictional brand. That disclosure exists only inside `terms.html:192-194`, `privacy.html:119,126` and `cookies.html:85,112`.
-- **Impact:** The project's only pre-entry disclosure surface can be accepted without the visitor ever seeing that TransLogix is a portfolio demonstration, which is the one thing the disclosure is meant to establish up front.
-- **Recommended direction:** State the demo/portfolio character in one sentence in the dialog itself, keeping the links to the full documents.
+- **Historical evidence:** `assets/js/site-consent.js:20-38`
+- **Previous behavior:** The blocking dialog shown before first use asked the visitor to accept the terms and linked to the three legal documents, but its own text said nothing about the site being a demonstration project with a fictional brand. That disclosure existed only inside `terms.html:192-194`, `privacy.html:119,126` and `cookies.html:85,112`.
+- **Previous impact:** The project's only pre-entry disclosure surface could be accepted without the visitor ever seeing that TransLogix is a portfolio demonstration, which is the one thing the disclosure is meant to establish up front.
+- **Resolution (PH3-03, 2026-08-17):** Added one concise sentence to the existing `#site-consent-desc` paragraph stating that TransLogix is a demonstration portfolio project by KP_Code Digital Studio and that the presented brand and transport-logistics company are fictional. The existing ARIA relationship, legal-document links, consent key, focus handling, Escape prevention and acceptance flow remain unchanged.
+- **Verification:** `npm run build:js` passed; `assets/js/main.min.js` remained content-identical because the build processes only `assets/js/main.js`. `node --check assets/js/site-consent.js` and `git diff --check` passed, and focused static inspection confirmed that the disclosure is inside the element referenced by `aria-describedby`. No dedicated consent-dialog test exists in the current Playwright suite.
 
 ## Extra quality improvements
 

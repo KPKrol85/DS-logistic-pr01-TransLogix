@@ -36,6 +36,7 @@ All significant changes to this project are documented in this file.
 - Aligned the home-page `Organization` structured-data address with the published company address used on the contact page and in the canonical footer.
 - Removed the conflicting footer deliveries `data-value`, keeping the published `612+` text as the single authoritative value before and after JavaScript initialization.
 - Added a pre-entry disclosure to the site-consent dialog stating that TransLogix is a demonstration portfolio project and the presented brand and company are fictional.
+- Aligned the required contact-form acknowledgement with the processing purpose and legal basis stated in the privacy policy.
 
 ### Changed
 

@@ -53,7 +53,7 @@ test.describe('Contact form smoke', () => {
     await page.getByLabel('Typ usługi').selectOption('express');
     await page.getByLabel('Trasa (miejsce załadunku → dostawy)').fill('Kraków → Berlin');
     await page.getByLabel('Opis ładunku').fill('Palety z elektroniką.');
-    await page.getByLabel('Zgadzam się na przetwarzanie danych w celu przygotowania oferty.').check();
+    await page.getByLabel('Potwierdzam, że świadomie przekazuję dane w celu obsługi mojego zapytania i przygotowania odpowiedzi.').check();
 
     await expect(page.locator('#contact-form [aria-invalid="true"]')).toHaveCount(0);
 

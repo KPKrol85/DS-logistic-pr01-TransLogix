@@ -100,7 +100,7 @@ function attachValidation(form, { onValid, resetOnValid = true, allowNativeSubmi
 
     const requiredCheckbox = form.querySelector("input[type='checkbox'][required]");
     if (requiredCheckbox && !requiredCheckbox.checked) {
-      showError(requiredCheckbox, "Zgoda jest wymagana.");
+      showError(requiredCheckbox, "To potwierdzenie jest wymagane.");
       valid = false;
       if (!firstInvalidInput) firstInvalidInput = requiredCheckbox;
     } else if (requiredCheckbox) {

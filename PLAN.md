@@ -82,10 +82,10 @@
   - **Completion condition:** the pre-entry dialog discloses the demo nature before acceptance, without changing the consent storage key or flow
   - **Source:** `daily-AUDIT.md` — P2-10
 
-- [ ] **PH3-04 — Align the contact form consent wording with the declared legal basis** — **Priority:** Medium
-  - [ ] compare the `rodo` checkbox label in `contact.html` ("zgoda … w celu przygotowania oferty") with the processing purpose and legal basis declared in `privacy.html` (art. 6(1)(f), correspondence)
-  - [ ] restate the checkbox label so it describes the same purpose and basis as the privacy policy, or update the policy entry so the consent basis is the documented one
-  - [ ] keep the field required and its `aria-describedby` error wiring intact
+- [x] **PH3-04 — Align the contact form consent wording with the declared legal basis** — **Priority:** Medium
+  - [x] compare the `rodo` checkbox label in `contact.html` ("zgoda … w celu przygotowania oferty") with the processing purpose and legal basis declared in `privacy.html` (art. 6(1)(f), correspondence)
+  - [x] restate the checkbox label so it describes the same purpose and basis as the privacy policy, or update the policy entry so the consent basis is the documented one
+  - [x] keep the field required and its `aria-describedby` error wiring intact
   - **Completion condition:** the form label and the privacy policy describe one consistent purpose and legal basis for contact data
 
 ## Phase 4 — Accessibility and semantic corrections

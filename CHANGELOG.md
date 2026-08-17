@@ -38,6 +38,7 @@ All significant changes to this project are documented in this file.
 - Added a pre-entry disclosure to the site-consent dialog stating that TransLogix is a demonstration portfolio project and the presented brand and company are fictional.
 - Aligned the required contact-form acknowledgement with the processing purpose and legal basis stated in the privacy policy.
 - Corrected current-page navigation marking so the extensionless and `.html` forms of the hosted routes resolve to the same `aria-current="page"` state without treating fragment links as page-level matches.
+- Corrected the footer and system-page heading hierarchy by giving the statistics section a visually hidden `h2` heading above its existing `h3` values.
 
 ### Changed
 

@@ -81,13 +81,14 @@ The remaining findings include a contradiction in the published footer statistic
 - **Impact:** The document hierarchy on the three longest pages is visually flat, making the legal content harder to scan even though the underlying semantics are correct.
 - **Recommended direction:** Give `.legal-section h3` its own step below `--fs-07`.
 
-### [P2-03] Heading level skips from `h1` to `h3` on the three system pages
+### [P2-03] Heading level skips from `h1` to `h3` on the three system pages — Resolved
 
 - **Classification:** Source-visible risk
-- **Evidence:** `404.html`, `offline.html`, `thankyou.html` in combination with `partials/footer.html:8-18`
-- **Current behavior:** These pages contain a single `h1` and no `h2` in `main`, so the next heading in document order is the footer statistics `h3`, producing `h1 → h3 → h3 → h3 → h2 …`. The nine content pages are unaffected because their sections supply `h2` headings.
-- **Impact:** Screen-reader users navigating by heading level meet a skipped level on all three system pages; those URLs are in the `pa11y-ci` set, so this is also a likely source of future QA noise.
-- **Recommended direction:** Give the footer statistics a heading level consistent with their `h2` section context, or add the missing section heading on the system pages.
+- **Historical evidence:** `404.html`, `offline.html`, `thankyou.html` in combination with the former `partials/footer.html:8-18`
+- **Previous behavior:** These pages contain a single `h1` and no `h2` in `main`, so the next heading in document order was the footer statistics `h3`, producing `h1 → h3 → h3 → h3 → h2 …`. The nine content pages were unaffected because their sections supplied `h2` headings.
+- **Previous impact:** Screen-reader users navigating by heading level met a skipped level on all three system pages; those URLs are in the `pa11y-ci` set, so this was also a likely source of future QA noise.
+- **Resolution (PH4-02, 2026-08-17):** Added the visually hidden `h2` heading `Kluczowe liczby TransLogix` with `id="footer-stats-title"` immediately inside the canonical footer statistics section and replaced its `aria-label` with `aria-labelledby="footer-stats-title"`. The existing statistic `h3` elements, their `data-stat` hooks, values and JavaScript behavior remain unchanged.
+- **Verification:** A focused effective-document inspection with the canonical header and footer inserted found no skipped heading levels on any of the 12 source pages; `404.html`, `offline.html` and `thankyou.html` now transition `h1 → h2 → h3`. `npm run qa:html` passed. `npm run qa:a11y` completed the configured Pa11y checks with `12/12 URLs passed` and zero errors per page, then the wrapper returned an unrelated Windows `ps-tree` cleanup error while stopping the local server.
 
 ### [P2-04] Asset references in data files and image variants sit outside the coverage of `verify-assets.js`
 

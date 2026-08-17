@@ -99,10 +99,10 @@
   - **Completion condition:** exactly one navigation link carries `aria-current="page"` on every route form the host serves
   - **Source:** `daily-AUDIT.md` — P2-06
 
-- [ ] **PH4-02 — Correct the heading level sequence on the system pages** — **Priority:** Medium
-  - [ ] resolve the `h1 → h3` skip on `404.html`, `offline.html` and `thankyou.html`, either by giving the footer statistics a level consistent with their `h2` section context or by supplying the missing section heading on those pages
-  - [ ] confirm the change does not alter heading order on the nine content pages, which already supply `h2` headings
-  - [ ] verify against the `pa11y-ci` URL set once dependencies are available
+- [x] **PH4-02 — Correct the heading level sequence on the system pages** — **Priority:** Medium
+  - [x] resolve the `h1 → h3` skip on `404.html`, `offline.html` and `thankyou.html`, either by giving the footer statistics a level consistent with their `h2` section context or by supplying the missing section heading on those pages
+  - [x] confirm the change does not alter heading order on the nine content pages, which already supply `h2` headings
+  - [x] verify against the `pa11y-ci` URL set once dependencies are available
   - **Completion condition:** no heading level is skipped on any of the 12 source pages
   - **Source:** `daily-AUDIT.md` — P2-03
 

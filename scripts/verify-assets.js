@@ -13,7 +13,6 @@ const ignoredDirectories = new Set([
 ]);
 const projectOwnedHtmlDirectories = [
   path.join(projectRoot, 'partials'),
-  path.join(projectRoot, 'templates'),
 ];
 
 function isIgnoredDirectory(entryName) {

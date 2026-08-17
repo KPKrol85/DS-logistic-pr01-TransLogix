@@ -100,14 +100,12 @@ Service worker: `sw.js` używa cache `translogix-static-v3`, stosuje strategię 
 │   │   ├── style.min.css       # generowany plik produkcyjny
 │   │   └── modules/            # settings, base, layout, header, footer, components, utilities, pages
 │   ├── data/
-│   │   ├── services.json       # dane usług
-│   │   └── jsonld/             # referencyjne kopie bloków JSON-LD
+│   │   └── services.json       # dane usług
 │   ├── fonts/                  # lokalne fonty woff2
 │   ├── icons/                  # favicony, ikony aplikacji i site.webmanifest
 │   ├── img/                    # obrazy stron, OG, screenshoty i SVG
 │   └── js/                     # moduły ES; main.js jest entrypointem, main.min.js jest generowany
 ├── partials/                   # header.html i footer.html używane przez runtime i build
-├── templates/partials/         # druga kopia markupu nagłówka i stopki
 ├── scripts/                    # skrypty builda, walidacji i weryfikacji
 │   └── postcss-plugins/        # lokalne pluginy PostCSS
 ├── tests/e2e/                  # testy Playwright
@@ -167,7 +165,7 @@ Komenda uruchamia `http-server dist -p 8182 -c-1`.
 - `npm run preview:dist` – serwuje `dist/` na porcie 8182.
 - `npm run assets:verify` – sprawdza, czy assety wskazywane w HTML i w `PRECACHE_URLS` w `sw.js` istnieją.
 - `npm run assets:optimize` – konwertuje pliki JPG i PNG z `assets/img/src_img` do WebP i AVIF w `assets/img/opt_img`; katalog źródłowy nie jest częścią repozytorium, więc bez niego skrypt kończy się bez konwersji.
-- `npm run qa:html` – waliduje `html-validate` strony w katalogu głównym oraz pliki HTML w `partials/` i `templates/`.
+- `npm run qa:html` – waliduje `html-validate` strony w katalogu głównym oraz pliki HTML w `partials/`.
 - `npm run qa:jsonld` – parsuje bloki JSON-LD osadzone w stronach i sprawdza obecność `@context`, `@type` lub `@graph`.
 - `npm run qa:links` – sprawdza lokalne odwołania `href` i `src` w stronach katalogu głównego.
 - `npm run qa:a11y` – serwuje projekt przez `http-server . -p 8080` i uruchamia `pa11y-ci` zgodnie z `.pa11yci.json`.
@@ -244,7 +242,7 @@ Repozytorium nie zawiera raportu potwierdzającego zgodność z WCAG.
 - `robots.txt` wskazujący `sitemap.xml`;
 - `sitemap.xml` z dziewięcioma adresami publicznymi.
 
-Pliki w `assets/data/jsonld/` nie są ładowane przez strony — pełnią rolę kopii referencyjnych.
+Bloki JSON-LD osadzone bezpośrednio w stronach są jedynym utrzymywanym źródłem danych strukturalnych.
 
 ### PWA i obsługa offline
 
@@ -283,7 +281,7 @@ Repozytorium nie zawiera zapisanych wyników pomiarów wydajności.
 - Edytuj pliki źródłowe; nie modyfikuj ręcznie `dist/`, `assets/css/style.min.css` ani `assets/js/main.min.js`.
 - Zmiany stylów trzymaj w `assets/css/modules/`; kolejność importów definiuje `assets/css/style.css`.
 - Zmiany interakcji trzymaj w modułach `assets/js/`, a ich inicjalizację w `assets/js/main.js`.
-- Nagłówek i stopkę edytuj w `partials/` — to ten katalog jest używany przez runtime i przez `scripts/build-dist.js`. Kopia w `templates/partials/` nie jest używana ani przez build, ani przez strony, ale podlega walidacji w `qa:html` i `assets:verify`.
+- Nagłówek i stopkę edytuj wyłącznie w `partials/` — to jedyne utrzymywane źródło używane przez runtime i przez `scripts/build-dist.js`.
 - `scripts/build-css.js` zawiera alternatywną implementację builda CSS i nie jest podpięty pod żaden skrypt npm — `build:css` korzysta z `postcss-cli` i `postcss.config.js`.
 - Po zmianie tras lub assetów aktualizuj `PRECACHE_URLS` i podnieś `CACHE_NAME` w `sw.js`, a następnie uruchom `npm run assets:verify`.
 - Zmiany w adresach stron odzwierciedlaj w `sitemap.xml` i `_redirects`.
@@ -393,14 +391,12 @@ Service worker: `sw.js` uses the `translogix-static-v3` cache, applies network-f
 │   │   ├── style.min.css       # generated production file
 │   │   └── modules/            # settings, base, layout, header, footer, components, utilities, pages
 │   ├── data/
-│   │   ├── services.json       # services data
-│   │   └── jsonld/             # reference copies of JSON-LD blocks
+│   │   └── services.json       # services data
 │   ├── fonts/                  # local woff2 fonts
 │   ├── icons/                  # favicons, app icons, and site.webmanifest
 │   ├── img/                    # page images, OG images, screenshots, and SVG
 │   └── js/                     # ES modules; main.js is the entrypoint, main.min.js is generated
 ├── partials/                   # header.html and footer.html used by runtime and build
-├── templates/partials/         # a second copy of the header and footer markup
 ├── scripts/                    # build, validation, and verification scripts
 │   └── postcss-plugins/        # local PostCSS plugins
 ├── tests/e2e/                  # Playwright tests
@@ -460,7 +456,7 @@ The command runs `http-server dist -p 8182 -c-1`.
 - `npm run preview:dist` – serves `dist/` on port 8182.
 - `npm run assets:verify` – checks that assets referenced in HTML and in `PRECACHE_URLS` in `sw.js` exist.
 - `npm run assets:optimize` – converts JPG and PNG files from `assets/img/src_img` to WebP and AVIF in `assets/img/opt_img`; the source directory is not part of the repository, so without it the script exits without converting anything.
-- `npm run qa:html` – validates the root pages and the HTML files in `partials/` and `templates/` with `html-validate`.
+- `npm run qa:html` – validates the root pages and the HTML files in `partials/` with `html-validate`.
 - `npm run qa:jsonld` – parses the JSON-LD blocks embedded in the pages and checks for `@context`, `@type`, or `@graph`.
 - `npm run qa:links` – checks local `href` and `src` references in the root pages.
 - `npm run qa:a11y` – serves the project with `http-server . -p 8080` and runs `pa11y-ci` according to `.pa11yci.json`.
@@ -537,7 +533,7 @@ The sources include:
 - `robots.txt` pointing to `sitemap.xml`;
 - `sitemap.xml` with nine public URLs.
 
-The files in `assets/data/jsonld/` are not loaded by the pages — they serve as reference copies.
+The JSON-LD blocks embedded directly in the pages are the only maintained structured-data source.
 
 ### PWA and Offline Support
 
@@ -576,7 +572,7 @@ The repository contains no stored performance measurement results.
 - Edit source files; do not modify `dist/`, `assets/css/style.min.css`, or `assets/js/main.min.js` by hand.
 - Keep style changes in `assets/css/modules/`; import order is defined by `assets/css/style.css`.
 - Keep interaction changes in the `assets/js/` modules and their initialization in `assets/js/main.js`.
-- Edit the header and footer in `partials/` — that directory is used by the runtime and by `scripts/build-dist.js`. The copy in `templates/partials/` is used neither by the build nor by the pages, but it is covered by `qa:html` and `assets:verify`.
+- Edit the header and footer only in `partials/` — it is the sole maintained source used by the runtime and by `scripts/build-dist.js`.
 - `scripts/build-css.js` contains an alternative CSS build implementation and is not wired to any npm script — `build:css` uses `postcss-cli` and `postcss.config.js`.
 - After changing routes or assets, update `PRECACHE_URLS` and bump `CACHE_NAME` in `sw.js`, then run `npm run assets:verify`.
 - Reflect page URL changes in `sitemap.xml` and `_redirects`.

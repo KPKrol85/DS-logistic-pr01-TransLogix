@@ -65,7 +65,6 @@
 
 - [ ] **PH3-01 — Align the `Organization` structured data with the published address** — **Priority:** High
   - [ ] replace the `PostalAddress` in the `index.html` JSON-LD block with the address used in `partials/footer.html` and `contact.html`, including a valid postal code
-  - [ ] mirror the same change in the reference copy `assets/data/jsonld/index.json`
   - [ ] re-run `npm run qa:jsonld`
   - **Completion condition:** the structured-data address matches every visible instance of the company address across the site
   - **Source:** `daily-AUDIT.md` — P1-02
@@ -73,7 +72,6 @@
 - [ ] **PH3-02 — Resolve the conflicting footer delivery statistic** — **Priority:** High
   - [ ] choose one authoritative figure for `data-stat="deliveries"` in `partials/footer.html`
   - [ ] make the markup text and the `data-value` attribute agree, or drop the attribute so `assets/js/stats.js` leaves the static text alone
-  - [ ] apply the same resolution to the copy in `templates/partials/footer.html` if that file is retained by `PH5-01`
   - **Completion condition:** the displayed number no longer changes after script execution on any page that includes the footer
   - **Source:** `daily-AUDIT.md` — P1-03
 
@@ -119,11 +117,11 @@
 
 **Goal:** Remove duplicated sources of truth and close the coverage gaps that let the packaging defect pass every existing check.
 
-- [ ] **PH5-01 — Resolve the duplicated markup and structured-data copies** — **Priority:** Medium
-  - [ ] decide the fate of `templates/partials/`, which is unused by the build and the runtime, is already drifted from `partials/`, and is still validated by `qa:html` and `assets:verify`
-  - [ ] decide the fate of `assets/data/jsonld/*.json`, which is byte-equivalent to the inline blocks today but is loaded by no page and compared by no script
-  - [ ] remove the copies that are not canonical, or add a check that fails when a copy diverges from its canonical source
-  - [ ] update the maintenance section of `README.md` to match the decision
+- [x] **PH5-01 — Resolve the duplicated markup and structured-data copies** — **Priority:** Medium
+  - [x] confirm `templates/partials/` has no runtime or build consumer and retain `partials/` as the only shared-markup source
+  - [x] confirm `assets/data/jsonld/*.json` has no runtime, build or generator consumer and retain inline HTML JSON-LD as the only structured-data source
+  - [x] remove both redundant source groups and their obsolete QA discovery references
+  - [x] update the relevant architecture, structure, QA and maintenance sections of `README.md`
   - **Completion condition:** every markup and structured-data file in the repository is either canonical or verified against its canonical source by a check
   - **Source:** `daily-AUDIT.md` — P2-01
 

@@ -6,7 +6,6 @@ const { spawnSync } = require('child_process');
 const projectRoot = path.resolve(__dirname, '..');
 const sourceHtmlDirectories = [
   path.join(projectRoot, 'partials'),
-  path.join(projectRoot, 'templates'),
 ];
 
 function getRootHtmlFiles() {

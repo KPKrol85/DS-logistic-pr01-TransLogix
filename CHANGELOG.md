@@ -14,7 +14,7 @@ All significant changes to this project are documented in this file.
 - Added accessibility mechanisms across the source pages, including skip links to `main`, landmark and heading structure, synchronized ARIA state for the mobile menu, tabs, accordion, lightbox and filters, `:focus-visible` styling, and `prefers-reduced-motion` handling in CSS and selected JS modules.
 - Added a service worker (`sw.js`) with page precache, network-first navigation, stale-while-revalidate caching for `/assets/` responses, an `offline.html` fallback, and removal of caches other than the active `translogix-static-v3` version.
 - Added a web app manifest (`assets/icons/site.webmanifest`) with icons, shortcuts, and screenshots.
-- Added SEO metadata across the source pages, including canonical URLs, Open Graph and Twitter Card tags, inline JSON-LD, reusable JSON-LD files in `assets/data/jsonld/`, `robots.txt`, and `sitemap.xml`.
+- Added SEO metadata across the source pages, including canonical URLs, Open Graph and Twitter Card tags, inline JSON-LD, `robots.txt`, and `sitemap.xml`.
 - Added static hosting configuration with `_redirects` rules for the extensionless `/services`, `/fleet`, `/pricing`, and `/contact` routes plus an `/index.html` to `/` redirect, and per-type `Cache-Control` policies in `_headers`.
 
 ### Build and Tooling
@@ -36,6 +36,7 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Removed the unused `templates/partials/` and `assets/data/jsonld/` copies, leaving `partials/` and inline HTML JSON-LD as the respective canonical sources and aligning source-file discovery in QA tooling.
 - Rewrote the privacy policy, cookie policy, and terms of service as complete documents adapted from the KP_Code legal templates, aligning the disclosures with the site's actual behavior (Netlify-hosted form handling, embedded Google map, browser-only pricing calculators, browser storage keys, no analytics), stating that TransLogix is a fictional brand presented in a demonstration project, and removing the embedded template comments and unresolved variants from the published pages.
 
 ### Security

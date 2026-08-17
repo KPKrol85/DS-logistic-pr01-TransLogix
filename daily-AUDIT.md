@@ -50,25 +50,26 @@ The remaining findings are contradictions in published data (address, footer sta
 - **Evidence:** `index.html:64-70` versus `partials/footer.html:52-56` and `contact.html:93,103-104`
 - **Current behavior:** The `Organization` JSON-LD on the home page declares `ul. Przemysłowa 10`, `Warszawa`, `postalCode: "00-000"`, while the shared footer `<address>`, the contact page and the embedded map all use `ul. Marynarki Wojennej 12, 33-100 Tarnów`. `00-000` is a placeholder rather than a valid Polish postal code.
 - **Impact:** The machine-readable business record contradicts the human-readable one on every page, which is exactly what structured-data consumers flag, and it undercuts the realistic-business presentation the project is built to demonstrate.
-- **Recommended direction:** Align the JSON-LD `PostalAddress` with the address used in the footer and on the contact page, including a valid postal code, and mirror the change in `assets/data/jsonld/index.json`.
+- **Recommended direction:** Align the inline JSON-LD `PostalAddress` with the address used in the footer and on the contact page, including a valid postal code.
 
 ### [P1-03] Footer statistic renders one number in markup and a different one after script execution
 
 - **Classification:** Defect
 - **Evidence:** `partials/footer.html:8`, `assets/js/stats.js:17-23`
-- **Current behavior:** The markup contains `<h3 data-stat="deliveries" data-value="550">612+</h3>`. `initFooterStats()` reads `data-value` and overwrites the text, so the figure visibly changes from `612+` to `550+` shortly after load, on every page that includes the footer. The same conflicting pair exists in the unused copy at `templates/partials/footer.html:6`.
+- **Current behavior:** The markup contains `<h3 data-stat="deliveries" data-value="550">612+</h3>`. `initFooterStats()` reads `data-value` and overwrites the text, so the figure visibly changes from `612+` to `550+` shortly after load, on every page that includes the footer. Before PH5-01, the same conflicting pair was also present in the now-removed redundant partial copy.
 - **Impact:** A published figure has two sources of truth in a single element and visibly changes in front of the visitor; whichever value is intended, the other is wrong site-wide.
 - **Recommended direction:** Keep one authoritative value — either drive the markup from `data-value` or drop the attribute and let the static text stand.
 
 ## P2 — Minor refinements
 
-### [P2-01] Duplicate copies of canonical markup and metadata exist with no check comparing them
+### [P2-01] Duplicate copies of canonical markup and metadata exist with no check comparing them — Resolved
 
 - **Classification:** Maintenance risk
-- **Evidence:** `templates/partials/footer.html` versus `partials/footer.html`; `assets/data/jsonld/*.json` versus the inline blocks in the root pages; `scripts/validate-jsonld.js:92`
-- **Current behavior:** `README.md:286` documents `templates/partials/` as unused by the build and the runtime while still validated by `qa:html` and `assets:verify` — and it has already drifted from the canonical copy: no `<address>` wrapper, `class="footer section"` instead of `class="footer"`, a different copyright separator. The nine files in `assets/data/jsonld/` are byte-equivalent to the inline blocks today (verified by normalized comparison), but nothing compares them; `validate-jsonld.js` reads root HTML only.
-- **Impact:** Two sets of files look authoritative while only one is; edits to the canonical copies silently leave the duplicates stale, and the drift is invisible to the existing QA scripts.
-- **Recommended direction:** Either remove the unused copies or add a check that fails when a copy diverges from its canonical source.
+- **Historical evidence:** `templates/partials/footer.html` versus `partials/footer.html`; `assets/data/jsonld/*.json` versus the inline blocks in the root pages; `scripts/validate-jsonld.js`
+- **Previous behavior:** The unused partial copies were still included by `qa:html` and `assets:verify` and had drifted from `partials/`. The nine JSON-LD reference files duplicated inline blocks but had no runtime, build or generator consumer and no comparison check.
+- **Previous impact:** Two sets of files looked authoritative while only one was active; edits to the canonical sources could silently leave the redundant copies stale.
+- **Resolution (PH5-01, 2026-08-17):** Removed `templates/partials/` and `assets/data/jsonld/`. Runtime and production build continue to use `partials/header.html` and `partials/footer.html`; inline blocks in the root HTML pages are now the only maintained JSON-LD source. Removed the obsolete `templates/` discovery entries from `qa:html` and `assets:verify`, and synchronized the affected README sections.
+- **Verification:** `npm run assets:verify`, `npm run qa:html` and `npm run qa:jsonld` all passed after the cleanup; JSON-LD validation covered 11 inline blocks.
 
 ### [P2-02] `h3` in legal sections renders at the same size as the `h2` above it
 

@@ -33,6 +33,7 @@ All significant changes to this project are documented in this file.
 - Consolidated the contact form on the verified `thankyou.html` redirect by removing the unreachable inline `?success=1` confirmation path.
 - Gated the reveal animation's hidden initial state behind the document's `.js` class, keeping `.reveal` content visible when JavaScript does not execute.
 - Added a non-JavaScript fallback to the services listing, keeping all eight offer names, routes, and a contact path available when the client-side renderer does not run.
+- Aligned the home-page `Organization` structured-data address with the published company address used on the contact page and in the canonical footer.
 
 ### Changed
 

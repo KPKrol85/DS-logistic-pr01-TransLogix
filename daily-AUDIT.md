@@ -10,7 +10,7 @@ The architecture is stable and the source/generated split is clean: canonical so
 
 Two areas carry real risk. The deployable package produced by `scripts/build-dist.js` still omits `thankyou.html`, and the production origin still answers 404 on that path, so the contact form — the primary conversion path — ends on a missing page. Separately, the reveal animation hides all main content behind `opacity: 0` with no non-JavaScript fallback, unlike the header, which is correctly gated behind the `.js` class; if the module graph does not execute, the six content pages render an empty page body between header and footer.
 
-The remaining findings are contradictions in published data (address, footer statistic) and drift or coverage gaps that create maintenance risk rather than current breakage. Apart from the build-package defect the project is ready for normal continued development.
+The remaining findings include a contradiction in the published footer statistic and drift or coverage gaps that create maintenance risk rather than current breakage. Apart from the build-package defect the project is ready for normal continued development.
 
 ## Verified strengths
 
@@ -44,13 +44,14 @@ The remaining findings are contradictions in published data (address, footer sta
 - **Impact:** With scripting unavailable, or after any error that stops `assets/js/main.js` before `initReveal()` (it runs 25th in a single top-level sequence), the six content pages render header and footer around an empty body. The failure is silent and total for the page content, unlike the guarded per-module failures elsewhere in the codebase.
 - **Recommended direction:** Scope the hidden state to the `.js` class as the header already does, so content is visible by default and only animated when scripting is active.
 
-### [P1-02] Organization structured data states a different address than every visible instance
+### [P1-02] Organization structured data states a different address than every visible instance — Resolved
 
 - **Classification:** Contract mismatch
-- **Evidence:** `index.html:64-70` versus `partials/footer.html:52-56` and `contact.html:93,103-104`
-- **Current behavior:** The `Organization` JSON-LD on the home page declares `ul. Przemysłowa 10`, `Warszawa`, `postalCode: "00-000"`, while the shared footer `<address>`, the contact page and the embedded map all use `ul. Marynarki Wojennej 12, 33-100 Tarnów`. `00-000` is a placeholder rather than a valid Polish postal code.
-- **Impact:** The machine-readable business record contradicts the human-readable one on every page, which is exactly what structured-data consumers flag, and it undercuts the realistic-business presentation the project is built to demonstrate.
-- **Recommended direction:** Align the inline JSON-LD `PostalAddress` with the address used in the footer and on the contact page, including a valid postal code.
+- **Historical evidence:** `index.html:64-70` versus `partials/footer.html:52-56` and `contact.html:93,103-104`
+- **Previous behavior:** The `Organization` JSON-LD on the home page declared `ul. Przemysłowa 10`, `Warszawa`, `postalCode: "00-000"`, while the shared footer `<address>`, the contact page and the embedded map all used `ul. Marynarki Wojennej 12, 33-100 Tarnów`. `00-000` was a placeholder rather than a valid Polish postal code.
+- **Previous impact:** The machine-readable business record contradicted the human-readable one on every page, which is exactly what structured-data consumers flag, and it undercut the realistic-business presentation the project is built to demonstrate.
+- **Resolution (PH3-01, 2026-08-17):** Updated only the inline `Organization` `PostalAddress` in `index.html` to `ul. Marynarki Wojennej 12`, `33-100 Tarnów`, `PL`, matching the visible contact page and canonical footer address.
+- **Verification:** `npm run qa:jsonld` passed after the correction; validation covered all 11 inline JSON-LD blocks.
 
 ### [P1-03] Footer statistic renders one number in markup and a different one after script execution
 

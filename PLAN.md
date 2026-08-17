@@ -63,9 +63,9 @@
 
 **Goal:** Remove contradictions between machine-readable data, visible content and the legal documents.
 
-- [ ] **PH3-01 — Align the `Organization` structured data with the published address** — **Priority:** High
-  - [ ] replace the `PostalAddress` in the `index.html` JSON-LD block with the address used in `partials/footer.html` and `contact.html`, including a valid postal code
-  - [ ] re-run `npm run qa:jsonld`
+- [x] **PH3-01 — Align the `Organization` structured data with the published address** — **Priority:** High
+  - [x] replace the `PostalAddress` in the `index.html` JSON-LD block with the address used in `partials/footer.html` and `contact.html`, including a valid postal code
+  - [x] re-run `npm run qa:jsonld`
   - **Completion condition:** the structured-data address matches every visible instance of the company address across the site
   - **Source:** `daily-AUDIT.md` — P1-02
 

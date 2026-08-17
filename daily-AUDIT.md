@@ -53,13 +53,14 @@ The remaining findings include a contradiction in the published footer statistic
 - **Resolution (PH3-01, 2026-08-17):** Updated only the inline `Organization` `PostalAddress` in `index.html` to `ul. Marynarki Wojennej 12`, `33-100 Tarnów`, `PL`, matching the visible contact page and canonical footer address.
 - **Verification:** `npm run qa:jsonld` passed after the correction; validation covered all 11 inline JSON-LD blocks.
 
-### [P1-03] Footer statistic renders one number in markup and a different one after script execution
+### [P1-03] Footer statistic renders one number in markup and a different one after script execution — Resolved
 
 - **Classification:** Defect
-- **Evidence:** `partials/footer.html:8`, `assets/js/stats.js:17-23`
-- **Current behavior:** The markup contains `<h3 data-stat="deliveries" data-value="550">612+</h3>`. `initFooterStats()` reads `data-value` and overwrites the text, so the figure visibly changes from `612+` to `550+` shortly after load, on every page that includes the footer. Before PH5-01, the same conflicting pair was also present in the now-removed redundant partial copy.
-- **Impact:** A published figure has two sources of truth in a single element and visibly changes in front of the visitor; whichever value is intended, the other is wrong site-wide.
-- **Recommended direction:** Keep one authoritative value — either drive the markup from `data-value` or drop the attribute and let the static text stand.
+- **Historical evidence:** `partials/footer.html:8`, `assets/js/stats.js:17-23`
+- **Previous behavior:** The markup contained `<h3 data-stat="deliveries" data-value="550">612+</h3>`. `initFooterStats()` read `data-value` and overwrote the text, so the figure visibly changed from `612+` to `550+` shortly after load, on every page that included the footer. Before PH5-01, the same conflicting pair was also present in the now-removed redundant partial copy.
+- **Previous impact:** A published figure had two sources of truth in a single element and visibly changed in front of the visitor; whichever value was intended, the other was wrong site-wide.
+- **Resolution (PH3-02, 2026-08-17):** Removed `data-value="550"` from the deliveries heading in the canonical footer, retaining the published static text `612+` as its single source of truth. The existing `initFooterStats()` fallback now parses `612` from that text and writes `612+` back without a visible change; the vehicles and countries values remain attribute-driven.
+- **Verification:** `npm run qa:html` passed; a focused module test with a deliveries element lacking `data-value` confirmed `612+` before and after `initFooterStats()`; a source sweep found no active deliveries `data-value="550"` conflict.
 
 ## P2 — Minor refinements
 

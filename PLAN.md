@@ -69,9 +69,9 @@
   - **Completion condition:** the structured-data address matches every visible instance of the company address across the site
   - **Source:** `daily-AUDIT.md` — P1-02
 
-- [ ] **PH3-02 — Resolve the conflicting footer delivery statistic** — **Priority:** High
-  - [ ] choose one authoritative figure for `data-stat="deliveries"` in `partials/footer.html`
-  - [ ] make the markup text and the `data-value` attribute agree, or drop the attribute so `assets/js/stats.js` leaves the static text alone
+- [x] **PH3-02 — Resolve the conflicting footer delivery statistic** — **Priority:** High
+  - [x] choose one authoritative figure for `data-stat="deliveries"` in `partials/footer.html`
+  - [x] make the markup text and the `data-value` attribute agree, or drop the attribute so `assets/js/stats.js` leaves the static text alone
   - **Completion condition:** the displayed number no longer changes after script execution on any page that includes the footer
   - **Source:** `daily-AUDIT.md` — P1-03
 

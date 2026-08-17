@@ -40,6 +40,7 @@ All significant changes to this project are documented in this file.
 - Corrected current-page navigation marking so the extensionless and `.html` forms of the hosted routes resolve to the same `aria-current="page"` state without treating fragment links as page-level matches.
 - Corrected the footer and system-page heading hierarchy by giving the statistics section a visually hidden `h2` heading above its existing `h3` values.
 - Corrected the visual hierarchy of legal-document headings by rendering `.legal-section h3` below its parent `h2` with the adjacent lower typography token.
+- Removed stale service-data image references, normalized and integrated the Mega WebP variant across the home card and synchronized gallery, and extended asset verification to responsive and runtime markup references plus project data JSON.
 
 ### Changed
 

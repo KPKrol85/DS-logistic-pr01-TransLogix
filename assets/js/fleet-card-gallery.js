@@ -4,7 +4,8 @@ export function initFleetCardGalleries() {
 
   galleries.forEach((gallery) => {
     const mainTrigger = gallery.querySelector(".fleet-card__main.lightbox-trigger[data-gallery]");
-    const mainSource = gallery.querySelector("[data-fleet-main-source='avif']");
+    const mainAvifSource = gallery.querySelector("[data-fleet-main-source='avif']");
+    const mainWebpSource = gallery.querySelector("[data-fleet-main-source='webp']");
     const mainImage = gallery.querySelector("[data-fleet-main-image]");
     const thumbs = gallery.querySelectorAll("[data-fleet-thumb]");
     if (!mainImage || !thumbs.length) return;
@@ -15,10 +16,11 @@ export function initFleetCardGalleries() {
       thumb.dataset.lightboxIndex = String(index);
 
       thumb.addEventListener("click", () => {
-        const { mainAvif, mainJpg, mainAlt } = thumb.dataset;
+        const { mainAvif, mainWebp, mainJpg, mainAlt } = thumb.dataset;
         if (!mainJpg) return;
 
-        if (mainSource && mainAvif) mainSource.srcset = mainAvif;
+        if (mainAvifSource && mainAvif) mainAvifSource.srcset = mainAvif;
+        if (mainWebpSource && mainWebp) mainWebpSource.srcset = mainWebp;
         mainImage.src = mainJpg;
         mainImage.alt = mainAlt || "";
         if (mainTrigger) mainTrigger.dataset.lightboxIndex = String(index);

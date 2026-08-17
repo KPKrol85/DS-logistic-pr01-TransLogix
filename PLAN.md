@@ -125,11 +125,11 @@
   - **Completion condition:** every markup and structured-data file in the repository is either canonical or verified against its canonical source by a check
   - **Source:** `daily-AUDIT.md` — P2-01
 
-- [ ] **PH5-02 — Correct stale asset references and extend asset verification** — **Priority:** Medium
-  - [ ] replace or remove the `image` values in `assets/data/services.json` that point at the non-existent `assets/img/solo.svg`, `refrigerated.svg` and `mega.svg` (seven of eight records)
-  - [ ] rename the orphaned `assets/img/fleet/mega/1 (1).webp` to the project naming pattern and reference it as the WebP `<source>` for the Mega card in `index.html` and `fleet.html`, or delete it
-  - [ ] extend `scripts/verify-assets.js` to cover `srcset` values and asset paths referenced from data files
-  - [ ] re-run `npm run assets:verify`
+- [x] **PH5-02 — Correct stale asset references and extend asset verification** — **Priority:** Medium
+  - [x] replace or remove the `image` values in `assets/data/services.json` that point at the non-existent `assets/img/solo.svg`, `refrigerated.svg` and `mega.svg` (seven of eight records)
+  - [x] rename the orphaned `assets/img/fleet/mega/1 (1).webp` to the project naming pattern and reference it as the WebP `<source>` for the Mega card in `index.html` and `fleet.html`, or delete it
+  - [x] extend `scripts/verify-assets.js` to cover `srcset` values and asset paths referenced from data files
+  - [x] re-run `npm run assets:verify`
   - **Completion condition:** no asset reference in markup or data files points at a missing file, and the extended check fails when one does
   - **Source:** `daily-AUDIT.md` — P2-04
 

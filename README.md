@@ -163,7 +163,7 @@ Komenda uruchamia `http-server dist -p 8182 -c-1`.
 - `npm run build:js` – uruchamia `scripts/build-js.js`, który usuwa komentarze i puste linie z `assets/js/main.js` i zapisuje wynik do `assets/js/main.min.js`.
 - `npm run clean` – usuwa katalog `dist/`.
 - `npm run preview:dist` – serwuje `dist/` na porcie 8182.
-- `npm run assets:verify` – sprawdza, czy assety wskazywane w HTML i w `PRECACHE_URLS` w `sw.js` istnieją.
+- `npm run assets:verify` – sprawdza, czy lokalne assety wskazywane w projektowym HTML (w tym przez `srcset` i obsługiwane atrybuty runtime galerii), w plikach JSON pod `assets/data/` oraz w `PRECACHE_URLS` w `sw.js` istnieją.
 - `npm run assets:optimize` – konwertuje pliki JPG i PNG z `assets/img/src_img` do WebP i AVIF w `assets/img/opt_img`; katalog źródłowy nie jest częścią repozytorium, więc bez niego skrypt kończy się bez konwersji.
 - `npm run qa:html` – waliduje `html-validate` strony w katalogu głównym oraz pliki HTML w `partials/`.
 - `npm run qa:jsonld` – parsuje bloki JSON-LD osadzone w stronach i sprawdza obecność `@context`, `@type` lub `@graph`.
@@ -454,7 +454,7 @@ The command runs `http-server dist -p 8182 -c-1`.
 - `npm run build:js` – runs `scripts/build-js.js`, which strips comments and blank lines from `assets/js/main.js` and writes the result to `assets/js/main.min.js`.
 - `npm run clean` – removes the `dist/` directory.
 - `npm run preview:dist` – serves `dist/` on port 8182.
-- `npm run assets:verify` – checks that assets referenced in HTML and in `PRECACHE_URLS` in `sw.js` exist.
+- `npm run assets:verify` – checks that local assets referenced in project HTML (including `srcset` and the gallery runtime attributes covered by the verifier), JSON files under `assets/data/`, and `PRECACHE_URLS` in `sw.js` exist.
 - `npm run assets:optimize` – converts JPG and PNG files from `assets/img/src_img` to WebP and AVIF in `assets/img/opt_img`; the source directory is not part of the repository, so without it the script exits without converting anything.
 - `npm run qa:html` – validates the root pages and the HTML files in `partials/` with `html-validate`.
 - `npm run qa:jsonld` – parses the JSON-LD blocks embedded in the pages and checks for `@context`, `@type`, or `@graph`.

@@ -26,4 +26,19 @@ test.describe('Fleet lightbox smoke', () => {
 
     await expect(page.locator('.lightbox')).toBeVisible();
   });
+
+  test('keeps Mega AVIF, WebP, and JPG sources synchronized', async ({ page }) => {
+    await grantSiteConsent(page);
+    await page.goto('/fleet.html');
+
+    const megaGallery = page.locator('.fleet-card__gallery').filter({
+      has: page.locator('[data-gallery="set"]'),
+    });
+
+    await megaGallery.getByRole('button', { name: 'Pokaż zdjęcie 2: Zestaw Mega' }).click();
+
+    await expect(megaGallery.locator('[data-fleet-main-source="avif"]')).toHaveAttribute('srcset', 'assets/img/fleet/mega/2.avif');
+    await expect(megaGallery.locator('[data-fleet-main-source="webp"]')).toHaveAttribute('srcset', 'assets/img/fleet/mega/2.webp');
+    await expect(megaGallery.locator('[data-fleet-main-image]')).toHaveAttribute('src', 'assets/img/fleet/mega/2.jpg');
+  });
 });

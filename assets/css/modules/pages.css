@@ -1423,6 +1423,10 @@ html.theme-dark .pricing-overview {
   font-size: var(--fs-07);
 }
 
+.legal-section h3 {
+  font-size: var(--fs-06);
+}
+
 .legal-section p {
   color: var(--color-muted);
 }

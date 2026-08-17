@@ -106,10 +106,10 @@
   - **Completion condition:** no heading level is skipped on any of the 12 source pages
   - **Source:** `daily-AUDIT.md` — P2-03
 
-- [ ] **PH4-03 — Give `.legal-section h3` its own typographic step** — **Priority:** Low
-  - [ ] add a rule below `--fs-07` for `.legal-section h3` in `assets/css/modules/pages.css`, where `.legal-section h2` is already defined
-  - [ ] verify the subsection hierarchy on `privacy.html`, `cookies.html` and `terms.html`
-  - [ ] regenerate `assets/css/style.min.css` and re-run `npm run qa:budget`
+- [x] **PH4-03 — Give `.legal-section h3` its own typographic step** — **Priority:** Low
+  - [x] add a local `var(--fs-06)` rule for `.legal-section h3` in `assets/css/modules/pages.css`, next to the existing `.legal-section h2` rule
+  - [x] verify the subsection hierarchy on `privacy.html` and `cookies.html`, and confirm `terms.html` has no `h3` subsection and requires no markup change
+  - [x] regenerate `assets/css/style.min.css` and re-run `npm run qa:budget`
   - **Completion condition:** `h3` subsections in the legal documents render visually below their parent `h2`
   - **Source:** `daily-AUDIT.md` — P2-02
 

@@ -39,6 +39,7 @@ All significant changes to this project are documented in this file.
 - Aligned the required contact-form acknowledgement with the processing purpose and legal basis stated in the privacy policy.
 - Corrected current-page navigation marking so the extensionless and `.html` forms of the hosted routes resolve to the same `aria-current="page"` state without treating fragment links as page-level matches.
 - Corrected the footer and system-page heading hierarchy by giving the statistics section a visually hidden `h2` heading above its existing `h3` values.
+- Corrected the visual hierarchy of legal-document headings by rendering `.legal-section h3` below its parent `h2` with the adjacent lower typography token.
 
 ### Changed
 

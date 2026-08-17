@@ -73,13 +73,14 @@ The remaining findings include a contradiction in the published footer statistic
 - **Resolution (PH5-01, 2026-08-17):** Removed `templates/partials/` and `assets/data/jsonld/`. Runtime and production build continue to use `partials/header.html` and `partials/footer.html`; inline blocks in the root HTML pages are now the only maintained JSON-LD source. Removed the obsolete `templates/` discovery entries from `qa:html` and `assets:verify`, and synchronized the affected README sections.
 - **Verification:** `npm run assets:verify`, `npm run qa:html` and `npm run qa:jsonld` all passed after the cleanup; JSON-LD validation covered 11 inline blocks.
 
-### [P2-02] `h3` in legal sections renders at the same size as the `h2` above it
+### [P2-02] `h3` in legal sections renders at the same size as the `h2` above it — Resolved
 
 - **Classification:** Defect
-- **Evidence:** `assets/css/modules/pages.css:1421-1423`, `assets/css/modules/base.css:135-137`
-- **Current behavior:** `.legal-section h2` is set to `var(--fs-07)`, and the global `h3` rule uses the same `var(--fs-07)` (1.25rem). `privacy.html`, `cookies.html` and `terms.html` all use `h3` subsections, which therefore render identically to their parent headings.
-- **Impact:** The document hierarchy on the three longest pages is visually flat, making the legal content harder to scan even though the underlying semantics are correct.
-- **Recommended direction:** Give `.legal-section h3` its own step below `--fs-07`.
+- **Historical evidence:** `assets/css/modules/pages.css:1421-1423`, `assets/css/modules/base.css:135-137`
+- **Previous behavior:** `.legal-section h2` and the global `h3` rule both used `var(--fs-07)` (1.25rem), so the `h3` subsections present in `privacy.html` and `cookies.html` rendered at the same size as their parent headings. The current `terms.html` contains `.legal-section` sections with `h2` headings but no `h3` subsection.
+- **Previous impact:** The affected legal-document hierarchy was visually flat, making the subsection structure harder to scan even though the underlying semantics were correct.
+- **Resolution (PH4-03, 2026-08-17):** Added a local `.legal-section h3` rule using the adjacent lower token `var(--fs-06)`. `.legal-section h2` remains `var(--fs-07)`, while the global `h3` rule and typography tokens remain unchanged. No legal-document markup or wording was modified.
+- **Verification:** `npm run build:css` passed and regenerated `assets/css/style.min.css`; `npm run qa:budget` passed at 10.60 KB / 11.72 KB for CSS and 15.98 KB / 17.58 KB for the JavaScript module graph; `git diff --check` passed. Static inspection confirmed four affected `h3` subsections in each of `privacy.html` and `cookies.html`, and none in `terms.html`.
 
 ### [P2-03] Heading level skips from `h1` to `h3` on the three system pages — Resolved
 

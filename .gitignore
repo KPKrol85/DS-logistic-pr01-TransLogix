@@ -62,6 +62,12 @@ Thumbs.db
 Desktop.ini
 *:Zone.Identifier
 
+# Test and report output
+
+/test-results/
+/playwright-report/
+/.lighthouseci/
+
 # ─────────────────────────────────────────────
 # Intentionally tracked — do not ignore:
 #

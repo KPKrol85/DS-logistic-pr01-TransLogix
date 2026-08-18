@@ -19,6 +19,7 @@ All significant changes to this project are documented in this file.
 
 ### Build and Tooling
 
+- Migrated performance-budget validation to the current Vite production package: `qa:budget` now rebuilds `dist/`, discovers all emitted CSS and JavaScript through the generated manifest, sums actual gzip sizes against the retained 12000 B and 18000 B limits, and replaces the obsolete pre-Vite build and tracked `.min` paths.
 - Migrated the primary development and production workflow to Vite with explicit 12-page MPA inputs, development-time runtime partials, production-time partial inlining, versioned CSS/JS output, and controlled copying of static deployment resources into `dist/`.
 - Added an explicit repository line-ending policy that normalizes project text to LF, keeps Windows batch files CRLF, excludes tracked binary image, font and icon formats from text normalization, and removes CRLF-only status noise.
 - Standardized the repository ignore rules to exclude dependencies, the generated `dist/` output, test and report artifacts, local agent worktrees, `.netlify` files, environment files, logs, and editor or operating system metadata, while keeping `assets/` and `package-lock.json` tracked.

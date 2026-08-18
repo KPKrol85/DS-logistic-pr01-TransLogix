@@ -1,13 +1,13 @@
 # TransLogix — Development Plan
 
-**Last reviewed:** 2026-08-16
-**Project type:** Static multi-page website (vanilla HTML, modular CSS, ES modules) with a dependency-free Node build, Netlify static-hosting configuration, service worker and web manifest
+**Last reviewed:** 2026-08-18
+**Project type:** Static multi-page website (vanilla HTML, modular CSS, ES modules) with a Vite production build, Netlify static-hosting configuration, service worker and web manifest
 **Plan status:** Active
 
 ## Planning principles
 
 - The plan reflects the current verified state of the repository, not earlier documentation.
-- Source files are canonical; `dist/`, `assets/css/style.min.css` and `assets/js/main.min.js` are generated and are never edited directly.
+- Source files are canonical; the generated `dist/` package is never edited directly.
 - A main item is checked only when every required subtask and its completion condition are satisfied.
 - Completed significant changes are recorded separately in `CHANGELOG.md`.
 - Findings converted from `daily-AUDIT.md` carry their source identifier for traceability.
@@ -166,6 +166,16 @@
   - [x] pass `npx playwright test tests/e2e/service-worker-offline.spec.js` against the current Vite-built package
   - **Completion condition:** the Vite build writes the current generated CSS/JavaScript paths into `dist/sw.js`, and the focused offline service-worker test passes
 
+- [x] **PH5-07 — Align performance budgets with Vite production output** — **Priority:** Medium
+  - [x] inspect the current Vite production CSS and JavaScript assets and their gzip sizes
+  - [x] discover production assets dynamically from the generated Vite manifest without hardcoded hashes
+  - [x] migrate the 12000 B CSS gzip budget to the aggregate Vite CSS output
+  - [x] migrate the 18000 B JavaScript gzip budget from the source module graph to the aggregate Vite JavaScript output
+  - [x] make `npm run qa:budget` build and check the current production package deterministically
+  - [x] remove the legacy budget/build commands, scripts, tracked `.min` files and CLI dependency after confirming they have no active consumer
+  - [x] pass the focused Vite build, positive budget check, empty-group failure check, Node syntax check and diff validation
+  - **Completion condition:** the current Vite production CSS and JavaScript pass their retained gzip limits through hash-independent manifest discovery, and no obsolete pre-Vite budget path remains active
+
 ## Phase 6 — Release verification
 
 **Goal:** Confirm the full quality suite on a clean dependency install and settle the release record.
@@ -188,7 +198,7 @@
 ## Optional future improvements
 
 - [ ] **O-01 — Add a package-level smoke check for the built output**
-  - **Value:** `scripts/check-local-links.js` and `scripts/verify-assets.js` both resolve against the repository root, which is why every check passed while `thankyou.html` was missing from `dist/`; a check resolving form actions, precache entries, canonical URLs and sitemap entries against the package would keep the hand-maintained file list in `scripts/build-dist.js` honest
+  - **Value:** `scripts/check-local-links.js` and `scripts/verify-assets.js` both resolve against the repository root, which is why every check passed while `thankyou.html` was missing from `dist/`; a check resolving form actions, precache entries, canonical URLs and sitemap entries against the package would verify the Vite MPA and static deployment path configuration directly
   - **Scope boundary:** non-blocking hardening; the existing checks are correct within the source layer they target
   - **Source:** `daily-AUDIT.md` — Extra quality improvements
 

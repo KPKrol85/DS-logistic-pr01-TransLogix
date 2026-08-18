@@ -14,6 +14,7 @@ import { initLightbox } from "./lightbox.js";
 import { initServicesFilters } from "./services-filters.js";
 import { initServiceDetail } from "./service-detail.js";
 import { initFooterStats } from "./stats.js";
+import { initDeferredMap } from "./deferred-map.js";
 
 await initPartials();
 
@@ -31,6 +32,7 @@ initFleetCardGalleries();
 initLightbox();
 initServicesFilters();
 initServiceDetail();
+initDeferredMap();
 
 initFooterStats();
 

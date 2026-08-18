@@ -98,12 +98,29 @@
                 <strong>Email:</strong>
                 kontakt@kp-code.pl
               </p>
-              <div class="map-embed">
-                <iframe
-                  title="Mapa dojazdu do ul. Marynarki Wojennej 12, 33-100 Tarnow"
-                  src="https://www.google.com/maps?q=ul.+Marynarki+Wojennej+12,+33-100+Tarn%C3%B3w,+Polska&output=embed"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <div
+                class="map-embed"
+                data-deferred-map
+                data-map-src="https://www.google.com/maps?q=ul.+Marynarki+Wojennej+12,+33-100+Tarn%C3%B3w,+Polska&amp;output=embed"
+                data-map-title="Mapa dojazdu do ul. Marynarki Wojennej 12, 33-100 Tarnow">
+                <div class="map-embed__placeholder" data-map-placeholder>
+                  <h3>Mapa dojazdu</h3>
+                  <p class="text-muted" id="map-disclosure">
+                    Mapa nie jest ładowana automatycznie. Wybranie przycisku lub odnośnika poniżej nawiąże połączenie z zewnętrzną usługą Google Maps.
+                  </p>
+                  <div class="map-embed__actions">
+                    <button class="cta cta--primary map-embed__activate" type="button" data-map-activate aria-describedby="map-disclosure" hidden>Wyświetl mapę Google</button>
+                    <a
+                      class="btn"
+                      href="https://www.google.com/maps?q=ul.+Marynarki+Wojennej+12,+33-100+Tarn%C3%B3w,+Polska"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-describedby="map-disclosure">
+                      Otwórz lokalizację w Google Maps
+                    </a>
+                  </div>
+                </div>
+                <div class="map-embed__target" data-map-target></div>
               </div>
             </div>
             <div class="stack contact-panel" id="quote">

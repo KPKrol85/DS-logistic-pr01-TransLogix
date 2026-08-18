@@ -1,6 +1,56 @@
 const { test, expect } = require('@playwright/test');
 const { grantSiteConsent } = require('./helpers/site-consent');
 
+const GOOGLE_MAP_URL = 'https://www.google.com/maps?q=ul.+Marynarki+Wojennej+12,+33-100+Tarn%C3%B3w,+Polska&output=embed';
+
+test('loads Google Maps only after dedicated keyboard activation', async ({ page }) => {
+  const googleMapRequests = [];
+
+  page.on('request', (request) => {
+    if (request.url().startsWith('https://www.google.com/maps')) {
+      googleMapRequests.push(request.url());
+    }
+  });
+
+  await page.route('https://www.google.com/maps**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'text/html',
+      body: '<!doctype html><title>Stub Google Maps</title>',
+    });
+  });
+
+  await grantSiteConsent(page);
+  await page.goto('/contact.html');
+
+  const mapComponent = page.locator('[data-deferred-map]');
+  const activateButton = page.getByRole('button', { name: 'Wyświetl mapę Google' });
+
+  await expect(mapComponent.locator('iframe')).toHaveCount(0);
+  await expect(activateButton).toBeVisible();
+  await expect(activateButton).toBeEnabled();
+  expect(googleMapRequests).toHaveLength(0);
+  const placeholderHeight = await mapComponent.evaluate((element) => element.getBoundingClientRect().height);
+
+  const mapRequest = page.waitForRequest((request) => request.url() === GOOGLE_MAP_URL);
+  await activateButton.focus();
+  await expect(activateButton).toBeFocused();
+  await activateButton.press('Enter');
+
+  const requestedMap = await mapRequest;
+  expect(requestedMap.url()).toBe(GOOGLE_MAP_URL);
+  const mapFrame = mapComponent.locator('iframe');
+  await expect(mapFrame).toHaveAttribute('src', GOOGLE_MAP_URL);
+  await expect(mapFrame).toHaveAttribute('title', 'Mapa dojazdu do ul. Marynarki Wojennej 12, 33-100 Tarnow');
+  await expect(mapFrame).toHaveAttribute('loading', 'lazy');
+  await expect(mapFrame).toHaveAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+  await expect(mapFrame).not.toBeFocused();
+  await expect.poll(() => googleMapRequests.length).toBe(1);
+
+  const loadedHeight = await mapComponent.evaluate((element) => element.getBoundingClientRect().height);
+  expect(Math.abs(loadedHeight - placeholderHeight)).toBeLessThanOrEqual(1);
+});
+
 test.describe('Contact form smoke', () => {
   test('shows validation feedback for required fields on empty submit', async ({ page }) => {
     await grantSiteConsent(page);

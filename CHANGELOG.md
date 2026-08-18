@@ -50,6 +50,7 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Deferred the Contact page's Google Maps embed until a dedicated visitor action and synchronized the privacy and cookies policies with the conditional loading behavior.
 - Aligned the production service-worker precache with Vite by deriving the current versioned CSS and JavaScript paths from each build, generating `dist/sw.js` from the canonical source, and advancing the cache to `translogix-static-v4`.
 - Removed the unused `templates/partials/` and `assets/data/jsonld/` copies, leaving `partials/` and inline HTML JSON-LD as the respective canonical sources and aligning source-file discovery in QA tooling.
 - Rewrote the privacy policy, cookie policy, and terms of service as complete documents adapted from the KP_Code legal templates, aligning the disclosures with the site's actual behavior (Netlify-hosted form handling, embedded Google map, browser-only pricing calculators, browser storage keys, no analytics), stating that TransLogix is a fictional brand presented in a demonstration project, and removing the embedded template comments and unresolved variants from the published pages.

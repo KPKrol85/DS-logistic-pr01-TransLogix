@@ -212,8 +212,13 @@
   - **Scope boundary:** non-blocking hardening; the existing checks are correct within the source layer they target
   - **Source:** `daily-AUDIT.md` — Extra quality improvements
 
-- [ ] **O-02 — Load the embedded map only after an explicit visitor action**
-  - **Value:** `contact.html` loads a Google Maps `iframe` on page load while the rest of the site ships no third-party requests; deferring the embed would match the no-tracking-before-consent posture the project demonstrates
+- [x] **O-02 — Load the embedded map only after an explicit visitor action**
+  - [x] remove the automatically loaded Google Maps iframe from the initial Contact page markup
+  - [x] require a dedicated explicit visitor action before creating the embedded map
+  - [x] provide an accessible local placeholder while preserving the map area's layout
+  - [x] synchronize the Google Maps disclosures in the privacy and cookies policies
+  - [x] cover no request before activation and the intercepted request after activation in the focused Contact regression test
+  - **Value:** `contact.html` previously loaded a Google Maps `iframe` on page load while the rest of the site ships no third-party requests; deferring the embed matches the no-tracking-before-consent posture the project demonstrates
   - **Scope boundary:** non-blocking product decision; the current behavior is disclosed in the legal documents rather than hidden
   - **Source:** `daily-AUDIT.md` — Extra quality improvements
 

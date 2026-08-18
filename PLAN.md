@@ -185,9 +185,13 @@
   - [x] pass the focused Vite build, positive budget check, empty-group failure check, Node syntax check and diff validation
   - **Completion condition:** the current Vite production CSS and JavaScript pass their retained gzip limits through hash-independent manifest discovery, and no obsolete pre-Vite budget path remains active
 
-- [ ] **PH5-08 — Align the `aria-current` end-to-end test with the Vite package** — **Priority:** High
-  - **Observed failure:** `npm run release-check` and one focused `npm run test:e2e` retry both finished with 12/13 tests passing; `tests/e2e/aria-current.spec.js` failed while importing `/assets/js/aria-current.js`
-  - **Evidence:** Playwright serves the generated `dist/` package, where Vite bundles the source module into a versioned production asset, so `page.evaluate()` reports `Failed to fetch dynamically imported module: http://127.0.0.1:8080/assets/js/aria-current.js`
+- [x] **PH5-08 — Align the `aria-current` end-to-end test with the Vite package** — **Priority:** High
+  - [x] remove the direct dependency on the source-only `/assets/js/aria-current.js` module from the test
+  - [x] exercise observable current-page marking through the normal bundled bootstrap in the generated production package
+  - [x] retain root, extensionless and `.html` pathname coverage together with the exactly-one-link and fragment-link exclusions
+  - [x] pass the focused Playwright test (1/1) and the canonical `npm run test:e2e` suite (13/13)
+  - **Previous failure:** `npm run release-check` and one focused `npm run test:e2e` retry both finished with 12/13 tests passing because `tests/e2e/aria-current.spec.js` imported `/assets/js/aria-current.js`
+  - **Root cause:** Playwright serves the generated `dist/` package, where Vite bundles the source module into a versioned production asset, so the source-only URL was not part of the production-package contract
   - **Completion condition:** the test exercises current-page marking through the production package without depending on a source-only module URL, retains coverage for extensionless and `.html` routes, and the canonical `npm run test:e2e` command passes
   - **Source:** PH6-01 clean-install release verification (2026-08-18)
 

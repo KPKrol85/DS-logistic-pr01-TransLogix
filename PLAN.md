@@ -113,9 +113,11 @@
   - **Completion condition:** `h3` subsections in the legal documents render visually below their parent `h2`
   - **Source:** `daily-AUDIT.md` — P2-02
 
-- [ ] **PH4-04 — Correct shared-header link names in the production package** — **Priority:** High
-  - **Observed failure:** Lighthouse reported `link-name` and `link-text` assertion scores of 0 on all five audited URLs, keeping every SEO category score at 0.92
-  - **Evidence:** the shared brand link has empty logo alternatives while its text is removed from the accessibility tree by the production styles, and the separate home navigation link is reported with the generic text `Start`
+- [x] **PH4-04 — Correct shared-header link names in the production package** — **Priority:** High
+  - [x] give the canonical header brand link the single accessible name `TransLogix — strona główna`, while retaining empty alternatives for both decorative logo variants and the unchanged hidden visual text
+  - [x] replace the generic `Start` wording with `Strona główna` in the canonical header and footer navigation, preserving the home destination and current-page behavior
+  - [x] rebuild the Vite package, verify the responsive header and `aria-current` behavior, and confirm `link-name` and `link-text` scores of 1 on all five configured Lighthouse URLs
+  - **Resolved outcome (2026-08-18):** the PH4-04 target audits and SEO category pass on all five URLs; the overall Lighthouse assertion command still exits with code 1 only for the separately scoped `PH5-10`, `PH5-11` and `PH5-12` findings
   - **Completion condition:** the built shared header gives the brand link a discernible accessible name, gives the home navigation target descriptive link text, preserves the visual design, and passes the Lighthouse `link-name` and `link-text` audits on all configured URLs
   - **Source:** PH6-01 clean-install release verification (2026-08-18)
 

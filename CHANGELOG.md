@@ -35,6 +35,7 @@ All significant changes to this project are documented in this file.
 
 ### Fixed
 
+- Gave the shared header brand link one explicit accessible home-page name and replaced generic `Start` home links in the shared header and footer with `Strona główna`, passing the Lighthouse `link-name` and `link-text` audits without changing the visual header design.
 - Consolidated the services price-range handling inside its initializer and synchronized the visible label immediately with restored filter state.
 - Fixed the build package configuration to include `thankyou.html`, so the contact-form confirmation route is present in `dist/`.
 - Consolidated the contact form on the verified `thankyou.html` redirect by removing the unreachable inline `?success=1` confirmation path.

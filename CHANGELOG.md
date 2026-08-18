@@ -31,6 +31,7 @@ All significant changes to this project are documented in this file.
 ### Testing
 
 - Added a Playwright end-to-end suite covering the contact form, fleet lightbox, mobile navigation, the offline page, the service worker offline fallback, and services filtering, with a `pretest:e2e` hook running the local link check first.
+- Completed the PH6-01 clean-install release verification, recording the passing source, accessibility, asset, budget and package gates together with the deterministic Vite-package E2E failure, five-URL Lighthouse results and separately scoped follow-up work.
 
 ### Fixed
 

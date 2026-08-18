@@ -113,6 +113,12 @@
   - **Completion condition:** `h3` subsections in the legal documents render visually below their parent `h2`
   - **Source:** `daily-AUDIT.md` — P2-02
 
+- [ ] **PH4-04 — Correct shared-header link names in the production package** — **Priority:** High
+  - **Observed failure:** Lighthouse reported `link-name` and `link-text` assertion scores of 0 on all five audited URLs, keeping every SEO category score at 0.92
+  - **Evidence:** the shared brand link has empty logo alternatives while its text is removed from the accessibility tree by the production styles, and the separate home navigation link is reported with the generic text `Start`
+  - **Completion condition:** the built shared header gives the brand link a discernible accessible name, gives the home navigation target descriptive link text, preserves the visual design, and passes the Lighthouse `link-name` and `link-text` audits on all configured URLs
+  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+
 ## Phase 5 — Source-of-truth and QA contracts
 
 **Goal:** Remove duplicated sources of truth and close the coverage gaps that let the packaging defect pass every existing check.
@@ -179,16 +185,52 @@
   - [x] pass the focused Vite build, positive budget check, empty-group failure check, Node syntax check and diff validation
   - **Completion condition:** the current Vite production CSS and JavaScript pass their retained gzip limits through hash-independent manifest discovery, and no obsolete pre-Vite budget path remains active
 
+- [ ] **PH5-08 — Align the `aria-current` end-to-end test with the Vite package** — **Priority:** High
+  - **Observed failure:** `npm run release-check` and one focused `npm run test:e2e` retry both finished with 12/13 tests passing; `tests/e2e/aria-current.spec.js` failed while importing `/assets/js/aria-current.js`
+  - **Evidence:** Playwright serves the generated `dist/` package, where Vite bundles the source module into a versioned production asset, so `page.evaluate()` reports `Failed to fetch dynamically imported module: http://127.0.0.1:8080/assets/js/aria-current.js`
+  - **Completion condition:** the test exercises current-page marking through the production package without depending on a source-only module URL, retains coverage for extensionless and `.html` routes, and the canonical `npm run test:e2e` command passes
+  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+
+- [ ] **PH5-09 — Assess the clean-install dependency advisories** — **Priority:** Medium
+  - **Observed issue:** lockfile-controlled `npm ci` reported 20 audit findings (5 moderate and 15 high) in the installed build and QA dependency graph
+  - **Scope:** map the advisories to direct and transitive development dependencies, determine their actual exposure in this static-site toolchain, and perform any justified minimal lockfile-controlled remediation as a separate dependency task
+  - **Completion condition:** a current `npm audit` has no unresolved findings, or every remaining finding has an explicit evidence-based risk decision, and the complete release gate still passes after any approved dependency changes
+  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+
+- [ ] **PH5-10 — Reconcile Lighthouse assertions that cannot produce a score** — **Priority:** Medium
+  - **Observed failure:** the retained `lighthouse:no-pwa` preset asserted `minScore` for `lcp-lazy-loaded`, `prioritize-lcp-image` and `non-composited-animations`, while Lighthouse returned no value (`NaN`, `scoreDisplayMode: error`) for each audit on all five URLs
+  - **Scope:** review the preset against the pinned LHCI/Lighthouse behavior and change only assertions that are demonstrably unsupported or inapplicable, preserving the existing category thresholds and every applicable audit
+  - **Completion condition:** all five reports are still collected from `dist/`, applicable assertions remain enforced, and unavailable audits no longer turn a successful collection into an uninformative hard failure
+  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+
+- [ ] **PH5-11 — Optimize fleet image delivery in the production package** — **Priority:** High
+  - **Observed failure:** the mobile Lighthouse audit for `/fleet.html` scored 0.75 for performance with a 5,194 KiB transfer, 11.0 s LCP and 11.4 s Time to Interactive; 16 JPEGs failed optimized/modern-format checks and 20 images exposed 4,720 KiB of responsive-sizing savings
+  - **Related evidence:** the same card-image delivery produced two responsive-sizing findings and 37 KiB of potential savings on the home page
+  - **Completion condition:** the built fleet and home card/gallery paths deliver right-sized modern image resources without eagerly transferring full-size lightbox media, while preserving the AVIF/WebP/JPG fallback and gallery behavior; the related Lighthouse image assertions pass and the fleet category reaches the configured performance threshold
+  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+
+- [ ] **PH5-12 — Avoid eager transfer of hidden and offscreen shared images** — **Priority:** Medium
+  - **Observed failure:** Lighthouse reported offscreen-image savings on `/` (3 KiB), `/services.html` (78 KiB), `/contact.html` (3 KiB) and `/pricing.html` (194 KiB), led by the hidden dark logo variant and below-fold social or theme icons
+  - **Completion condition:** non-visible theme variants and below-fold shared imagery are not transferred before use where avoidable, the four affected URLs pass the offscreen-image audit, and theme, footer, accessibility and no-JavaScript behavior remain unchanged
+  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+
 ## Phase 6 — Release verification
 
 **Goal:** Confirm the full quality suite on a clean dependency install and settle the release record.
 
-- [ ] **PH6-01 — Run the complete `release-check` suite on a clean install** — **Priority:** Medium
-  - [ ] install dependencies from `package-lock.json` (`node_modules/` is absent from the working copy)
-  - [ ] run `npm run release-check`, covering `qa:html`, `qa:jsonld`, `qa:links`, `qa:a11y`, `assets:verify`, `qa:budget` and `test:e2e`
-  - [ ] run `npm run qa:lighthouse` separately, since it is not part of `release-check`
-  - [ ] record every failure as a new plan item under the phase that owns the affected area
-  - **Completion condition:** the four checks never executed during the current audit cycle (`qa:html`, `qa:a11y`, `qa:lighthouse`, `test:e2e`) have a recorded outcome on the current tree
+- [x] **PH6-01 — Run the complete `release-check` suite on a clean install** — **Priority:** Medium
+  - [x] install dependencies from `package-lock.json`; the first sandboxed attempt failed with cache-access `EPERM`, while the one justified retry completed successfully without changing `package.json` or `package-lock.json`
+  - [x] run `npm run release-check`, covering `qa:html`, `qa:jsonld`, `qa:links`, `qa:a11y`, `assets:verify`, `qa:budget`, `qa:package` and `test:e2e`
+    - `qa:html`, `qa:jsonld`, `qa:links`, `qa:a11y` (12/12 URLs), `assets:verify`, `qa:budget` and `qa:package` passed
+    - `test:e2e` failed deterministically at 12/13 tests; one focused retry reproduced the source-only `/assets/js/aria-current.js` import failure recorded as `PH5-08`
+    - the initial `qa:a11y` server start reported transient `EADDRINUSE`, but all configured Pa11y URLs completed with zero errors and the aggregate continued
+  - [x] complete `npm run qa:lighthouse` separately, since it is not part of `release-check`
+    - the Vite production build, collection and temporary-public-storage upload passed for all five configured URLs; assertions then returned exit code 1
+    - category scores (performance/accessibility/best practices/SEO) were: `/` 0.94/0.96/1.00/0.92; `/services.html` 0.97/0.97/1.00/0.92; `/contact.html` 0.99/0.96/1.00/0.92; `/fleet.html` 0.75/0.96/1.00/0.92; `/pricing.html` 0.99/0.97/1.00/0.92
+    - deterministic assertion findings are recorded as `PH4-04`, `PH5-10`, `PH5-11` and `PH5-12`; category and metric warnings without a separate root cause remain recorded evidence rather than duplicate tasks
+  - [x] record deterministic unresolved quality issues as new plan items under the phase that owns the affected area (`PH4-04`, `PH5-08` through `PH5-12`)
+  - **Current outcome (2026-08-18):** complete — every intended current-tree gate has a recorded result; `release-check` and Lighthouse assertions both returned exit code 1, and all deterministic unresolved issues were separated from transient environment failures and warnings
+  - **Completion condition:** a lockfile-controlled clean install completes without manifest changes; the canonical `release-check` has a recorded result for every current gate; the standalone Lighthouse build, five-URL collection, scores, warnings and assertions have a current-tree result; and deterministic unresolved issues are captured as separate plan work
   - **Depends on:** `PH1-01`, `PH2-01`
   - **Source:** `daily-AUDIT.md` — Verification performed
 

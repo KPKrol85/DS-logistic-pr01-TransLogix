@@ -93,6 +93,7 @@ export async function initServicesFilters() {
   const container = document.getElementById("services-list");
   const chips = document.querySelectorAll(".filters .filter-chip");
   const priceRange = document.getElementById("priceRange");
+  const priceValue = document.getElementById("priceValue");
   const sortSelect = document.getElementById("sort");
   const countEl = document.getElementById("results-count");
   if (!container || !chips.length) return;
@@ -145,8 +146,10 @@ export async function initServicesFilters() {
 
   if (priceRange) {
     priceRange.value = state.price;
+    if (priceValue) priceValue.textContent = priceRange.value;
     priceRange.addEventListener("input", () => {
       state.price = Number(priceRange.value);
+      if (priceValue) priceValue.textContent = priceRange.value;
       update();
     });
   }
@@ -160,15 +163,4 @@ export async function initServicesFilters() {
   }
 
   update();
-}
-
-const priceRange = document.getElementById("priceRange");
-const priceValue = document.getElementById("priceValue");
-
-if (priceRange && priceValue) {
-  priceValue.textContent = priceRange.value;
-
-  priceRange.addEventListener("input", () => {
-    priceValue.textContent = priceRange.value;
-  });
 }

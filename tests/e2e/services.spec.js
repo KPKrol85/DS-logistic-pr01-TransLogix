@@ -41,3 +41,24 @@ test('services filters update visible results', async ({ page }) => {
   await expect(cards).toHaveCount(filteredCount);
   await expect(page.getByRole('heading', { name: 'ADR Polska' })).toBeVisible();
 });
+
+test('services price label follows restored and changed range values', async ({ page }) => {
+  await grantSiteConsent(page);
+  await page.addInitScript(() => {
+    window.sessionStorage.setItem(
+      'translogix-services-filters',
+      JSON.stringify({ filter: 'all', price: 4500, sort: 'none' }),
+    );
+  });
+  await page.goto('/services.html');
+
+  const priceRange = page.locator('#priceRange');
+  const priceValue = page.locator('#priceValue');
+
+  await expect(priceRange).toHaveValue('4500');
+  await expect(priceValue).toHaveText('4500');
+
+  await priceRange.fill('6500');
+
+  await expect(priceValue).toHaveText('6500');
+});

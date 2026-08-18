@@ -217,7 +217,11 @@
   - **Scope boundary:** non-blocking product decision; the current behavior is disclosed in the legal documents rather than hidden
   - **Source:** `daily-AUDIT.md` — Extra quality improvements
 
-- [ ] **O-03 — Move the price-label handler inside `initServicesFilters()`**
+- [x] **O-03 — Move the price-label handler inside `initServicesFilters()`**
+  - [x] remove the module-scope price-range lookup and label handler
+  - [x] keep one initialization-owned input handler for price state, label and results updates
+  - [x] synchronize the visible price label with restored filter state during initialization
+  - [x] verify restored and changed range values with focused Playwright coverage
   - **Value:** `assets/js/services-filters.js` registers an `input` listener at module scope, duplicating the range handler already registered inside the init function; moving it would match the pattern used by every other module
   - **Scope boundary:** non-blocking cleanup; the current code works because the module loads after the markup is parsed
   - **Source:** `daily-AUDIT.md` — Extra quality improvements

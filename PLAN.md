@@ -133,11 +133,14 @@
   - **Completion condition:** no asset reference in markup or data files points at a missing file, and the extended check fails when one does
   - **Source:** `daily-AUDIT.md` — P2-04
 
-- [ ] **PH5-03 — Point Lighthouse CI at the deployable package** — **Priority:** Medium
-  - [ ] change `staticDistDir` in `lighthouserc.json` from the repository root to the build output, matching the e2e configuration in `playwright.config.js`
-  - [ ] confirm the five collected URLs resolve inside the package after `npm run build`
-  - [ ] update the `lighthouserc.json` description in `README.md` (PL and EN sections) to state the new collection source
-  - **Completion condition:** Lighthouse CI measures the same layer that is deployed, with the minified CSS and inlined partials
+- [x] **PH5-03 — Point Lighthouse CI at the deployable package** — **Priority:** Medium
+  - [x] change `staticDistDir` in `lighthouserc.json` from the repository root to `dist/`, matching the Vite package served by the e2e configuration in `playwright.config.js`
+  - [x] make the standalone `qa:lighthouse` workflow rebuild `dist/` before Lighthouse collection
+  - [x] confirm the five collected URLs resolve inside the package after `npm run build`
+  - [x] preserve one run, mobile execution, `lighthouse:no-pwa`, the category warning thresholds and temporary public storage upload; replace the unsupported `preset: "mobile"` value with the current Lighthouse-compatible `formFactor: "mobile"`
+  - [x] run `npm run qa:lighthouse` and record its focused outcome: all five URLs were collected and uploaded, while retained `lighthouse:no-pwa` audit failures made the assertion step exit with code 1
+  - [x] update the `lighthouserc.json` description in `README.md` (PL and EN sections) to state the new collection source
+  - **Completion condition:** Lighthouse CI measures the deployed Vite layer, including Vite-processed production CSS/JavaScript and build-time inlined partials
   - **Source:** `daily-AUDIT.md` — P2-08
 
 - [x] **PH5-04 — Declare a line-ending policy for the repository** — **Priority:** Low

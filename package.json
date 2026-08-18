@@ -17,7 +17,7 @@
     "qa:links": "node scripts/check-local-links.js",
     "qa:a11y": "start-server-and-test \"http-server . -p 8080\" http://127.0.0.1:8080 \"pa11y-ci --config .pa11yci.json\"",
     "qa:budget": "npm run build && node scripts/check-budgets.js",
-    "qa:lighthouse": "npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json",
+    "qa:lighthouse": "npm run build && npx --yes @lhci/cli@0.14.0 autorun --config=./lighthouserc.json",
     "qa": "npm run qa:html && npm run qa:jsonld && npm run qa:links && npm run qa:a11y",
     "release-check": "npm run qa && npm run assets:verify && npm run qa:budget && npm run test:e2e",
     "test:e2e": "playwright test",

@@ -126,13 +126,14 @@ The remaining findings include a contradiction in the published footer statistic
 - **Impact:** The main offer page — indexable and listed in the sitemap — has no content for non-executing clients; combined with [P1-01] this page would be empty twice over.
 - **Recommended direction:** Provide a static baseline list or a `noscript` message so the offer page is never empty.
 
-### [P2-08] Lighthouse CI audits the source root instead of the deployable package
+### [P2-08] Lighthouse CI audits the source root instead of the deployable package — Resolved
 
 - **Classification:** Contract mismatch
-- **Evidence:** `lighthouserc.json:4` (`"staticDistDir": "."`), `playwright.config.js:24-28` (`npm run build && npx http-server dist`)
-- **Current behavior:** The e2e suite runs against the built `dist/`, while Lighthouse CI collects from the repository root, where pages load the unminified `style.css` with eight `@import` requests and fetch the header and footer at runtime.
-- **Impact:** Performance, best-practice and SEO scores describe a layer that is never deployed, so the assertion thresholds do not measure the shipped package.
-- **Recommended direction:** Point the Lighthouse collection at the build output, consistent with the e2e configuration.
+- **Historical evidence:** `lighthouserc.json:4` (`"staticDistDir": "."`), `playwright.config.js:24-28` (`npm run build && npx http-server dist`)
+- **Previous behavior:** The e2e suite ran against the built `dist/`, while Lighthouse CI collected from the repository root, where pages loaded the unminified `style.css` with eight `@import` requests and fetched the header and footer at runtime.
+- **Previous impact:** Performance, best-practice and SEO scores described a layer that was never deployed, so the assertion thresholds did not measure the shipped package.
+- **Resolution (PH5-03, 2026-08-18):** Changed Lighthouse's static source to `dist/` and made `qa:lighthouse` run the Vite build before autorun, so Lighthouse, Playwright and deployment now use the same Vite-generated CSS/JavaScript and build-time inlined partials. Preserved the five URLs, one run, `lighthouse:no-pwa`, category thresholds and temporary public storage; the unsupported `preset: "mobile"` value was minimally replaced by the current Lighthouse-compatible `formFactor: "mobile"`.
+- **Verification:** `npm run build` passed, and `/`, `/services.html`, `/contact.html`, `/fleet.html` and `/pricing.html` each returned HTTP 200 from a server rooted at `dist/`. `npm run qa:lighthouse` rebuilt the package, collected and uploaded all five URLs, then returned exit code 1 because the retained `lighthouse:no-pwa` preset produced detail-audit assertion failures. Category scores (performance/accessibility/best practices/SEO) were respectively `0.89/0.96/1.00/0.92`, `0.97/0.97/1.00/0.92`, `0.98/0.97/1.00/0.92`, `0.75/0.96/1.00/0.92` and `0.98/0.97/1.00/0.92`; category warnings were limited to performance on `/` and `/fleet.html` and SEO on all five URLs.
 
 ### [P2-09] The contact page carries a second, unreachable success mechanism
 

@@ -166,7 +166,7 @@ Komenda uruchamia produkcyjny podgląd Vite.
 - `npm run qa:links` – sprawdza lokalne odwołania `href` i `src` w stronach katalogu głównego.
 - `npm run qa:a11y` – serwuje projekt przez `http-server . -p 8080` i uruchamia `pa11y-ci` zgodnie z `.pa11yci.json`.
 - `npm run qa:budget` – buduje aktualny pakiet Vite, odczytuje jego manifest i sprawdza zagregowane budżety gzip dla wszystkich wygenerowanych plików CSS (12000 B) i JavaScript (18000 B).
-- `npm run qa:lighthouse` – uruchamia Lighthouse CI zgodnie z `lighthouserc.json`.
+- `npm run qa:lighthouse` – buduje aktualny pakiet produkcyjny Vite w `dist/`, a następnie uruchamia dla niego Lighthouse CI zgodnie z `lighthouserc.json`.
 - `npm run qa` – uruchamia `qa:html`, `qa:jsonld`, `qa:links` i `qa:a11y`.
 - `npm run test:e2e` – uruchamia testy Playwright; hook `pretest:e2e` wykonuje wcześniej `qa:links`.
 - `npm run test:e2e:ui` i `npm run test:e2e:report` – tryb UI Playwrighta i podgląd raportu.
@@ -193,9 +193,9 @@ Skonfigurowane kontrole statyczne:
 - `.htmlvalidate.json` rozszerza `html-validate:recommended` i wymusza styl doctype oraz zapis elementów void.
 - `.pa11yci.json` używa standardu `WCAG2AA` i obejmuje dwanaście adresów serwowanych z katalogu projektu.
 - `perf-budgets.json` ustala logiczne limity produkcyjne gzip: 12000 B łącznie dla CSS i 18000 B łącznie dla JavaScript wykrytych w manifeście bieżącego builda Vite.
-- `lighthouserc.json` używa presetu mobilnego, katalogu `.` jako źródła statycznego i pięciu adresów (`/`, `/services.html`, `/contact.html`, `/fleet.html`, `/pricing.html`); progi kategorii są zdefiniowane jako ostrzeżenia.
+- `lighthouserc.json` używa mobilnej konfiguracji `formFactor`, zgodnej z bieżącym Lighthouse, i zbiera pięć adresów produkcyjnych (`/`, `/services.html`, `/contact.html`, `/fleet.html`, `/pricing.html`) z wygenerowanego przez Vite pakietu `dist/`; progi kategorii pozostają zdefiniowane jako ostrzeżenia.
 
-Powyższe opisy pochodzą z konfiguracji w repozytorium. Komendy nie były uruchamiane podczas przygotowania tej dokumentacji, więc nie potwierdzają wyniku przebiegu.
+Powyższe opisy pochodzą z konfiguracji w repozytorium i same w sobie nie potwierdzają wyniku konkretnego przebiegu.
 
 ### Wdrożenie
 
@@ -448,7 +448,7 @@ The command starts Vite's production preview.
 - `npm run qa:links` – checks local `href` and `src` references in the root pages.
 - `npm run qa:a11y` – serves the project with `http-server . -p 8080` and runs `pa11y-ci` according to `.pa11yci.json`.
 - `npm run qa:budget` – builds the current Vite package, reads its manifest, and checks aggregate gzip budgets for all generated CSS (12000 B) and JavaScript (18000 B) files.
-- `npm run qa:lighthouse` – runs Lighthouse CI according to `lighthouserc.json`.
+- `npm run qa:lighthouse` – builds the current Vite production package in `dist/`, then runs Lighthouse CI against it according to `lighthouserc.json`.
 - `npm run qa` – runs `qa:html`, `qa:jsonld`, `qa:links`, and `qa:a11y`.
 - `npm run test:e2e` – runs the Playwright tests; the `pretest:e2e` hook runs `qa:links` first.
 - `npm run test:e2e:ui` and `npm run test:e2e:report` – Playwright UI mode and report viewer.
@@ -475,9 +475,9 @@ Configured static checks:
 - `.htmlvalidate.json` extends `html-validate:recommended` and enforces the doctype style and void element style.
 - `.pa11yci.json` uses the `WCAG2AA` standard and covers twelve URLs served from the project directory.
 - `perf-budgets.json` sets logical production gzip limits: 12000 B total for CSS and 18000 B total for JavaScript discovered from the current Vite build manifest.
-- `lighthouserc.json` uses the mobile preset, `.` as the static directory, and five URLs (`/`, `/services.html`, `/contact.html`, `/fleet.html`, `/pricing.html`); the category thresholds are defined as warnings.
+- `lighthouserc.json` uses the current Lighthouse-compatible mobile `formFactor` configuration and collects five production URLs (`/`, `/services.html`, `/contact.html`, `/fleet.html`, `/pricing.html`) from the Vite-generated `dist/` package; the category thresholds remain defined as warnings.
 
-These descriptions come from the repository configuration. The commands were not executed while this documentation was prepared, so they do not confirm any run results.
+These descriptions come from the repository configuration and do not by themselves confirm the result of a particular run.
 
 ### Deployment
 

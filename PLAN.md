@@ -157,6 +157,15 @@
   - [x] verify the production layout, representative shared-shell output, development endpoints and focused services behavior
   - **Completion condition:** Vite is the primary development and production workflow, all 12 pages and baseline deployment resources are present in `dist/`, and service-worker, performance-budget and Lighthouse migrations remain separate tasks
 
+- [x] **PH5-06 — Align the service worker precache with Vite build output** — **Priority:** Medium
+  - [x] discover the generated production CSS and JavaScript paths from the current Vite bundle output
+  - [x] integrate the generated asset paths automatically into the production `dist/sw.js` without hardcoded hashes in source
+  - [x] advance the service-worker cache version from `translogix-static-v3` to `translogix-static-v4`
+  - [x] preserve the existing network-first navigation, offline fallbacks, stale-while-revalidate asset handling and cache lifecycle
+  - [x] verify that `dist/sw.js` references the generated files that exist in `dist/` and omits the legacy production CSS/JavaScript paths
+  - [x] pass `npx playwright test tests/e2e/service-worker-offline.spec.js` against the current Vite-built package
+  - **Completion condition:** the Vite build writes the current generated CSS/JavaScript paths into `dist/sw.js`, and the focused offline service-worker test passes
+
 ## Phase 6 — Release verification
 
 **Goal:** Confirm the full quality suite on a clean dependency install and settle the release record.

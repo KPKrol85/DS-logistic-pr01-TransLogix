@@ -77,7 +77,7 @@ JavaScript: `assets/js/theme-init.js` i `assets/js/boot.js` są ładowane jako k
 
 Partiale: podczas developmentu nagłówek i stopka są pobierane przez `fetch` z kanonicznego katalogu `partials/`. Produkcyjny plugin w `vite.config.mjs` wstawia tę samą zawartość bezpośrednio do wszystkich 12 stron w `dist/`, zanim Vite przetworzy odwołania do assetów.
 
-Service worker: `sw.js` używa cache `translogix-static-v3`, stosuje strategię network-first dla nawigacji i stale-while-revalidate dla `/assets/`, a przy braku sieci zwraca `offline.html`, a w dalszej kolejności `404.html`. Podczas aktywacji usuwa cache o innych nazwach.
+Service worker: kanoniczny `sw.js` używa cache `translogix-static-v4`, a plugin Vite generuje `dist/sw.js` z listą aktualnych bundli CSS/JS. Worker stosuje strategię network-first dla nawigacji i stale-while-revalidate dla `/assets/`, a przy braku sieci zwraca `offline.html`, a w dalszej kolejności `404.html`. Podczas aktywacji usuwa cache o innych nazwach.
 
 ### Struktura projektu
 
@@ -182,7 +182,7 @@ Komenda uruchamia produkcyjny podgląd Vite.
 npm run build
 ```
 
-Vite czyści `dist/`, buduje 12 jawnych wejść HTML, przetwarza `assets/css/style.css` przez istniejącą konfigurację PostCSS, bundluje graf modułów od `assets/js/main.js` i nadaje produkcyjnym assetom wersjonowane nazwy. Pluginy projektowe w `vite.config.mjs` wstawiają kanoniczne partiale oraz kopiują pliki hostingu, Service Workera i zasoby wymagające stabilnych ścieżek runtime.
+Vite czyści `dist/`, buduje 12 jawnych wejść HTML, przetwarza `assets/css/style.css` przez istniejącą konfigurację PostCSS, bundluje graf modułów od `assets/js/main.js` i nadaje produkcyjnym assetom wersjonowane nazwy. Pluginy projektowe w `vite.config.mjs` wstawiają kanoniczne partiale, kopiują pliki hostingu i zasoby wymagające stabilnych ścieżek runtime oraz generują `dist/sw.js` z aktualnymi ścieżkami produkcyjnych plików CSS i JavaScript.
 
 `dist/` jest ignorowany przez Git. Śledzone `assets/css/style.min.css` i `assets/js/main.min.js` nie trafiają do podstawowego grafu produkcyjnego Vite; pozostają do czasu osobnej migracji budżetu wydajności.
 
@@ -243,9 +243,9 @@ Bloki JSON-LD osadzone bezpośrednio w stronach są jedynym utrzymywanym źród�
 ### PWA i obsługa offline
 
 - `assets/icons/site.webmanifest` deklaruje `start_url` `/`, tryb `standalone`, kolory motywu, ikony 192 i 512 px (`any maskable`), trzy skróty i dwa screenshoty.
-- `sw.js` precache'uje strony, ikony, `robots.txt` i `sitemap.xml`, a CSS pobiera z fallbackiem `style.min.css` → `style.css`.
+- `sw.js` utrzymuje statyczną listę stron, ikon, `robots.txt` i `sitemap.xml`, a build Vite automatycznie dodaje do produkcyjnego precache'u aktualne wersjonowane pliki CSS i JavaScript.
 - Nawigacje obsługuje strategia network-first z fallbackiem na `offline.html`, a następnie `404.html`; zasoby z `/assets/` obsługuje stale-while-revalidate.
-- Wersjonowanie cache odbywa się przez stałą `CACHE_NAME` (`translogix-static-v3`); podczas aktywacji pozostałe cache są usuwane.
+- Wersjonowanie cache odbywa się przez stałą `CACHE_NAME` (`translogix-static-v4`); podczas aktywacji pozostałe cache są usuwane.
 - Rejestracja service workera następuje tylko dla `https:` lub `localhost`.
 - Zachowanie offline i fallback pokrywają testy `offline.spec.js` oraz `service-worker-offline.spec.js`.
 
@@ -269,7 +269,7 @@ Repozytorium nie zawiera zapisanych wyników pomiarów wydajności.
 - Dane usług są statyczne i pochodzą z `assets/data/services.json`.
 - `localStorage` przechowuje dwa klucze: `translogix-theme` (wybrany motyw) i `kpc_site_terms_accepted_v1` (akceptacja warunków serwisu).
 - Historia wyliczeń kalkulatora jest trzymana w pamięci strony i znika po przeładowaniu.
-- Cache Storage przechowuje zasoby w cache `translogix-static-v3`.
+- Cache Storage przechowuje zasoby w cache `translogix-static-v4`.
 - Formularz kontaktowy wysyła dane metodą POST do obsługi Netlify Forms; repozytorium nie zawiera backendu aplikacyjnego, kont użytkowników ani bazy danych.
 
 ### Utrzymanie projektu
@@ -279,7 +279,7 @@ Repozytorium nie zawiera zapisanych wyników pomiarów wydajności.
 - Zmiany interakcji trzymaj w modułach `assets/js/`, a ich inicjalizację w `assets/js/main.js`.
 - Nagłówek i stopkę edytuj wyłącznie w `partials/` — to jedyne utrzymywane źródło używane przez runtime i produkcyjny plugin Vite.
 - `scripts/build-css.js` zawiera alternatywną implementację builda CSS i nie jest podpięty pod żaden skrypt npm — `build:css` korzysta z `postcss-cli` i `postcss.config.js`.
-- Po zmianie tras lub assetów aktualizuj `PRECACHE_URLS` i podnieś `CACHE_NAME` w `sw.js`, a następnie uruchom `npm run assets:verify`.
+- Po zmianie tras lub statycznych zasobów aktualizuj statyczną część `PRECACHE_URLS` i podnieś `CACHE_NAME` w `sw.js`, a następnie uruchom `npm run assets:verify`; wersjonowane bundle CSS/JS są dodawane do `dist/sw.js` automatycznie przez Vite.
 - Zmiany w adresach stron odzwierciedlaj w `sitemap.xml` i `_redirects`.
 - Istotne zmiany dokumentuj w `CHANGELOG.md`.
 
@@ -364,7 +364,7 @@ JavaScript: `assets/js/theme-init.js` and `assets/js/boot.js` are loaded as clas
 
 Partials: during development the header and footer are fetched from the canonical `partials/` directory. A production plugin in `vite.config.mjs` inlines that same content into all 12 pages in `dist/` before Vite processes asset references.
 
-Service worker: `sw.js` uses the `translogix-static-v3` cache, applies network-first for navigation and stale-while-revalidate for `/assets/`, and when the network is unavailable returns `offline.html`, then `404.html`. On activation it removes caches with other names.
+Service worker: the canonical `sw.js` uses the `translogix-static-v4` cache, and a Vite plugin generates `dist/sw.js` with the current CSS/JS bundle list. The worker applies network-first for navigation and stale-while-revalidate for `/assets/`; when the network is unavailable, it returns `offline.html`, then `404.html`. On activation it removes caches with other names.
 
 ### Project Structure
 
@@ -469,7 +469,7 @@ The command starts Vite's production preview.
 npm run build
 ```
 
-Vite clears `dist/`, builds the 12 explicit HTML inputs, processes `assets/css/style.css` through the existing PostCSS configuration, bundles the module graph rooted at `assets/js/main.js`, and gives production assets versioned names. Project plugins in `vite.config.mjs` inline the canonical partials and copy hosting files, the service worker, and resources that require stable runtime paths.
+Vite clears `dist/`, builds the 12 explicit HTML inputs, processes `assets/css/style.css` through the existing PostCSS configuration, bundles the module graph rooted at `assets/js/main.js`, and gives production assets versioned names. Project plugins in `vite.config.mjs` inline the canonical partials, copy hosting files and resources that require stable runtime paths, and generate `dist/sw.js` with the current production CSS and JavaScript paths.
 
 `dist/` is ignored by Git. The tracked `assets/css/style.min.css` and `assets/js/main.min.js` files are not part of the primary Vite production graph; they remain until the separate performance-budget migration.
 
@@ -530,9 +530,9 @@ The JSON-LD blocks embedded directly in the pages are the only maintained struct
 ### PWA and Offline Support
 
 - `assets/icons/site.webmanifest` declares the `start_url` `/`, `standalone` display, theme colors, 192 and 512 px icons (`any maskable`), three shortcuts, and two screenshots.
-- `sw.js` precaches pages, icons, `robots.txt`, and `sitemap.xml`, and fetches CSS with a `style.min.css` → `style.css` fallback.
+- `sw.js` maintains the static list of pages, icons, `robots.txt`, and `sitemap.xml`, while the Vite build automatically adds the current versioned CSS and JavaScript files to the production precache.
 - Navigation uses a network-first strategy with a fallback to `offline.html`, then `404.html`; resources under `/assets/` use stale-while-revalidate.
-- Cache versioning is handled by the `CACHE_NAME` constant (`translogix-static-v3`); other caches are removed on activation.
+- Cache versioning is handled by the `CACHE_NAME` constant (`translogix-static-v4`); other caches are removed on activation.
 - The service worker is registered only for `https:` or `localhost`.
 - Offline behavior and the fallback are covered by `offline.spec.js` and `service-worker-offline.spec.js`.
 
@@ -556,7 +556,7 @@ The repository contains no stored performance measurement results.
 - Services data is static and comes from `assets/data/services.json`.
 - `localStorage` holds two keys: `translogix-theme` (selected theme) and `kpc_site_terms_accepted_v1` (site terms acceptance).
 - The calculator history is kept in page memory and is lost on reload.
-- Cache Storage holds resources in the `translogix-static-v3` cache.
+- Cache Storage holds resources in the `translogix-static-v4` cache.
 - The contact form POSTs to Netlify Forms handling; the repository contains no application backend, user accounts, or database.
 
 ### Project Maintenance
@@ -566,7 +566,7 @@ The repository contains no stored performance measurement results.
 - Keep interaction changes in the `assets/js/` modules and their initialization in `assets/js/main.js`.
 - Edit the header and footer only in `partials/` — it is the sole maintained source used by the runtime and the production Vite plugin.
 - `scripts/build-css.js` contains an alternative CSS build implementation and is not wired to any npm script — `build:css` uses `postcss-cli` and `postcss.config.js`.
-- After changing routes or assets, update `PRECACHE_URLS` and bump `CACHE_NAME` in `sw.js`, then run `npm run assets:verify`.
+- After changing routes or static assets, update the static portion of `PRECACHE_URLS` and bump `CACHE_NAME` in `sw.js`, then run `npm run assets:verify`; Vite adds the versioned CSS/JS bundles to `dist/sw.js` automatically.
 - Reflect page URL changes in `sitemap.xml` and `_redirects`.
 - Document significant changes in `CHANGELOG.md`.
 

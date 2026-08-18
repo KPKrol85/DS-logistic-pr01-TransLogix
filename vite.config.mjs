@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile } from "node:fs/promises";
+import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { defineConfig } from "vite";
 
@@ -22,7 +22,6 @@ const maintainedPages = [
 const staticDeploymentPaths = [
   "robots.txt",
   "sitemap.xml",
-  "sw.js",
   "_headers",
   "_redirects",
   "assets/data",
@@ -82,6 +81,36 @@ function sharedPartialsPlugin() {
   };
 }
 
+function serviceWorkerPlugin() {
+  const assetPlaceholder = "const VITE_ASSET_URLS = [];";
+
+  return {
+    name: "translogix-service-worker",
+    apply: "build",
+    async writeBundle(outputOptions, bundle) {
+      const outputRoot = resolve(projectRoot, outputOptions.dir || "dist");
+      const generatedAssetUrls = Object.values(bundle)
+        .filter((output) => output.fileName.endsWith(".css") || output.fileName.endsWith(".js"))
+        .map((output) => `/${output.fileName}`)
+        .sort();
+
+      if (generatedAssetUrls.length === 0) {
+        throw new Error("Vite did not emit any CSS or JavaScript assets for the service worker precache.");
+      }
+
+      const serviceWorkerSource = await readFile(resolve(projectRoot, "sw.js"), "utf8");
+      if (!serviceWorkerSource.includes(assetPlaceholder)) {
+        throw new Error("The service worker Vite asset placeholder is missing.");
+      }
+
+      const generatedAssetList = `const VITE_ASSET_URLS = ${JSON.stringify(generatedAssetUrls, null, 2)};`;
+      const productionServiceWorker = serviceWorkerSource.replace(assetPlaceholder, generatedAssetList);
+
+      await writeFile(resolve(outputRoot, "sw.js"), productionServiceWorker, "utf8");
+    },
+  };
+}
+
 function staticDeploymentFilesPlugin() {
   return {
     name: "translogix-static-deployment-files",
@@ -109,7 +138,7 @@ const pageInputs = Object.fromEntries(
 export default defineConfig({
   base: "/",
   publicDir: false,
-  plugins: [sharedPartialsPlugin(), staticDeploymentFilesPlugin()],
+  plugins: [sharedPartialsPlugin(), staticDeploymentFilesPlugin(), serviceWorkerPlugin()],
   build: {
     outDir: "dist",
     emptyOutDir: true,

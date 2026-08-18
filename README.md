@@ -8,7 +8,7 @@ TransLogix to statyczny, wielostronicowy front-end serwisu transportowo-logistyc
 
 Serwis prezentuje realistyczne doświadczenie firmowe, ale jest projektem demonstracyjnym: dokumenty prawne (`terms.html`, `privacy.html`, `cookies.html`) wprost informują, że TransLogix jest marką fikcyjną, a prezentowana firma transportowa nie istnieje.
 
-Repozytorium nie zawiera frameworka front-endowego ani backendu aplikacyjnego. Warstwa źródłowa to strony HTML, modularny CSS i Vanilla JavaScript w modułach ES. Pliki źródłowe są kanoniczne; `dist/`, `assets/css/style.min.css` i `assets/js/main.min.js` powstają w pipeline builda.
+Repozytorium nie zawiera frameworka front-endowego ani backendu aplikacyjnego. Warstwa źródłowa to strony HTML, modularny CSS i Vanilla JavaScript w modułach ES. Pliki źródłowe są kanoniczne, a Vite generuje deployowalny katalog `dist/`; śledzone pliki `assets/css/style.min.css` i `assets/js/main.min.js` pozostają wyłącznie wejściami zgodności dla istniejącego, jeszcze niemigrowanego budżetu wydajności.
 
 Repozytorium: <https://github.com/KPKrol85/DS-logistic-pr01-TransLogix> (adres zadeklarowany w `LICENSE`).
 
@@ -45,6 +45,7 @@ Runtime:
 Build:
 
 - Node.js i npm
+- Vite
 - PostCSS z `postcss-cli`
 - cssnano
 - lokalne pluginy PostCSS w `scripts/postcss-plugins/`
@@ -68,13 +69,13 @@ Hosting:
 
 ### Architektura
 
-Warstwa źródłowa i warstwa generowana są rozdzielone. Źródła to strony HTML w katalogu głównym, `partials/`, `assets/css/modules/`, `assets/js/`, `assets/data/` i `scripts/`. Generowane są `assets/css/style.min.css`, `assets/js/main.min.js` oraz katalog `dist/`.
+Warstwa źródłowa i warstwa generowana są rozdzielone. Źródła to strony HTML w katalogu głównym, `partials/`, `assets/css/modules/`, `assets/js/`, `assets/data/` i `scripts/`. `vite.config.mjs` definiuje wszystkie 12 stron jako jawne wejścia MPA i generuje katalog `dist/` z wersjonowanymi assetami CSS/JS. Śledzone `assets/css/style.min.css` i `assets/js/main.min.js` są zachowane tymczasowo dla istniejącego budżetu wydajności, ale nie są używane przez produkcyjny build Vite.
 
 CSS: `assets/css/style.css` zawiera wyłącznie listę `@import` i ustala kolejność modułów (`settings`, `base`, `layout`, `header`, `footer`, `components`, `utilities`, `pages`). `postcss.config.js` ładuje lokalne pluginy z `scripts/postcss-plugins/`: własną implementację `postcss-import` oraz `autoprefixer-local-noop`, który nie dodaje prefiksów. Minifikację wykonuje cssnano.
 
 JavaScript: `assets/js/theme-init.js` i `assets/js/boot.js` są ładowane jako klasyczne skrypty w `<head>` i ustawiają motyw oraz klasę `js` przed renderem. `assets/js/main.js` jest modułem wejściowym: najpierw wykonuje `await initPartials()`, następnie inicjalizuje pozostałe moduły i na końcu rejestruje service workera (tylko dla `https:` lub `localhost`).
 
-Partiale: w źródłach nagłówek i stopka są pobierane przez `fetch` z `partials/`, dlatego strony źródłowe wymagają serwera HTTP. W buildzie `scripts/build-dist.js` wstawia zawartość partiali bezpośrednio do plików HTML w `dist/` i przepisuje odwołania na wersje minifikowane.
+Partiale: podczas developmentu nagłówek i stopka są pobierane przez `fetch` z kanonicznego katalogu `partials/`. Produkcyjny plugin w `vite.config.mjs` wstawia tę samą zawartość bezpośrednio do wszystkich 12 stron w `dist/`, zanim Vite przetworzy odwołania do assetów.
 
 Service worker: `sw.js` używa cache `translogix-static-v3`, stosuje strategię network-first dla nawigacji i stale-while-revalidate dla `/assets/`, a przy braku sieci zwraca `offline.html`, a w dalszej kolejności `404.html`. Podczas aktywacji usuwa cache o innych nazwach.
 
@@ -97,14 +98,14 @@ Service worker: `sw.js` używa cache `translogix-static-v3`, stosuje strategię 
 ├── assets/
 │   ├── css/
 │   │   ├── style.css           # źródłowy entrypoint z listą @import
-│   │   ├── style.min.css       # generowany plik produkcyjny
+│   │   ├── style.min.css       # zachowane wejście starszego budżetu wydajności
 │   │   └── modules/            # settings, base, layout, header, footer, components, utilities, pages
 │   ├── data/
 │   │   └── services.json       # dane usług
 │   ├── fonts/                  # lokalne fonty woff2
 │   ├── icons/                  # favicony, ikony aplikacji i site.webmanifest
 │   ├── img/                    # obrazy stron, OG, screenshoty i SVG
-│   └── js/                     # moduły ES; main.js jest entrypointem, main.min.js jest generowany
+│   └── js/                     # moduły ES; main.js jest entrypointem Vite
 ├── partials/                   # header.html i footer.html używane przez runtime i build
 ├── scripts/                    # skrypty builda, walidacji i weryfikacji
 │   └── postcss-plugins/        # lokalne pluginy PostCSS
@@ -114,6 +115,7 @@ Service worker: `sw.js` używa cache `translogix-static-v3`, stosuje strategię 
 ├── robots.txt
 ├── sitemap.xml
 ├── sw.js
+├── vite.config.mjs             # Vite MPA, partiale i statyczne pliki wdrożeniowe
 ├── postcss.config.js
 ├── playwright.config.js
 ├── lighthouserc.json
@@ -136,33 +138,31 @@ Zależności deweloperskie są zadeklarowane w `package.json` i zablokowane w `p
 
 ### Development lokalny
 
-Projekt nie ma skryptu `dev`. Strony źródłowe pobierają partiale przez `fetch`, więc należy je serwować przez HTTP — otwarcie pliku bezpośrednio z dysku nie zadziała.
-
-Podgląd źródeł w systemie Windows:
+Uruchom serwer deweloperski Vite:
 
 ```bash
-start-local-server.bat
+npm run dev
 ```
 
-Skrypt uruchamia `python -m http.server 8181` w katalogu projektu.
+Vite serwuje strony źródłowe i kanoniczne partiale przez HTTP, zatem nie należy otwierać stron bezpośrednio przez `file://`.
 
 Podgląd zbudowanego katalogu `dist/`:
 
 ```bash
-npm run preview:dist
+npm run preview
 ```
 
-Komenda uruchamia `http-server dist -p 8182 -c-1`.
+Komenda uruchamia produkcyjny podgląd Vite.
 
 ### Dostępne skrypty
 
-- `npm run build` – alias dla `build:dist`.
-- `npm run build:dist` – uruchamia `build:assets`, a następnie `scripts/build-dist.js`.
+- `npm run dev` – uruchamia serwer deweloperski Vite.
+- `npm run build` – buduje 12-stronicowy pakiet produkcyjny Vite w `dist/`.
+- `npm run preview` – uruchamia lokalny podgląd zawartości `dist/` przez Vite.
 - `npm run build:assets` – uruchamia `build:css` i `build:js`.
-- `npm run build:css` – uruchamia `postcss assets/css/style.css -o assets/css/style.min.css` zgodnie z `postcss.config.js`.
-- `npm run build:js` – uruchamia `scripts/build-js.js`, który usuwa komentarze i puste linie z `assets/js/main.js` i zapisuje wynik do `assets/js/main.min.js`.
+- `npm run build:css` – odświeża starszy plik `assets/css/style.min.css` używany przez niemigrowany budżet wydajności.
+- `npm run build:js` – odświeża starszy plik `assets/js/main.min.js` używany przez niemigrowany budżet wydajności.
 - `npm run clean` – usuwa katalog `dist/`.
-- `npm run preview:dist` – serwuje `dist/` na porcie 8182.
 - `npm run assets:verify` – sprawdza, czy lokalne assety wskazywane w projektowym HTML (w tym przez `srcset` i obsługiwane atrybuty runtime galerii), w plikach JSON pod `assets/data/` oraz w `PRECACHE_URLS` w `sw.js` istnieją.
 - `npm run assets:optimize` – konwertuje pliki JPG i PNG z `assets/img/src_img` do WebP i AVIF w `assets/img/opt_img`; katalog źródłowy nie jest częścią repozytorium, więc bez niego skrypt kończy się bez konwersji.
 - `npm run qa:html` – waliduje `html-validate` strony w katalogu głównym oraz pliki HTML w `partials/`.
@@ -182,13 +182,9 @@ Komenda uruchamia `http-server dist -p 8182 -c-1`.
 npm run build
 ```
 
-Przebieg:
+Vite czyści `dist/`, buduje 12 jawnych wejść HTML, przetwarza `assets/css/style.css` przez istniejącą konfigurację PostCSS, bundluje graf modułów od `assets/js/main.js` i nadaje produkcyjnym assetom wersjonowane nazwy. Pluginy projektowe w `vite.config.mjs` wstawiają kanoniczne partiale oraz kopiują pliki hostingu, Service Workera i zasoby wymagające stabilnych ścieżek runtime.
 
-1. `build:css` generuje `assets/css/style.min.css` z `assets/css/style.css` (rozwinięcie `@import` i minifikacja cssnano).
-2. `build:js` generuje `assets/js/main.min.js` z `assets/js/main.js`.
-3. `scripts/build-dist.js` usuwa i odtwarza `dist/`, kopiuje strony HTML katalogu głównego, `robots.txt`, `sitemap.xml`, `sw.js`, `_headers`, `_redirects` oraz cały katalog `assets/`, wstawia partiale w miejsce `<div data-partial="header"></div>` i `<div data-partial="footer"></div>` (obsługiwane są też znaczniki `{{> header}}` i `{{> footer}}`) i przepisuje odwołania do `style.css` i `main.js` na wersje `.min`.
-
-`dist/` jest ignorowany przez Git; `assets/css/style.min.css` i `assets/js/main.min.js` są w repozytorium śledzone.
+`dist/` jest ignorowany przez Git. Śledzone `assets/css/style.min.css` i `assets/js/main.min.js` nie trafiają do podstawowego grafu produkcyjnego Vite; pozostają do czasu osobnej migracji budżetu wydajności.
 
 ### Testy i walidacja
 
@@ -281,7 +277,7 @@ Repozytorium nie zawiera zapisanych wyników pomiarów wydajności.
 - Edytuj pliki źródłowe; nie modyfikuj ręcznie `dist/`, `assets/css/style.min.css` ani `assets/js/main.min.js`.
 - Zmiany stylów trzymaj w `assets/css/modules/`; kolejność importów definiuje `assets/css/style.css`.
 - Zmiany interakcji trzymaj w modułach `assets/js/`, a ich inicjalizację w `assets/js/main.js`.
-- Nagłówek i stopkę edytuj wyłącznie w `partials/` — to jedyne utrzymywane źródło używane przez runtime i przez `scripts/build-dist.js`.
+- Nagłówek i stopkę edytuj wyłącznie w `partials/` — to jedyne utrzymywane źródło używane przez runtime i produkcyjny plugin Vite.
 - `scripts/build-css.js` zawiera alternatywną implementację builda CSS i nie jest podpięty pod żaden skrypt npm — `build:css` korzysta z `postcss-cli` i `postcss.config.js`.
 - Po zmianie tras lub assetów aktualizuj `PRECACHE_URLS` i podnieś `CACHE_NAME` w `sw.js`, a następnie uruchom `npm run assets:verify`.
 - Zmiany w adresach stron odzwierciedlaj w `sitemap.xml` i `_redirects`.
@@ -299,7 +295,7 @@ TransLogix is a static multi-page front-end for a B2B transport and logistics we
 
 The site presents a realistic company experience, but it is a demonstration project: the legal documents (`terms.html`, `privacy.html`, `cookies.html`) state explicitly that TransLogix is a fictional brand and that the transport company shown does not exist.
 
-The repository contains no front-end framework and no application backend. The source layer consists of HTML pages, modular CSS, and Vanilla JavaScript ES modules. Source files are canonical; `dist/`, `assets/css/style.min.css`, and `assets/js/main.min.js` are produced by the build pipeline.
+The repository contains no front-end framework and no application backend. The source layer consists of HTML pages, modular CSS, and Vanilla JavaScript ES modules. Source files are canonical, and Vite generates the deployable `dist/` directory; tracked `assets/css/style.min.css` and `assets/js/main.min.js` remain only as compatibility inputs for the existing performance budget, which has not been migrated yet.
 
 Repository: <https://github.com/KPKrol85/DS-logistic-pr01-TransLogix> (URL declared in `LICENSE`).
 
@@ -336,6 +332,7 @@ Runtime:
 Build:
 
 - Node.js and npm
+- Vite
 - PostCSS with `postcss-cli`
 - cssnano
 - local PostCSS plugins in `scripts/postcss-plugins/`
@@ -359,13 +356,13 @@ Hosting:
 
 ### Architecture
 
-The source layer and the generated layer are kept separate. Sources are the HTML pages in the project root, `partials/`, `assets/css/modules/`, `assets/js/`, `assets/data/`, and `scripts/`. Generated artifacts are `assets/css/style.min.css`, `assets/js/main.min.js`, and the `dist/` directory.
+The source layer and the generated layer are kept separate. Sources are the HTML pages in the project root, `partials/`, `assets/css/modules/`, `assets/js/`, `assets/data/`, and `scripts/`. `vite.config.mjs` defines all 12 pages as explicit MPA inputs and generates `dist/` with versioned CSS/JS assets. The tracked `assets/css/style.min.css` and `assets/js/main.min.js` files are temporarily retained for the existing performance budget, but the production Vite build does not use them.
 
 CSS: `assets/css/style.css` contains only an `@import` list and defines module order (`settings`, `base`, `layout`, `header`, `footer`, `components`, `utilities`, `pages`). `postcss.config.js` loads local plugins from `scripts/postcss-plugins/`: a custom `postcss-import` implementation and `autoprefixer-local-noop`, which adds no prefixes. Minification is done by cssnano.
 
 JavaScript: `assets/js/theme-init.js` and `assets/js/boot.js` are loaded as classic scripts in `<head>` and set the theme and the `js` class before render. `assets/js/main.js` is the module entrypoint: it first runs `await initPartials()`, then initializes the remaining modules, and finally registers the service worker (only for `https:` or `localhost`).
 
-Partials: in source pages the header and footer are fetched from `partials/`, so source pages require an HTTP server. In the build, `scripts/build-dist.js` inlines partial content directly into the HTML files in `dist/` and rewrites references to the minified assets.
+Partials: during development the header and footer are fetched from the canonical `partials/` directory. A production plugin in `vite.config.mjs` inlines that same content into all 12 pages in `dist/` before Vite processes asset references.
 
 Service worker: `sw.js` uses the `translogix-static-v3` cache, applies network-first for navigation and stale-while-revalidate for `/assets/`, and when the network is unavailable returns `offline.html`, then `404.html`. On activation it removes caches with other names.
 
@@ -388,14 +385,14 @@ Service worker: `sw.js` uses the `translogix-static-v3` cache, applies network-f
 ├── assets/
 │   ├── css/
 │   │   ├── style.css           # source entrypoint with the @import list
-│   │   ├── style.min.css       # generated production file
+│   │   ├── style.min.css       # retained legacy performance-budget input
 │   │   └── modules/            # settings, base, layout, header, footer, components, utilities, pages
 │   ├── data/
 │   │   └── services.json       # services data
 │   ├── fonts/                  # local woff2 fonts
 │   ├── icons/                  # favicons, app icons, and site.webmanifest
 │   ├── img/                    # page images, OG images, screenshots, and SVG
-│   └── js/                     # ES modules; main.js is the entrypoint, main.min.js is generated
+│   └── js/                     # ES modules; main.js is the Vite entrypoint
 ├── partials/                   # header.html and footer.html used by runtime and build
 ├── scripts/                    # build, validation, and verification scripts
 │   └── postcss-plugins/        # local PostCSS plugins
@@ -405,6 +402,7 @@ Service worker: `sw.js` uses the `translogix-static-v3` cache, applies network-f
 ├── robots.txt
 ├── sitemap.xml
 ├── sw.js
+├── vite.config.mjs             # Vite MPA, partials, and static deployment files
 ├── postcss.config.js
 ├── playwright.config.js
 ├── lighthouserc.json
@@ -427,33 +425,31 @@ Development dependencies are declared in `package.json` and locked in `package-l
 
 ### Local Development
 
-The project has no `dev` script. Source pages fetch their partials, so they must be served over HTTP — opening a file directly from disk will not work.
-
-Source preview on Windows:
+Start the Vite development server:
 
 ```bash
-start-local-server.bat
+npm run dev
 ```
 
-The script runs `python -m http.server 8181` in the project directory.
+Vite serves the source pages and canonical partials over HTTP, so pages should not be opened directly through `file://`.
 
 Preview of the built `dist/` directory:
 
 ```bash
-npm run preview:dist
+npm run preview
 ```
 
-The command runs `http-server dist -p 8182 -c-1`.
+The command starts Vite's production preview.
 
 ### Available Scripts
 
-- `npm run build` – alias for `build:dist`.
-- `npm run build:dist` – runs `build:assets`, then `scripts/build-dist.js`.
+- `npm run dev` – starts the Vite development server.
+- `npm run build` – builds the 12-page Vite production package in `dist/`.
+- `npm run preview` – serves the built `dist/` through Vite.
 - `npm run build:assets` – runs `build:css` and `build:js`.
-- `npm run build:css` – runs `postcss assets/css/style.css -o assets/css/style.min.css` according to `postcss.config.js`.
-- `npm run build:js` – runs `scripts/build-js.js`, which strips comments and blank lines from `assets/js/main.js` and writes the result to `assets/js/main.min.js`.
+- `npm run build:css` – refreshes the legacy `assets/css/style.min.css` file used by the unmigrated performance budget.
+- `npm run build:js` – refreshes the legacy `assets/js/main.min.js` file used by the unmigrated performance budget.
 - `npm run clean` – removes the `dist/` directory.
-- `npm run preview:dist` – serves `dist/` on port 8182.
 - `npm run assets:verify` – checks that local assets referenced in project HTML (including `srcset` and the gallery runtime attributes covered by the verifier), JSON files under `assets/data/`, and `PRECACHE_URLS` in `sw.js` exist.
 - `npm run assets:optimize` – converts JPG and PNG files from `assets/img/src_img` to WebP and AVIF in `assets/img/opt_img`; the source directory is not part of the repository, so without it the script exits without converting anything.
 - `npm run qa:html` – validates the root pages and the HTML files in `partials/` with `html-validate`.
@@ -473,13 +469,9 @@ The command runs `http-server dist -p 8182 -c-1`.
 npm run build
 ```
 
-Sequence:
+Vite clears `dist/`, builds the 12 explicit HTML inputs, processes `assets/css/style.css` through the existing PostCSS configuration, bundles the module graph rooted at `assets/js/main.js`, and gives production assets versioned names. Project plugins in `vite.config.mjs` inline the canonical partials and copy hosting files, the service worker, and resources that require stable runtime paths.
 
-1. `build:css` generates `assets/css/style.min.css` from `assets/css/style.css` (`@import` expansion and cssnano minification).
-2. `build:js` generates `assets/js/main.min.js` from `assets/js/main.js`.
-3. `scripts/build-dist.js` removes and recreates `dist/`, copies the root HTML pages, `robots.txt`, `sitemap.xml`, `sw.js`, `_headers`, `_redirects`, and the whole `assets/` directory, inlines the partials in place of `<div data-partial="header"></div>` and `<div data-partial="footer"></div>` (the `{{> header}}` and `{{> footer}}` markers are supported as well), and rewrites references to `style.css` and `main.js` to the `.min` versions.
-
-`dist/` is ignored by Git; `assets/css/style.min.css` and `assets/js/main.min.js` are tracked in the repository.
+`dist/` is ignored by Git. The tracked `assets/css/style.min.css` and `assets/js/main.min.js` files are not part of the primary Vite production graph; they remain until the separate performance-budget migration.
 
 ### Testing and Validation
 
@@ -572,7 +564,7 @@ The repository contains no stored performance measurement results.
 - Edit source files; do not modify `dist/`, `assets/css/style.min.css`, or `assets/js/main.min.js` by hand.
 - Keep style changes in `assets/css/modules/`; import order is defined by `assets/css/style.css`.
 - Keep interaction changes in the `assets/js/` modules and their initialization in `assets/js/main.js`.
-- Edit the header and footer only in `partials/` — it is the sole maintained source used by the runtime and by `scripts/build-dist.js`.
+- Edit the header and footer only in `partials/` — it is the sole maintained source used by the runtime and the production Vite plugin.
 - `scripts/build-css.js` contains an alternative CSS build implementation and is not wired to any npm script — `build:css` uses `postcss-cli` and `postcss.config.js`.
 - After changing routes or assets, update `PRECACHE_URLS` and bump `CACHE_NAME` in `sw.js`, then run `npm run assets:verify`.
 - Reflect page URL changes in `sitemap.xml` and `_redirects`.

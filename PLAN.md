@@ -147,6 +147,16 @@
   - **Completion condition:** `git status` reflects real content changes only, with no line-ending noise
   - **Source:** `daily-AUDIT.md` — P2-05
 
+- [x] **PH5-05 — Migrate the development and production workflow to Vite** — **Priority:** Medium
+  - [x] add Vite and expose `npm run dev`, `npm run build` and `npm run preview` without changing the package module type
+  - [x] configure all 12 maintained root HTML pages as explicit MPA inputs
+  - [x] serve the canonical source pages and runtime-loaded partials through the Vite development server
+  - [x] build the deployable `dist/` with Vite-processed CSS and the existing JavaScript module graph
+  - [x] inline the canonical header and footer into every production page without duplicating their maintained markup
+  - [x] preserve the required hosting files, service worker and stable-path runtime resources in `dist/`
+  - [x] verify the production layout, representative shared-shell output, development endpoints and focused services behavior
+  - **Completion condition:** Vite is the primary development and production workflow, all 12 pages and baseline deployment resources are present in `dist/`, and service-worker, performance-budget and Lighthouse migrations remain separate tasks
+
 ## Phase 6 — Release verification
 
 **Goal:** Confirm the full quality suite on a clean dependency install and settle the release record.

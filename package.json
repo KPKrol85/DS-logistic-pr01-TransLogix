@@ -6,13 +6,13 @@
   "author": "KP_Code Digital Studio",
   "license": "UNLICENSED",
   "scripts": {
+    "dev": "vite",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "build:css": "postcss assets/css/style.css -o assets/css/style.min.css",
     "build:js": "node scripts/build-js.js",
     "build:assets": "npm run build:css && npm run build:js",
-    "build:dist": "npm run build:assets && node scripts/build-dist.js",
-    "build": "npm run build:dist",
-    "preview:dist": "http-server dist -p 8182 -c-1",
+    "build": "vite build",
+    "preview": "vite preview",
     "assets:verify": "node scripts/verify-assets.js",
     "assets:optimize": "node scripts/optimize-images.js",
     "qa:html": "node scripts/validate-source-html.js",
@@ -39,6 +39,7 @@
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.1",
     "sharp": "^0.33.5",
-    "start-server-and-test": "^2.0.8"
+    "start-server-and-test": "^2.0.8",
+    "vite": "^8.2.1"
   }
 }

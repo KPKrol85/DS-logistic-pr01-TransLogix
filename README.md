@@ -25,8 +25,8 @@ Adres jest zadeklarowany w źródłach projektu (`link rel="canonical"`, `sitema
 - Lista usług sterowana danymi z `assets/data/services.json`, z filtrowaniem i synchronizacją stanu filtrów do adresu URL (`history.replaceState`).
 - Strona szczegółów usługi (`service.html`) renderowana na podstawie parametru `?service=` lub `?id=`.
 - Galeria floty: przełączanie zdjęć w kartach, filtrowanie kategorii i lightbox z obsługą klawiatury.
-- Kalkulator wyceny przewozu (dystans, waga, typ usługi, dodatki) na stronie głównej i w `pricing.html`, liczony wyłącznie w przeglądarce, wraz z listą ostatnich wyliczeń w pamięci sesji.
-- Formularz kontaktowy z atrybutami Netlify Forms (`data-netlify`, `netlify-honeypot="bot-field"`), walidacją po stronie klienta i przekierowaniem na `thankyou.html`; na stronie kontaktu osadzona jest mapa Google w `iframe`.
+- Kalkulator wyceny przewozu (dystans, waga, typ usługi, dodatki) na stronie głównej i w `pricing.html`, liczony wyłącznie w przeglądarce, wraz z listą ostatnich wyliczeń w pamięci strony.
+- Formularz kontaktowy z atrybutami Netlify Forms (`data-netlify`, `netlify-honeypot="bot-field"`), walidacją po stronie klienta i przekierowaniem na `thankyou.html`; strona kontaktu początkowo pokazuje lokalny placeholder i informację o połączeniu z Google Maps, a osadzony `iframe` jest tworzony dopiero po wybraniu przycisku przez odwiedzającego.
 - Modal akceptacji warunków serwisu (`assets/js/site-consent.js`) z pułapką fokusa i zapisem decyzji w `localStorage`.
 - Przełącznik motywu jasny/ciemny z wczesnym skryptem inicjującym w `<head>`, zapamiętywany w `localStorage`.
 - Service worker z precache stron, fallbackiem offline i cache'owaniem assetów oraz manifest aplikacji z ikonami, skrótami i screenshotami.
@@ -187,7 +187,7 @@ Vite czyści `dist/`, buduje 12 jawnych wejść HTML, przetwarza `assets/css/sty
 
 Testy end-to-end uruchamia Playwright w projekcie `chromium`. Konfiguracja `playwright.config.js` startuje własny serwer poleceniem `npm run build && npx http-server dist -p 8080 -c-1` i używa `baseURL` `http://127.0.0.1:8080`, więc testy działają na zbudowanym `dist/`.
 
-Pliki testów w `tests/e2e/`: `contact.spec.js`, `fleet-lightbox.spec.js`, `mobile-nav.spec.js`, `offline.spec.js`, `service-worker-offline.spec.js`, `services.spec.js`.
+Pliki testów w `tests/e2e/`: `aria-current.spec.js`, `contact.spec.js`, `fleet-lightbox.spec.js`, `mobile-nav.spec.js`, `offline.spec.js`, `service-worker-offline.spec.js`, `services.spec.js`.
 
 Skonfigurowane kontrole statyczne:
 
@@ -259,7 +259,7 @@ Mechanizmy obecne w repozytorium:
 - precache i runtime caching w service workerze;
 - polityki `Cache-Control` w `_headers` (długi cache dla assetów, rewalidacja dla HTML i `sw.js`).
 
-Repozytorium nie zawiera zapisanych wyników pomiarów wydajności.
+Bieżące wyniki Lighthouse i otwarte ryzyka wydajności są podsumowane w `daily-AUDIT.md` i śledzone w `PLAN.md`; repozytorium nie przechowuje surowych artefaktów raportów Lighthouse.
 
 ### Dane i trwałość stanu
 
@@ -281,7 +281,7 @@ Repozytorium nie zawiera zapisanych wyników pomiarów wydajności.
 
 ### Licencja
 
-Projekt jest własnościowy. `package.json` deklaruje `UNLICENSED`, a plik [`LICENSE`](LICENSE) (w wersji polskiej i angielskiej) zastrzega wszelkie prawa i dopuszcza wyłącznie ograniczone wykorzystanie w celach portfolio, referencyjnych i code review, bez udzielenia licencji na kopiowanie, wdrażanie czy użycie komercyjne. Licencja nie obejmuje materiałów podmiotów trzecich, w tym zależności, fontów i ikon, które podlegają własnym warunkom.
+Projekt podlega istniejącej własnościowej licencji KP_Code w pliku [`LICENSE`](LICENSE), który pozostaje autorytatywnym źródłem warunków w wersji polskiej i angielskiej. Metadane pakietu wskazują ten dokument wartością `"SEE LICENSE IN LICENSE"`. Licencja zastrzega wszelkie prawa i dopuszcza wyłącznie ograniczone wykorzystanie opisane w jej treści; nie obejmuje materiałów podmiotów trzecich, w tym zależności, fontów i ikon, które podlegają własnym warunkom.
 
 ## EN
 
@@ -308,8 +308,8 @@ The URL is declared in the project sources (`link rel="canonical"`, `sitemap.xml
 - Services listing driven by `assets/data/services.json`, with filtering and filter state synchronized to the URL (`history.replaceState`).
 - Service detail page (`service.html`) rendered from the `?service=` or `?id=` query parameter.
 - Fleet gallery: per-card image switching, category filtering, and a keyboard-operable lightbox.
-- Shipping rate calculator (distance, weight, service type, extras) on the home page and in `pricing.html`, computed entirely in the browser, with a list of recent calculations kept in session memory.
-- Contact form with Netlify Forms attributes (`data-netlify`, `netlify-honeypot="bot-field"`), client-side validation, and redirection to `thankyou.html`; the contact page also embeds a Google map in an `iframe`.
+- Shipping rate calculator (distance, weight, service type, extras) on the home page and in `pricing.html`, computed entirely in the browser, with a list of recent calculations kept in page memory.
+- Contact form with Netlify Forms attributes (`data-netlify`, `netlify-honeypot="bot-field"`), client-side validation, and redirection to `thankyou.html`; the contact page initially shows a local placeholder and a Google Maps connection disclosure, and creates the embedded `iframe` only after the visitor activates the dedicated button.
 - Site terms acceptance modal (`assets/js/site-consent.js`) with a focus trap and the decision stored in `localStorage`.
 - Light/dark theme toggle with an early initialization script in `<head>`, persisted in `localStorage`.
 - Service worker with page precache, offline fallback, and asset caching, plus a web app manifest with icons, shortcuts, and screenshots.
@@ -470,7 +470,7 @@ Vite clears `dist/`, builds the 12 explicit HTML inputs, processes `assets/css/s
 
 End-to-end tests run in Playwright with the `chromium` project. The `playwright.config.js` configuration starts its own server with `npm run build && npx http-server dist -p 8080 -c-1` and uses the `baseURL` `http://127.0.0.1:8080`, so the tests run against the built `dist/`.
 
-Test files in `tests/e2e/`: `contact.spec.js`, `fleet-lightbox.spec.js`, `mobile-nav.spec.js`, `offline.spec.js`, `service-worker-offline.spec.js`, `services.spec.js`.
+Test files in `tests/e2e/`: `aria-current.spec.js`, `contact.spec.js`, `fleet-lightbox.spec.js`, `mobile-nav.spec.js`, `offline.spec.js`, `service-worker-offline.spec.js`, `services.spec.js`.
 
 Configured static checks:
 
@@ -542,7 +542,7 @@ Mechanisms present in the repository:
 - service worker precache and runtime caching;
 - `Cache-Control` policies in `_headers` (long-lived cache for assets, revalidation for HTML and `sw.js`).
 
-The repository contains no stored performance measurement results.
+Current Lighthouse results and open performance risks are summarized in `daily-AUDIT.md` and tracked in `PLAN.md`; the repository does not retain raw Lighthouse report artifacts.
 
 ### Data and State Persistence
 
@@ -564,4 +564,4 @@ The repository contains no stored performance measurement results.
 
 ### License
 
-The project is proprietary. `package.json` declares `UNLICENSED`, and the [`LICENSE`](LICENSE) file (in Polish and English) reserves all rights and permits only limited use for portfolio, reference, and code review purposes, without granting a license to copy, deploy, or use the project commercially. The license does not cover third-party materials, including dependencies, fonts, and icons, which are subject to their own terms.
+The project is governed by the existing proprietary KP_Code [`LICENSE`](LICENSE), which remains the authoritative source of the Polish and English terms. The package metadata points readers to that document with `"SEE LICENSE IN LICENSE"`. The license reserves all rights and permits only the limited uses stated in its text; it does not cover third-party materials, including dependencies, fonts, and icons, which remain subject to their own terms.

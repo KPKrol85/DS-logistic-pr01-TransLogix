@@ -64,5 +64,6 @@ All significant changes to this project are documented in this file.
 
 ### Documentation
 
+- Reconciled the project license metadata and the Polish and English README license sections with the existing proprietary KP_Code `LICENSE`, using `SEE LICENSE IN LICENSE` for the root npm package metadata without changing third-party licenses.
 - Adapted the KP_Code proprietary license for TransLogix in Polish and English by applying verified project metadata and removing the template instructions.
 - Added a bilingual (PL/EN) `README.md` documenting the project overview, tech stack, structure, build pipeline, deployment files, accessibility and SEO mechanisms, QA commands, and the rule that source files are canonical while `dist/`, `assets/css/style.min.css`, and `assets/js/main.min.js` are generated.

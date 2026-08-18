@@ -14,10 +14,12 @@
 
 ## Current priorities
 
-1. `PH1-01` — Ship `thankyou.html` in the deployable package so the contact flow stops ending on a 404.
-2. `PH2-01` — Gate the reveal hidden state behind the `.js` class so content survives a non-executing module graph.
-3. `PH3-01` — Align the `Organization` structured data with the published company address.
-4. `PH3-02` — Remove the conflicting delivery figure from the footer statistic.
+1. `PH5-11` — Optimize fleet image delivery so the production package meets the retained Lighthouse performance contract.
+2. `PH5-09` — Assess the current clean-install dependency advisories and make an evidence-based risk decision.
+3. `PH5-10` — Reconcile Lighthouse assertions that cannot produce a score while preserving applicable checks.
+4. `PH5-12` — Avoid eager transfer of hidden and offscreen shared images.
+
+`PH6-02` remains blocked pending the owner's release version and date. `D-01` remains deferred pending the owner's postal identification data.
 
 ## Phase 1 — Contact conversion path
 
@@ -29,7 +31,6 @@
   - [x] rebuild the package locally and verify that `dist/thankyou.html` exists with the header and footer partials inlined and the minified asset references rewritten
   - [x] verify after deployment that `/thankyou.html` returns HTTP 200 on the production origin
   - **Completion condition:** a successful contact submission lands on the confirmation page in the deployed site and the service-worker install step no longer skips `/thankyou.html`
-  - **Source:** `daily-AUDIT.md` — P0-01
 
 - [x] **PH1-02 — Consolidate the contact form confirmation path to one mechanism** — **Priority:** Medium
   - [x] decide which confirmation surface is authoritative: the `thankyou.html` redirect or the inline `#contact-success` message
@@ -37,7 +38,6 @@
   - [x] verify the contact Playwright spec still reflects the retained flow
   - **Completion condition:** exactly one success mechanism exists in source and it is the one the deployed form actually triggers
   - **Depends on:** `PH1-01`
-  - **Source:** `daily-AUDIT.md` — P2-09
 
 ## Phase 2 — Non-JavaScript rendering baseline
 
@@ -49,7 +49,6 @@
   - [x] regenerate `assets/css/style.min.css` through `npm run build:css` and re-run `npm run qa:budget`
   - [x] verify with scripting disabled that `index.html`, `services.html`, `service.html`, `fleet.html`, `pricing.html` and `contact.html` render their main content
   - **Completion condition:** disabling JavaScript leaves all `.reveal` content visible, and the animation still runs when scripting is active
-  - **Source:** `daily-AUDIT.md` — P1-01
 
 - [x] **PH2-02 — Provide a non-JavaScript baseline for the offer listing** — **Priority:** Medium
   - [x] add a static baseline or a `noscript` fallback for `#services-list` in `services.html`, following the `noscript` pattern already used in `service.html`
@@ -57,7 +56,6 @@
   - [x] verify the page is never empty for a non-executing client and that `qa:html` still passes
   - **Completion condition:** `services.html` presents offer content without JavaScript, and the client-side filtering path is unchanged
   - **Depends on:** `PH2-01`
-  - **Source:** `daily-AUDIT.md` — P2-07
 
 ## Phase 3 — Published content and data integrity
 
@@ -67,20 +65,17 @@
   - [x] replace the `PostalAddress` in the `index.html` JSON-LD block with the address used in `partials/footer.html` and `contact.html`, including a valid postal code
   - [x] re-run `npm run qa:jsonld`
   - **Completion condition:** the structured-data address matches every visible instance of the company address across the site
-  - **Source:** `daily-AUDIT.md` — P1-02
 
 - [x] **PH3-02 — Resolve the conflicting footer delivery statistic** — **Priority:** High
   - [x] choose one authoritative figure for `data-stat="deliveries"` in `partials/footer.html`
   - [x] make the markup text and the `data-value` attribute agree, or drop the attribute so `assets/js/stats.js` leaves the static text alone
   - **Completion condition:** the displayed number no longer changes after script execution on any page that includes the footer
-  - **Source:** `daily-AUDIT.md` — P1-03
 
 - [x] **PH3-03 — State the demonstration character in the entry consent dialog** — **Priority:** Medium
   - [x] add one sentence to the dialog text in `assets/js/site-consent.js` stating that TransLogix is a portfolio demonstration with a fictional brand, consistent with the wording already used in `terms.html`, `privacy.html` and `cookies.html`
   - [x] keep the existing links to the three legal documents and the current focus and acceptance behavior
   - [x] run `npm run build:js`; the command completed successfully and `assets/js/main.min.js` remained content-identical because the build reads only `assets/js/main.js`
   - **Completion condition:** the pre-entry dialog discloses the demo nature before acceptance, without changing the consent storage key or flow
-  - **Source:** `daily-AUDIT.md` — P2-10
 
 - [x] **PH3-04 — Align the contact form consent wording with the declared legal basis** — **Priority:** Medium
   - [x] compare the `rodo` checkbox label in `contact.html` ("zgoda … w celu przygotowania oferty") with the processing purpose and legal basis declared in `privacy.html` (art. 6(1)(f), correspondence)
@@ -97,21 +92,18 @@
   - [x] keep the existing home-page matching for `/`, `./` and `index.html`
   - [x] verify current-page marking on both the extensionless and the `.html` form of each route
   - **Completion condition:** exactly one navigation link carries `aria-current="page"` on every route form the host serves
-  - **Source:** `daily-AUDIT.md` — P2-06
 
 - [x] **PH4-02 — Correct the heading level sequence on the system pages** — **Priority:** Medium
   - [x] resolve the `h1 → h3` skip on `404.html`, `offline.html` and `thankyou.html`, either by giving the footer statistics a level consistent with their `h2` section context or by supplying the missing section heading on those pages
   - [x] confirm the change does not alter heading order on the nine content pages, which already supply `h2` headings
   - [x] verify against the `pa11y-ci` URL set once dependencies are available
   - **Completion condition:** no heading level is skipped on any of the 12 source pages
-  - **Source:** `daily-AUDIT.md` — P2-03
 
 - [x] **PH4-03 — Give `.legal-section h3` its own typographic step** — **Priority:** Low
   - [x] add a local `var(--fs-06)` rule for `.legal-section h3` in `assets/css/modules/pages.css`, next to the existing `.legal-section h2` rule
   - [x] verify the subsection hierarchy on `privacy.html` and `cookies.html`, and confirm `terms.html` has no `h3` subsection and requires no markup change
   - [x] regenerate `assets/css/style.min.css` and re-run `npm run qa:budget`
   - **Completion condition:** `h3` subsections in the legal documents render visually below their parent `h2`
-  - **Source:** `daily-AUDIT.md` — P2-02
 
 - [x] **PH4-04 — Correct shared-header link names in the production package** — **Priority:** High
   - [x] give the canonical header brand link the single accessible name `TransLogix — strona główna`, while retaining empty alternatives for both decorative logo variants and the unchanged hidden visual text
@@ -131,7 +123,6 @@
   - [x] remove both redundant source groups and their obsolete QA discovery references
   - [x] update the relevant architecture, structure, QA and maintenance sections of `README.md`
   - **Completion condition:** every markup and structured-data file in the repository is either canonical or verified against its canonical source by a check
-  - **Source:** `daily-AUDIT.md` — P2-01
 
 - [x] **PH5-02 — Correct stale asset references and extend asset verification** — **Priority:** Medium
   - [x] replace or remove the `image` values in `assets/data/services.json` that point at the non-existent `assets/img/solo.svg`, `refrigerated.svg` and `mega.svg` (seven of eight records)
@@ -139,7 +130,6 @@
   - [x] extend `scripts/verify-assets.js` to cover `srcset` values and asset paths referenced from data files
   - [x] re-run `npm run assets:verify`
   - **Completion condition:** no asset reference in markup or data files points at a missing file, and the extended check fails when one does
-  - **Source:** `daily-AUDIT.md` — P2-04
 
 - [x] **PH5-03 — Point Lighthouse CI at the deployable package** — **Priority:** Medium
   - [x] change `staticDistDir` in `lighthouserc.json` from the repository root to `dist/`, matching the Vite package served by the e2e configuration in `playwright.config.js`
@@ -149,14 +139,12 @@
   - [x] run `npm run qa:lighthouse` and record its focused outcome: all five URLs were collected and uploaded, while retained `lighthouse:no-pwa` audit failures made the assertion step exit with code 1
   - [x] update the `lighthouserc.json` description in `README.md` (PL and EN sections) to state the new collection source
   - **Completion condition:** Lighthouse CI measures the deployed Vite layer, including Vite-processed production CSS/JavaScript and build-time inlined partials
-  - **Source:** `daily-AUDIT.md` — P2-08
 
 - [x] **PH5-04 — Declare a line-ending policy for the repository** — **Priority:** Low
   - [x] add a root `.gitattributes` defining normalization for text files and binary handling for the tracked image, font and icon assets
   - [x] run `git add --renormalize .` after staging the policy; no existing tracked file required an index content change
   - [x] verify that `git status --short` reports only intentional PH5-04 changes, with no historical CRLF-only group
   - **Completion condition:** `git status` reflects real content changes only, with no line-ending noise
-  - **Source:** `daily-AUDIT.md` — P2-05
 
 - [x] **PH5-05 — Migrate the development and production workflow to Vite** — **Priority:** Medium
   - [x] add Vite and expose `npm run dev`, `npm run build` and `npm run preview` without changing the package module type
@@ -195,30 +183,29 @@
   - **Previous failure:** `npm run release-check` and one focused `npm run test:e2e` retry both finished with 12/13 tests passing because `tests/e2e/aria-current.spec.js` imported `/assets/js/aria-current.js`
   - **Root cause:** Playwright serves the generated `dist/` package, where Vite bundles the source module into a versioned production asset, so the source-only URL was not part of the production-package contract
   - **Completion condition:** the test exercises current-page marking through the production package without depending on a source-only module URL, retains coverage for extensionless and `.html` routes, and the canonical `npm run test:e2e` command passes
-  - **Source:** PH6-01 clean-install release verification (2026-08-18)
 
 - [ ] **PH5-09 — Assess the clean-install dependency advisories** — **Priority:** Medium
   - **Observed issue:** lockfile-controlled `npm ci` reported 20 audit findings (5 moderate and 15 high) in the installed build and QA dependency graph
   - **Scope:** map the advisories to direct and transitive development dependencies, determine their actual exposure in this static-site toolchain, and perform any justified minimal lockfile-controlled remediation as a separate dependency task
   - **Completion condition:** a current `npm audit` has no unresolved findings, or every remaining finding has an explicit evidence-based risk decision, and the complete release gate still passes after any approved dependency changes
-  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+  - **Source:** `daily-AUDIT.md` — P1-01
 
 - [ ] **PH5-10 — Reconcile Lighthouse assertions that cannot produce a score** — **Priority:** Medium
   - **Observed failure:** the retained `lighthouse:no-pwa` preset asserted `minScore` for `lcp-lazy-loaded`, `prioritize-lcp-image` and `non-composited-animations`, while Lighthouse returned no value (`NaN`, `scoreDisplayMode: error`) for each audit on all five URLs
   - **Scope:** review the preset against the pinned LHCI/Lighthouse behavior and change only assertions that are demonstrably unsupported or inapplicable, preserving the existing category thresholds and every applicable audit
   - **Completion condition:** all five reports are still collected from `dist/`, applicable assertions remain enforced, and unavailable audits no longer turn a successful collection into an uninformative hard failure
-  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+  - **Source:** `daily-AUDIT.md` — P2-01
 
 - [ ] **PH5-11 — Optimize fleet image delivery in the production package** — **Priority:** High
   - **Observed failure:** the mobile Lighthouse audit for `/fleet.html` scored 0.75 for performance with a 5,194 KiB transfer, 11.0 s LCP and 11.4 s Time to Interactive; 16 JPEGs failed optimized/modern-format checks and 20 images exposed 4,720 KiB of responsive-sizing savings
   - **Related evidence:** the same card-image delivery produced two responsive-sizing findings and 37 KiB of potential savings on the home page
   - **Completion condition:** the built fleet and home card/gallery paths deliver right-sized modern image resources without eagerly transferring full-size lightbox media, while preserving the AVIF/WebP/JPG fallback and gallery behavior; the related Lighthouse image assertions pass and the fleet category reaches the configured performance threshold
-  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+  - **Source:** `daily-AUDIT.md` — P1-02
 
 - [ ] **PH5-12 — Avoid eager transfer of hidden and offscreen shared images** — **Priority:** Medium
   - **Observed failure:** Lighthouse reported offscreen-image savings on `/` (3 KiB), `/services.html` (78 KiB), `/contact.html` (3 KiB) and `/pricing.html` (194 KiB), led by the hidden dark logo variant and below-fold social or theme icons
   - **Completion condition:** non-visible theme variants and below-fold shared imagery are not transferred before use where avoidable, the four affected URLs pass the offscreen-image audit, and theme, footer, accessibility and no-JavaScript behavior remain unchanged
-  - **Source:** PH6-01 clean-install release verification (2026-08-18)
+  - **Source:** `daily-AUDIT.md` — P2-02
 
 ## Phase 6 — Release verification
 
@@ -238,7 +225,6 @@
   - **Current outcome (2026-08-18):** complete — every intended current-tree gate has a recorded result; `release-check` and Lighthouse assertions both returned exit code 1, and all deterministic unresolved issues were separated from transient environment failures and warnings
   - **Completion condition:** a lockfile-controlled clean install completes without manifest changes; the canonical `release-check` has a recorded result for every current gate; the standalone Lighthouse build, five-URL collection, scores, warnings and assertions have a current-tree result; and deterministic unresolved issues are captured as separate plan work
   - **Depends on:** `PH1-01`, `PH2-01`
-  - **Source:** `daily-AUDIT.md` — Verification performed
 
 - [ ] **PH6-02 — Establish the first released version in `CHANGELOG.md`** — **Status:** Blocked — **Priority:** Low
   - [ ] move the entries from `[Unreleased]` into a dated version section
@@ -258,7 +244,6 @@
   - [x] pass the Node syntax check, fresh-build package check and an isolated missing-target negative check
   - **Value:** `scripts/check-local-links.js` and `scripts/verify-assets.js` both resolve against the repository root, which is why every check passed while `thankyou.html` was missing from `dist/`; a check resolving form actions, precache entries, canonical URLs and sitemap entries against the package would verify the Vite MPA and static deployment path configuration directly
   - **Scope boundary:** non-blocking hardening; the existing checks are correct within the source layer they target
-  - **Source:** `daily-AUDIT.md` — Extra quality improvements
 
 - [x] **O-02 — Load the embedded map only after an explicit visitor action**
   - [x] remove the automatically loaded Google Maps iframe from the initial Contact page markup
@@ -268,7 +253,6 @@
   - [x] cover no request before activation and the intercepted request after activation in the focused Contact regression test
   - **Value:** `contact.html` previously loaded a Google Maps `iframe` on page load while the rest of the site ships no third-party requests; deferring the embed matches the no-tracking-before-consent posture the project demonstrates
   - **Scope boundary:** non-blocking product decision; the current behavior is disclosed in the legal documents rather than hidden
-  - **Source:** `daily-AUDIT.md` — Extra quality improvements
 
 - [x] **O-03 — Move the price-label handler inside `initServicesFilters()`**
   - [x] remove the module-scope price-range lookup and label handler
@@ -277,9 +261,9 @@
   - [x] verify restored and changed range values with focused Playwright coverage
   - **Value:** `assets/js/services-filters.js` registers an `input` listener at module scope, duplicating the range handler already registered inside the init function; moving it would match the pattern used by every other module
   - **Scope boundary:** non-blocking cleanup; the current code works because the module loads after the markup is parsed
-  - **Source:** `daily-AUDIT.md` — Extra quality improvements
 
 ## Deferred work
 
 - [ ] **D-01 — Publish the operator's postal identification data in the legal documents**
   - **Reason:** `terms.html` identifies the operator by name and e-mail only; the postal data required of a service provider is a decision for the project owner and is not present anywhere in the repository
+  - **Source:** `daily-AUDIT.md` — P2-03

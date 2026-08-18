@@ -4,7 +4,7 @@
   "private": true,
   "description": "TransLogix – B2B transport & logistics website (HTML, CSS, JS)",
   "author": "KP_Code Digital Studio",
-  "license": "UNLICENSED",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "dev": "vite",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",

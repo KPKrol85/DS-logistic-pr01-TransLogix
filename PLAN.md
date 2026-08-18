@@ -200,7 +200,14 @@
 
 ## Optional future improvements
 
-- [ ] **O-01 — Add a package-level smoke check for the built output**
+- [x] **O-01 — Add a package-level smoke check for the built output**
+  - [x] generate a fresh Vite production package before each standalone package check
+  - [x] validate non-empty local form actions from built HTML against `dist/`
+  - [x] validate both static `PRECACHE_URLS` and Vite-generated `VITE_ASSET_URLS` from the final `dist/sw.js`
+  - [x] validate canonical URL pathnames declared by built HTML against package pages
+  - [x] validate every URL pathname declared in the built `sitemap.xml` against package pages
+  - [x] expose `qa:package` and include it in `release-check` without removing any existing gate
+  - [x] pass the Node syntax check, fresh-build package check and an isolated missing-target negative check
   - **Value:** `scripts/check-local-links.js` and `scripts/verify-assets.js` both resolve against the repository root, which is why every check passed while `thankyou.html` was missing from `dist/`; a check resolving form actions, precache entries, canonical URLs and sitemap entries against the package would verify the Vite MPA and static deployment path configuration directly
   - **Scope boundary:** non-blocking hardening; the existing checks are correct within the source layer they target
   - **Source:** `daily-AUDIT.md` — Extra quality improvements

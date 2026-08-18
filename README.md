@@ -159,18 +159,19 @@ Komenda uruchamia produkcyjny podgląd Vite.
 - `npm run build` – buduje 12-stronicowy pakiet produkcyjny Vite w `dist/`.
 - `npm run preview` – uruchamia lokalny podgląd zawartości `dist/` przez Vite.
 - `npm run clean` – usuwa katalog `dist/`.
-- `npm run assets:verify` – sprawdza, czy lokalne assety wskazywane w projektowym HTML (w tym przez `srcset` i obsługiwane atrybuty runtime galerii), w plikach JSON pod `assets/data/` oraz w `PRECACHE_URLS` w `sw.js` istnieją.
+- `npm run assets:verify` – na warstwie źródłowej sprawdza, czy lokalne assety wskazywane w projektowym HTML (w tym przez `srcset` i obsługiwane atrybuty runtime galerii), w plikach JSON pod `assets/data/` oraz w `PRECACHE_URLS` w `sw.js` istnieją.
 - `npm run assets:optimize` – konwertuje pliki JPG i PNG z `assets/img/src_img` do WebP i AVIF w `assets/img/opt_img`; katalog źródłowy nie jest częścią repozytorium, więc bez niego skrypt kończy się bez konwersji.
 - `npm run qa:html` – waliduje `html-validate` strony w katalogu głównym oraz pliki HTML w `partials/`.
 - `npm run qa:jsonld` – parsuje bloki JSON-LD osadzone w stronach i sprawdza obecność `@context`, `@type` lub `@graph`.
-- `npm run qa:links` – sprawdza lokalne odwołania `href` i `src` w stronach katalogu głównego.
+- `npm run qa:links` – sprawdza lokalne odwołania `href` i `src` w stronach katalogu głównego względem drzewa źródłowego.
 - `npm run qa:a11y` – serwuje projekt przez `http-server . -p 8080` i uruchamia `pa11y-ci` zgodnie z `.pa11yci.json`.
 - `npm run qa:budget` – buduje aktualny pakiet Vite, odczytuje jego manifest i sprawdza zagregowane budżety gzip dla wszystkich wygenerowanych plików CSS (12000 B) i JavaScript (18000 B).
+- `npm run qa:package` – buduje świeży pakiet Vite i sprawdza w `dist/` lokalne akcje formularzy, statyczne oraz wygenerowane przez Vite cele precache w końcowym `sw.js`, ścieżki canonical i ścieżki z sitemap.
 - `npm run qa:lighthouse` – buduje aktualny pakiet produkcyjny Vite w `dist/`, a następnie uruchamia dla niego Lighthouse CI zgodnie z `lighthouserc.json`.
 - `npm run qa` – uruchamia `qa:html`, `qa:jsonld`, `qa:links` i `qa:a11y`.
 - `npm run test:e2e` – uruchamia testy Playwright; hook `pretest:e2e` wykonuje wcześniej `qa:links`.
 - `npm run test:e2e:ui` i `npm run test:e2e:report` – tryb UI Playwrighta i podgląd raportu.
-- `npm run release-check` – uruchamia `qa`, `assets:verify`, `qa:budget` i `test:e2e`.
+- `npm run release-check` – uruchamia `qa`, `assets:verify`, `qa:budget`, `qa:package` i `test:e2e`.
 
 ### Build produkcyjny
 
@@ -180,7 +181,7 @@ npm run build
 
 Vite czyści `dist/`, buduje 12 jawnych wejść HTML, przetwarza `assets/css/style.css` przez istniejącą konfigurację PostCSS, bundluje graf modułów od `assets/js/main.js` i nadaje produkcyjnym assetom wersjonowane nazwy. Pluginy projektowe w `vite.config.mjs` wstawiają kanoniczne partiale, kopiują pliki hostingu i zasoby wymagające stabilnych ścieżek runtime oraz generują `dist/sw.js` z aktualnymi ścieżkami produkcyjnych plików CSS i JavaScript.
 
-`dist/` jest ignorowany przez Git. Build zapisuje w nim także `.vite/manifest.json`; `npm run qa:budget` używa manifestu do wykrycia wszystkich bieżących plików CSS i JavaScript bez zapisywania ich wersjonowanych nazw w konfiguracji.
+`dist/` jest ignorowany przez Git. Build zapisuje w nim także `.vite/manifest.json`; `npm run qa:budget` używa manifestu do wykrycia wszystkich bieżących plików CSS i JavaScript bez zapisywania ich wersjonowanych nazw w konfiguracji. Źródłowe kontrole `qa:links` i `assets:verify` zachowują dotychczasowy zakres, a `qa:package` osobno dowodzi, że odkryte kontrakty mają cele w wygenerowanym pakiecie.
 
 ### Testy i walidacja
 
@@ -441,18 +442,19 @@ The command starts Vite's production preview.
 - `npm run build` – builds the 12-page Vite production package in `dist/`.
 - `npm run preview` – serves the built `dist/` through Vite.
 - `npm run clean` – removes the `dist/` directory.
-- `npm run assets:verify` – checks that local assets referenced in project HTML (including `srcset` and the gallery runtime attributes covered by the verifier), JSON files under `assets/data/`, and `PRECACHE_URLS` in `sw.js` exist.
+- `npm run assets:verify` – checks at the source layer that local assets referenced in project HTML (including `srcset` and the gallery runtime attributes covered by the verifier), JSON files under `assets/data/`, and `PRECACHE_URLS` in `sw.js` exist.
 - `npm run assets:optimize` – converts JPG and PNG files from `assets/img/src_img` to WebP and AVIF in `assets/img/opt_img`; the source directory is not part of the repository, so without it the script exits without converting anything.
 - `npm run qa:html` – validates the root pages and the HTML files in `partials/` with `html-validate`.
 - `npm run qa:jsonld` – parses the JSON-LD blocks embedded in the pages and checks for `@context`, `@type`, or `@graph`.
-- `npm run qa:links` – checks local `href` and `src` references in the root pages.
+- `npm run qa:links` – checks local `href` and `src` references in the root pages against the source tree.
 - `npm run qa:a11y` – serves the project with `http-server . -p 8080` and runs `pa11y-ci` according to `.pa11yci.json`.
 - `npm run qa:budget` – builds the current Vite package, reads its manifest, and checks aggregate gzip budgets for all generated CSS (12000 B) and JavaScript (18000 B) files.
+- `npm run qa:package` – builds a fresh Vite package and checks local form actions, static and Vite-generated precache targets in the final `dist/sw.js`, canonical paths, and sitemap paths against `dist/`.
 - `npm run qa:lighthouse` – builds the current Vite production package in `dist/`, then runs Lighthouse CI against it according to `lighthouserc.json`.
 - `npm run qa` – runs `qa:html`, `qa:jsonld`, `qa:links`, and `qa:a11y`.
 - `npm run test:e2e` – runs the Playwright tests; the `pretest:e2e` hook runs `qa:links` first.
 - `npm run test:e2e:ui` and `npm run test:e2e:report` – Playwright UI mode and report viewer.
-- `npm run release-check` – runs `qa`, `assets:verify`, `qa:budget`, and `test:e2e`.
+- `npm run release-check` – runs `qa`, `assets:verify`, `qa:budget`, `qa:package`, and `test:e2e`.
 
 ### Production Build
 
@@ -462,7 +464,7 @@ npm run build
 
 Vite clears `dist/`, builds the 12 explicit HTML inputs, processes `assets/css/style.css` through the existing PostCSS configuration, bundles the module graph rooted at `assets/js/main.js`, and gives production assets versioned names. Project plugins in `vite.config.mjs` inline the canonical partials, copy hosting files and resources that require stable runtime paths, and generate `dist/sw.js` with the current production CSS and JavaScript paths.
 
-`dist/` is ignored by Git. The build also writes `.vite/manifest.json` there; `npm run qa:budget` uses the manifest to discover every current CSS and JavaScript file without storing its versioned name in configuration.
+`dist/` is ignored by Git. The build also writes `.vite/manifest.json` there; `npm run qa:budget` uses the manifest to discover every current CSS and JavaScript file without storing its versioned name in configuration. The source-level `qa:links` and `assets:verify` checks retain their existing scope, while `qa:package` separately proves that the discovered contracts have targets in the generated package.
 
 ### Testing and Validation
 

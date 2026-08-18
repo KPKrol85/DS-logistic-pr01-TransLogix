@@ -19,6 +19,7 @@ All significant changes to this project are documented in this file.
 
 ### Build and Tooling
 
+- Added a deployment-package smoke check that rebuilds `dist/` and validates built local form actions, static and Vite-generated service-worker precache targets, canonical paths, and sitemap paths, with standalone and `release-check` integration.
 - Migrated Lighthouse CI from the repository source root to the Vite-generated `dist/` deployment package, with `qa:lighthouse` rebuilding the package before collecting the existing five production URLs and an explicit Lighthouse-compatible mobile form factor.
 - Migrated performance-budget validation to the current Vite production package: `qa:budget` now rebuilds `dist/`, discovers all emitted CSS and JavaScript through the generated manifest, sums actual gzip sizes against the retained 12000 B and 18000 B limits, and replaces the obsolete pre-Vite build and tracked `.min` paths.
 - Migrated the primary development and production workflow to Vite with explicit 12-page MPA inputs, development-time runtime partials, production-time partial inlining, versioned CSS/JS output, and controlled copying of static deployment resources into `dist/`.

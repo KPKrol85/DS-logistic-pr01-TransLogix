@@ -8,16 +8,16 @@
 
 The repository has no current P0 finding. The canonical source/generated boundary is coherent: 12 maintained source pages feed a Vite 8 production build, shared partials are fetched only in the source-development path and inlined into `dist/`, and the production service worker receives the current Vite CSS and JavaScript asset URLs during the build.
 
-The implementation and QA cycle resolved the former packaging, non-JavaScript, structured-data, accessibility, route-state, source-duplication, asset-reference, contact-flow, shared-header, fleet-image and offscreen shared-image findings. Those completed changes are recorded in `CHANGELOG.md` and are not retained below as audit history.
+The implementation and QA cycle resolved the former packaging, non-JavaScript, structured-data, accessibility, route-state, source-duplication, asset-reference, contact-flow, shared-header, fleet-image, offscreen shared-image and Lighthouse assertion-contract findings. Those completed changes are recorded in `CHANGELOG.md` and are not retained below as audit history.
 
-Three current findings remain. The higher-priority risk is the unassessed clean-install dependency advisory set. Two lower-priority findings concern Lighthouse assertions that return no score and operator postal identification data that the project owner has not supplied. The first release record also remains blocked by an owner decision, but it is a release-planning constraint rather than an implementation defect.
+Two current findings remain. The higher-priority risk is the unassessed clean-install dependency advisory set. The lower-priority finding concerns operator postal identification data that the project owner has not supplied. The first release record also remains blocked by an owner decision, but it is a release-planning constraint rather than an implementation defect.
 
 ## Active finding count
 
 - **P0 — Critical:** 0
 - **P1 — Important:** 1
-- **P2 — Minor or deferred:** 2
-- **Total active findings:** 3
+- **P2 — Minor or deferred:** 1
+- **Total active findings:** 2
 
 ## Verified current strengths
 
@@ -46,14 +46,6 @@ No active P0 finding.
 
 ## P2 — Minor or deferred issues
 
-### [P2-01] Some retained Lighthouse preset assertions cannot produce a score
-
-- **Classification:** QA contract mismatch
-- **Evidence:** `lighthouserc.json`; PH6-01 Lighthouse assertion output
-- **Current state:** Collection from `dist/` succeeds for all five configured URLs, but the retained `lighthouse:no-pwa` preset asserts `minScore` for `lcp-lazy-loaded`, `prioritize-lcp-image` and `non-composited-animations`. The pinned LHCI/Lighthouse path returned `NaN` with `scoreDisplayMode: error` for those audits on all five URLs. `PH5-10` remains unchecked.
-- **Risk:** An unavailable audit is reported as a hard assertion failure, obscuring the distinction between an inapplicable tool result and an actionable regression.
-- **Tracking:** `PLAN.md` — `PH5-10`.
-
 ### [P2-03] Operator postal identification data is not present
 
 - **Classification:** Deferred legal-document data gap
@@ -71,13 +63,13 @@ No active P0 finding.
 ## Current priority summary
 
 1. `PH5-09` — dependency advisory assessment and risk decision.
-2. `PH5-10` — Lighthouse assertion compatibility.
-3. `PH6-02` and `D-01` remain owner-blocked or deferred rather than actionable implementation work.
+2. `PH6-02` and `D-01` remain owner-blocked or deferred rather than actionable implementation work.
 
 ## Verification context and limits
 
 - PH6-01 used a lockfile-controlled clean install. `package.json` and `package-lock.json` were confirmed unchanged by that install before this documentation and metadata reconciliation.
 - The recorded PH6-01 `release-check` passed `qa:html`, `qa:jsonld` (11 blocks), `qa:links` (12 files), `qa:a11y` (12/12 URLs with zero errors), `assets:verify`, `qa:budget` and `qa:package`. Its historical `aria-current` E2E failure was subsequently fixed, and the focused test plus the canonical Playwright suite passed 1/1 and 13/13 respectively.
 - The PH5-11 follow-up rebuilt `dist/` and collected all five configured mobile URLs with pinned LHCI 0.14.0. Public temporary upload was not authorized, so the identical collection and assertions were run with only the upload target overridden to local filesystem storage. `/fleet.html` scored 1.00/1.00/1.00/1.00 across performance/accessibility/best practices/SEO, with 357 KiB total transfer, 1.5 s LCP and 1.5 s Time to Interactive; the home and fleet responsive, optimized and modern-image audits each scored 1 with zero findings.
-- The PH5-12 follow-up rebuilt `dist/` and used pinned LHCI 0.14.0 to collect all five configured mobile URLs locally. `offscreen-images` scored 1 with zero findings on every URL, and performance/accessibility/best-practices/SEO scores met the configured thresholds. The assertion command returned exit code 1 only for the active `PH5-10` unavailable audits on all five URLs; no full release suite was run as part of PH5-12.
+- The PH5-12 follow-up rebuilt `dist/` and used pinned LHCI 0.14.0 to collect all five configured mobile URLs locally. `offscreen-images` scored 1 with zero findings on every URL, and performance/accessibility/best-practices/SEO scores met the configured thresholds; no full release suite was run as part of PH5-12.
+- The PH5-10 follow-up confirmed that `lcp-lazy-loaded`, `prioritize-lcp-image` and `non-composited-animations` each returned `scoreDisplayMode: error` with no numeric score on all five Lighthouse 12.1.0 reports. Only those inherited preset assertions are now overridden to `off`; `lighthouse:no-pwa`, all other applicable preset assertions and the category thresholds remain active. A rebuilt local five-URL LHCI 0.14.0 collection and assertion run exited with code 0. Public temporary upload was not used because authorization for that destination was unavailable.
 - Completed implementation history, including the former audit findings and optional improvements, is maintained in `CHANGELOG.md` rather than duplicated here.

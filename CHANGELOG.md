@@ -19,6 +19,7 @@ All significant changes to this project are documented in this file.
 
 ### Build and Tooling
 
+- Reconciled the Lighthouse CI assertion contract by overriding only the scoreless `lcp-lazy-loaded`, `prioritize-lcp-image`, and `non-composited-animations` preset audits to `off`, while retaining `lighthouse:no-pwa`, every other applicable preset assertion, and the existing category thresholds.
 - Added a deployment-package smoke check that rebuilds `dist/` and validates built local form actions, static and Vite-generated service-worker precache targets, canonical paths, and sitemap paths, with standalone and `release-check` integration.
 - Migrated Lighthouse CI from the repository source root to the Vite-generated `dist/` deployment package, with `qa:lighthouse` rebuilding the package before collecting the existing five production URLs and an explicit Lighthouse-compatible mobile form factor.
 - Migrated performance-budget validation to the current Vite production package: `qa:budget` now rebuilds `dist/`, discovers all emitted CSS and JavaScript through the generated manifest, sums actual gzip sizes against the retained 12000 B and 18000 B limits, and replaces the obsolete pre-Vite build and tracked `.min` paths.

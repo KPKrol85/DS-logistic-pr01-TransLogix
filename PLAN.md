@@ -15,7 +15,6 @@
 ## Current priorities
 
 1. `PH5-09` — Assess the current clean-install dependency advisories and make an evidence-based risk decision.
-2. `PH5-10` — Reconcile Lighthouse assertions that cannot produce a score while preserving applicable checks.
 
 `PH6-02` remains blocked pending the owner's release version and date. `D-01` remains deferred pending the owner's postal identification data.
 
@@ -188,9 +187,12 @@
   - **Completion condition:** a current `npm audit` has no unresolved findings, or every remaining finding has an explicit evidence-based risk decision, and the complete release gate still passes after any approved dependency changes
   - **Source:** `daily-AUDIT.md` — P1-01
 
-- [ ] **PH5-10 — Reconcile Lighthouse assertions that cannot produce a score** — **Priority:** Medium
+- [x] **PH5-10 — Reconcile Lighthouse assertions that cannot produce a score** — **Priority:** Medium
   - **Observed failure:** the retained `lighthouse:no-pwa` preset asserted `minScore` for `lcp-lazy-loaded`, `prioritize-lcp-image` and `non-composited-animations`, while Lighthouse returned no value (`NaN`, `scoreDisplayMode: error`) for each audit on all five URLs
   - **Scope:** review the preset against the pinned LHCI/Lighthouse behavior and change only assertions that are demonstrably unsupported or inapplicable, preserving the existing category thresholds and every applicable audit
+  - [x] override only `lcp-lazy-loaded`, `prioritize-lcp-image` and `non-composited-animations` to `off`, retaining `lighthouse:no-pwa` and all other preset and category assertions
+  - [x] rebuild `dist/` and use pinned LHCI 0.14.0 with local filesystem storage to collect and assert all five configured mobile URLs
+  - **Resolved outcome (2026-08-19):** all five reports were collected, the existing category thresholds passed, and the assertion command exited with code 0; the three overridden audits still reported `scoreDisplayMode: error` rather than actionable numeric scores
   - **Completion condition:** all five reports are still collected from `dist/`, applicable assertions remain enforced, and unavailable audits no longer turn a successful collection into an uninformative hard failure
   - **Source:** `daily-AUDIT.md` — P2-01
 

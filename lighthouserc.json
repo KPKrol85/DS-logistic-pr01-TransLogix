@@ -17,6 +17,9 @@
     "assert": {
       "preset": "lighthouse:no-pwa",
       "assertions": {
+        "lcp-lazy-loaded": "off",
+        "prioritize-lcp-image": "off",
+        "non-composited-animations": "off",
         "categories:performance": [
           "warn",
           {

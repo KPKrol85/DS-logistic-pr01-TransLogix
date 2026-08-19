@@ -1,4 +1,14 @@
 const STORAGE_KEY = "translogix-theme";
+const THEME_IMAGE_URLS = {
+  light: {
+    logo: new URL("../img/logo/logo-translogix-light.svg", import.meta.url).href,
+    toggle: new URL("../img/svg/sun.svg", import.meta.url).href,
+  },
+  dark: {
+    logo: new URL("../img/logo/logo-translogix-dark.svg", import.meta.url).href,
+    toggle: new URL("../img/svg/moon.svg", import.meta.url).href,
+  },
+};
 
 function getStoredTheme() {
   try {
@@ -15,12 +25,26 @@ function getPreferredTheme() {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
+function updateThemeImages(theme) {
+  const imageUrls = THEME_IMAGE_URLS[theme];
+
+  document.querySelectorAll("[data-theme-image]").forEach((image) => {
+    const imageUrl = imageUrls[image.dataset.themeImage];
+    if (imageUrl && image.src !== imageUrl) {
+      image.src = imageUrl;
+    }
+  });
+}
+
 function applyTheme(theme) {
   const root = document.documentElement;
   const shouldBeDark = theme === "dark";
   const isDark = root.classList.contains("theme-dark");
-  if (isDark === shouldBeDark) return;
-  root.classList.toggle("theme-dark", shouldBeDark);
+  if (isDark !== shouldBeDark) {
+    root.classList.toggle("theme-dark", shouldBeDark);
+  }
+
+  updateThemeImages(theme);
 }
 
 function updateToggleA11y(toggle, theme) {

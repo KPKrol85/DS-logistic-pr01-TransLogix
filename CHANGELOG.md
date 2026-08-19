@@ -35,6 +35,7 @@ All significant changes to this project are documented in this file.
 
 ### Fixed
 
+- Prevented eager shared-image transfer by selecting only the active theme logo and toggle icon, deferring footer social SVGs until viewport entry, and retaining explicit dimensions, accessible link names and built no-JavaScript fallbacks.
 - Optimized fleet image delivery with deterministic 160, 320 and 640 px AVIF/WebP/JPG variants, measured `srcset`/`sizes` contracts for fleet and home cards, modern-format thumbnails, and an event-driven AVIF → WebP → JPG lightbox path that keeps full-size media unloaded until the gallery opens.
 - Gave the shared header brand link one explicit accessible home-page name and replaced generic `Start` home links in the shared header and footer with `Strona główna`, passing the Lighthouse `link-name` and `link-text` audits without changing the visual header design.
 - Consolidated the services price-range handling inside its initializer and synchronized the visible label immediately with restored filter state.

@@ -56,16 +56,9 @@ body > header.header--compact .header-inner {
   flex-shrink: 0;
 }
 
-.brand__logo--dark {
+.no-js [data-theme-image],
+.no-js [data-deferred-image] {
   display: none;
-}
-
-html.theme-dark .brand__logo--light {
-  display: none;
-}
-
-html.theme-dark .brand__logo--dark {
-  display: block;
 }
 
 .brand__text {
@@ -307,18 +300,6 @@ html:not(.theme-dark) .theme-toggle:hover {
 html.theme-dark .theme-toggle:hover {
   opacity: 0.85;
   transform: scale(1.06);
-}
-
-.icon-moon {
-  display: none;
-}
-
-html.theme-dark .icon-sun {
-  display: none;
-}
-
-html.theme-dark .icon-moon {
-  display: block;
 }
 
 .header-actions .btn {

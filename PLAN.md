@@ -1,6 +1,6 @@
 # TransLogix — Development Plan
 
-**Last reviewed:** 2026-08-18
+**Last reviewed:** 2026-08-19
 **Project type:** Static multi-page website (vanilla HTML, modular CSS, ES modules) with a Vite production build, Netlify static-hosting configuration, service worker and web manifest
 **Plan status:** Active
 
@@ -16,7 +16,6 @@
 
 1. `PH5-09` — Assess the current clean-install dependency advisories and make an evidence-based risk decision.
 2. `PH5-10` — Reconcile Lighthouse assertions that cannot produce a score while preserving applicable checks.
-3. `PH5-12` — Avoid eager transfer of hidden and offscreen shared images.
 
 `PH6-02` remains blocked pending the owner's release version and date. `D-01` remains deferred pending the owner's postal identification data.
 
@@ -206,8 +205,12 @@
   - **Completion condition:** the built fleet and home card/gallery paths deliver right-sized modern image resources without eagerly transferring full-size lightbox media, while preserving the AVIF/WebP/JPG fallback and gallery behavior; the related Lighthouse image assertions pass and the fleet category reaches the configured performance threshold
   - **Source:** `daily-AUDIT.md` — P1-02
 
-- [ ] **PH5-12 — Avoid eager transfer of hidden and offscreen shared images** — **Priority:** Medium
+- [x] **PH5-12 — Avoid eager transfer of hidden and offscreen shared images** — **Priority:** Medium
   - **Observed failure:** Lighthouse reported offscreen-image savings on `/` (3 KiB), `/services.html` (78 KiB), `/contact.html` (3 KiB) and `/pricing.html` (194 KiB), led by the hidden dark logo variant and below-fold social or theme icons
+  - [x] replace simultaneous light/dark logo and toggle images with one source selected by the existing theme module, retaining the early theme class, storage key, accessible toggle state and a static no-JavaScript fallback
+  - [x] defer the four footer social images until their links enter the viewport, retaining native lazy loading, explicit dimensions, decorative alternatives and link names
+  - [x] pass source HTML, asset, link, syntax, Vite build, package and budget checks plus the focused theme/shared-image Playwright suite (4/4)
+  - **Resolved outcome (2026-08-19):** a pinned local LHCI collection from `dist/` gave `offscreen-images` score 1 with zero findings on `/`, `/services.html`, `/contact.html`, `/fleet.html` and `/pricing.html`; all configured category thresholds passed, while the assertion command still exited with code 1 only for the separately scoped `PH5-10` unavailable audits
   - **Completion condition:** non-visible theme variants and below-fold shared imagery are not transferred before use where avoidable, the four affected URLs pass the offscreen-image audit, and theme, footer, accessibility and no-JavaScript behavior remain unchanged
   - **Source:** `daily-AUDIT.md` — P2-02
 

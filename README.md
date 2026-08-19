@@ -161,6 +161,7 @@ Komenda uruchamia produkcyjny podgląd Vite.
 - `npm run clean` – usuwa katalog `dist/`.
 - `npm run assets:verify` – na warstwie źródłowej sprawdza, czy lokalne assety wskazywane w projektowym HTML (w tym przez `srcset` i obsługiwane atrybuty runtime galerii), w plikach JSON pod `assets/data/` oraz w `PRECACHE_URLS` w `sw.js` istnieją.
 - `npm run assets:optimize` – konwertuje pliki JPG i PNG z `assets/img/src_img` do WebP i AVIF w `assets/img/opt_img`; katalog źródłowy nie jest częścią repozytorium, więc bez niego skrypt kończy się bez konwersji.
+- `npm run assets:fleet` – generuje warianty 160, 320 i 640 px w formatach AVIF, WebP i JPG dla obrazów kart wskazanych przez `data-main-jpg` w `fleet.html`, używając utrzymywanych źródeł JPG 800×600.
 - `npm run qa:html` – waliduje `html-validate` strony w katalogu głównym oraz pliki HTML w `partials/`.
 - `npm run qa:jsonld` – parsuje bloki JSON-LD osadzone w stronach i sprawdza obecność `@context`, `@type` lub `@graph`.
 - `npm run qa:links` – sprawdza lokalne odwołania `href` i `src` w stronach katalogu głównego względem drzewa źródłowego.
@@ -253,7 +254,7 @@ Mechanizmy obecne w repozytorium:
 - minifikacja CSS i JS w pipeline builda;
 - budżety gzip produkcyjnych assetów Vite weryfikowane przez `npm run qa:budget`;
 - lokalne fonty `woff2` ładowane przez `@font-face` z `font-display: swap` i wariantami `local()`;
-- obrazy w formatach AVIF, WebP, JPG, PNG i SVG, w tym warianty rozdzielczości dla hero;
+- obrazy w formatach AVIF, WebP, JPG, PNG i SVG, w tym warianty rozdzielczości dla hero oraz generowane warianty floty 160, 320 i 640 px;
 - `image-set()` w CSS oraz elementy `<picture>` w stronach;
 - `loading="lazy"` i jawne wymiary obrazów;
 - precache i runtime caching w service workerze;
@@ -275,6 +276,7 @@ Bieżące wyniki Lighthouse i otwarte ryzyka wydajności są podsumowane w `dail
 - Zmiany stylów trzymaj w `assets/css/modules/`; kolejność importów definiuje `assets/css/style.css`.
 - Zmiany interakcji trzymaj w modułach `assets/js/`, a ich inicjalizację w `assets/js/main.js`.
 - Nagłówek i stopkę edytuj wyłącznie w `partials/` — to jedyne utrzymywane źródło używane przez runtime i produkcyjny plugin Vite.
+- Po zmianie źródłowego JPG 800×600 używanego przez kartę w `fleet.html` uruchom `npm run assets:fleet`; skrypt deterministycznie odtwarza pochodne w `assets/img/fleet/responsive/` i nie modyfikuje oryginałów.
 - Po zmianie tras lub statycznych zasobów aktualizuj statyczną część `PRECACHE_URLS` i podnieś `CACHE_NAME` w `sw.js`, a następnie uruchom `npm run assets:verify`; wersjonowane bundle CSS/JS są dodawane do `dist/sw.js` automatycznie przez Vite.
 - Zmiany w adresach stron odzwierciedlaj w `sitemap.xml` i `_redirects`.
 - Istotne zmiany dokumentuj w `CHANGELOG.md`.
@@ -444,6 +446,7 @@ The command starts Vite's production preview.
 - `npm run clean` – removes the `dist/` directory.
 - `npm run assets:verify` – checks at the source layer that local assets referenced in project HTML (including `srcset` and the gallery runtime attributes covered by the verifier), JSON files under `assets/data/`, and `PRECACHE_URLS` in `sw.js` exist.
 - `npm run assets:optimize` – converts JPG and PNG files from `assets/img/src_img` to WebP and AVIF in `assets/img/opt_img`; the source directory is not part of the repository, so without it the script exits without converting anything.
+- `npm run assets:fleet` – generates 160, 320, and 640 px AVIF, WebP, and JPG variants for the card images referenced through `data-main-jpg` in `fleet.html`, using the maintained 800×600 JPG sources.
 - `npm run qa:html` – validates the root pages and the HTML files in `partials/` with `html-validate`.
 - `npm run qa:jsonld` – parses the JSON-LD blocks embedded in the pages and checks for `@context`, `@type`, or `@graph`.
 - `npm run qa:links` – checks local `href` and `src` references in the root pages against the source tree.
@@ -536,7 +539,7 @@ Mechanisms present in the repository:
 - CSS and JS minification in the build pipeline;
 - gzip budgets for production Vite assets verified by `npm run qa:budget`;
 - local `woff2` fonts loaded through `@font-face` with `font-display: swap` and `local()` variants;
-- images in AVIF, WebP, JPG, PNG, and SVG, including resolution variants for the hero image;
+- images in AVIF, WebP, JPG, PNG, and SVG, including resolution variants for the hero image and generated 160, 320, and 640 px fleet variants;
 - `image-set()` in CSS and `<picture>` elements in the pages;
 - `loading="lazy"` and explicit image dimensions;
 - service worker precache and runtime caching;
@@ -558,6 +561,7 @@ Current Lighthouse results and open performance risks are summarized in `daily-A
 - Keep style changes in `assets/css/modules/`; import order is defined by `assets/css/style.css`.
 - Keep interaction changes in the `assets/js/` modules and their initialization in `assets/js/main.js`.
 - Edit the header and footer only in `partials/` — it is the sole maintained source used by the runtime and the production Vite plugin.
+- After changing an 800×600 source JPG used by a card in `fleet.html`, run `npm run assets:fleet`; the script deterministically rebuilds derivatives under `assets/img/fleet/responsive/` without modifying the originals.
 - After changing routes or static assets, update the static portion of `PRECACHE_URLS` and bump `CACHE_NAME` in `sw.js`, then run `npm run assets:verify`; Vite adds the versioned CSS/JS bundles to `dist/sw.js` automatically.
 - Reflect page URL changes in `sitemap.xml` and `_redirects`.
 - Document significant changes in `CHANGELOG.md`.

@@ -4,6 +4,7 @@ export function initLightbox() {
   const dialog = lightbox?.querySelector(".lightbox__dialog");
   const titleEl = lightbox?.querySelector(".lightbox__title");
   const heroImg = lightbox?.querySelector(".lightbox__hero");
+  const heroPicture = heroImg?.closest("picture");
   const grid = lightbox?.querySelector(".lightbox__grid");
   const closeBtn = lightbox?.querySelector("[data-lightbox-close]");
   const prevBtn = lightbox?.querySelector("[data-lightbox-prev]");
@@ -11,9 +12,16 @@ export function initLightbox() {
   const zoom = lightbox?.querySelector(".lightbox__zoom");
   const zoomImg = lightbox?.querySelector(".lightbox__zoom-img");
   const zoomClose = lightbox?.querySelector(".lightbox__zoom-close");
-  if (!lightbox || !dialog || !titleEl || !heroImg || !grid || !closeBtn || !prevBtn || !nextBtn || !zoom || !zoomImg || !zoomClose || !triggers.length) {
+  if (!lightbox || !dialog || !titleEl || !heroImg || !heroPicture || !grid || !closeBtn || !prevBtn || !nextBtn || !zoom || !zoomImg || !zoomClose || !triggers.length) {
     return;
   }
+
+  const heroAvifSource = document.createElement("source");
+  heroAvifSource.type = "image/avif";
+  const heroWebpSource = document.createElement("source");
+  heroWebpSource.type = "image/webp";
+  heroPicture.insertBefore(heroAvifSource, heroImg);
+  heroPicture.insertBefore(heroWebpSource, heroImg);
 
   const metaEl = document.createElement("p");
   metaEl.className = "lightbox__meta";
@@ -47,7 +55,7 @@ export function initLightbox() {
       { avif: "assets/img/fleet/chlodnia/6.avif", webp: "assets/img/fleet/chlodnia/6.webp", jpg: "assets/img/fleet/chlodnia/6.jpg", alt: "Ciężarówka chłodnia - zdjęcie 6" },
     ],
     set: [
-      { avif: "assets/img/fleet/mega/1.avif", jpg: "assets/img/fleet/mega/1.jpg", alt: "Zestaw Mega - zdjęcie 1" },
+      { avif: "assets/img/fleet/mega/1.avif", webp: "assets/img/fleet/mega/1.webp", jpg: "assets/img/fleet/mega/1.jpg", alt: "Zestaw Mega - zdjęcie 1" },
       { avif: "assets/img/fleet/mega/2.avif", webp: "assets/img/fleet/mega/2.webp", jpg: "assets/img/fleet/mega/2.jpg", alt: "Zestaw Mega - zdjęcie 2" },
       { avif: "assets/img/fleet/mega/3.avif", webp: "assets/img/fleet/mega/3.webp", jpg: "assets/img/fleet/mega/3.jpg", alt: "Zestaw Mega - zdjęcie 3" },
       { avif: "assets/img/fleet/mega/4.avif", webp: "assets/img/fleet/mega/4.webp", jpg: "assets/img/fleet/mega/4.jpg", alt: "Zestaw Mega - zdjęcie 4" },
@@ -69,7 +77,15 @@ export function initLightbox() {
     return Math.min(Math.max(index, 0), length - 1);
   };
 
-  const getItemSrc = (item) => item?.jpg || item?.webp || item?.avif || item?.src || "";
+  const getItemFallbackSrc = (item) => item?.jpg || item?.webp || item?.avif || item?.src || "";
+
+  const setPictureSource = (source, value) => {
+    if (value) {
+      source.srcset = value;
+    } else {
+      source.removeAttribute("srcset");
+    }
+  };
 
   const lockScroll = () => {
     scrollY = window.scrollY || document.documentElement.scrollTop || 0;
@@ -99,7 +115,9 @@ export function initLightbox() {
     if (!items.length) return;
     currentImageIndex = clampIndex(index, items.length);
     const item = items[currentImageIndex];
-    heroImg.src = getItemSrc(item);
+    setPictureSource(heroAvifSource, item.avif);
+    setPictureSource(heroWebpSource, item.webp);
+    heroImg.src = getItemFallbackSrc(item);
     heroImg.alt = item.alt || "";
     metaEl.textContent = `Zdjęcie ${currentImageIndex + 1} z ${items.length}`;
   };

@@ -99,8 +99,25 @@
                 <div class="fleet-card__gallery">
                   <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="solo" data-title="Bus dostawczy" aria-label="Otwórz galerię: Bus dostawczy">
                     <picture>
-                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/bus/1.avif" type="image/avif" />
-                      <img data-fleet-main-image src="assets/img/fleet/bus/1.jpg" alt="Bus dostawczy TransLogix w trasie" loading="lazy" width="800" height="600" />
+                      <source
+                        data-fleet-main-source="avif"
+                        srcset="assets/img/fleet/responsive/bus/1-320.avif 320w, assets/img/fleet/responsive/bus/1-640.avif 640w, assets/img/fleet/bus/1.avif 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/avif" />
+                      <source
+                        data-fleet-main-source="webp"
+                        srcset="assets/img/fleet/responsive/bus/1-320.webp 320w, assets/img/fleet/responsive/bus/1-640.webp 640w, assets/img/fleet/bus/1.webp 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/webp" />
+                      <img
+                        data-fleet-main-image
+                        src="assets/img/fleet/responsive/bus/1-320.jpg"
+                        srcset="assets/img/fleet/responsive/bus/1-320.jpg 320w, assets/img/fleet/responsive/bus/1-640.jpg 640w, assets/img/fleet/bus/1.jpg 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        alt="Bus dostawczy TransLogix w trasie"
+                        fetchpriority="high"
+                        width="800"
+                        height="600" />
                     </picture>
                   </button>
                   <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Bus dostawczy">
@@ -109,45 +126,65 @@
                       class="fleet-card__thumb is-active"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/bus/1.avif"
+                      data-main-webp="assets/img/fleet/bus/1.webp"
                       data-main-jpg="assets/img/fleet/bus/1.jpg"
                       data-main-alt="Bus dostawczy TransLogix w trasie"
                       aria-label="Pokaż zdjęcie 1: Bus dostawczy"
                       aria-pressed="true"
                       aria-current="true">
-                      <img src="assets/img/fleet/bus/1.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/bus/1-160.avif 160w, assets/img/fleet/responsive/bus/1-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/bus/1-160.webp 160w, assets/img/fleet/responsive/bus/1-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/bus/1-160.jpg" srcset="assets/img/fleet/responsive/bus/1-160.jpg 160w, assets/img/fleet/responsive/bus/1-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/bus/2.avif"
+                      data-main-webp="assets/img/fleet/bus/2.webp"
                       data-main-jpg="assets/img/fleet/bus/2.jpg"
                       data-main-alt="Bus dostawczy TransLogix przy załadunku"
                       aria-label="Pokaż zdjęcie 2: Bus dostawczy"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/bus/2.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/bus/2-160.avif 160w, assets/img/fleet/responsive/bus/2-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/bus/2-160.webp 160w, assets/img/fleet/responsive/bus/2-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/bus/2-160.jpg" srcset="assets/img/fleet/responsive/bus/2-160.jpg 160w, assets/img/fleet/responsive/bus/2-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/bus/3.avif"
+                      data-main-webp="assets/img/fleet/bus/3.webp"
                       data-main-jpg="assets/img/fleet/bus/3.jpg"
                       data-main-alt="Bus dostawczy TransLogix na trasie miejskiej"
                       aria-label="Pokaż zdjęcie 3: Bus dostawczy"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/bus/3.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/bus/3-160.avif 160w, assets/img/fleet/responsive/bus/3-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/bus/3-160.webp 160w, assets/img/fleet/responsive/bus/3-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/bus/3-160.jpg" srcset="assets/img/fleet/responsive/bus/3-160.jpg 160w, assets/img/fleet/responsive/bus/3-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/bus/4.avif"
+                      data-main-webp="assets/img/fleet/bus/4.webp"
                       data-main-jpg="assets/img/fleet/bus/4.jpg"
                       data-main-alt="Bus dostawczy TransLogix gotowy do dystrybucji"
                       aria-label="Pokaż zdjęcie 4: Bus dostawczy"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/bus/4.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/bus/4-160.avif 160w, assets/img/fleet/responsive/bus/4-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/bus/4-160.webp 160w, assets/img/fleet/responsive/bus/4-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/bus/4-160.jpg" srcset="assets/img/fleet/responsive/bus/4-160.jpg 160w, assets/img/fleet/responsive/bus/4-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                   </div>
                 </div>
@@ -214,8 +251,25 @@
                 <div class="fleet-card__gallery">
                   <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="truck" data-title="Ciężarówka plandeka" aria-label="Otwórz galerię: Ciężarówka plandeka">
                     <picture>
-                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/truck/truck-1.avif" type="image/avif" />
-                      <img data-fleet-main-image src="assets/img/fleet/truck/truck-1.jpg" alt="Ciężarówka plandeka TransLogix podczas postoju" loading="lazy" width="800" height="600" />
+                      <source
+                        data-fleet-main-source="avif"
+                        srcset="assets/img/fleet/responsive/truck/truck-1-320.avif 320w, assets/img/fleet/responsive/truck/truck-1-640.avif 640w, assets/img/fleet/truck/truck-1.avif 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/avif" />
+                      <source
+                        data-fleet-main-source="webp"
+                        srcset="assets/img/fleet/responsive/truck/truck-1-320.webp 320w, assets/img/fleet/responsive/truck/truck-1-640.webp 640w, assets/img/fleet/truck/truck-1.webp 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/webp" />
+                      <img
+                        data-fleet-main-image
+                        src="assets/img/fleet/responsive/truck/truck-1-320.jpg"
+                        srcset="assets/img/fleet/responsive/truck/truck-1-320.jpg 320w, assets/img/fleet/responsive/truck/truck-1-640.jpg 640w, assets/img/fleet/truck/truck-1.jpg 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        alt="Ciężarówka plandeka TransLogix podczas postoju"
+                        loading="lazy"
+                        width="800"
+                        height="600" />
                     </picture>
                   </button>
                   <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Ciężarówka plandeka">
@@ -224,45 +278,65 @@
                       class="fleet-card__thumb is-active"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/truck/truck-1.avif"
+                      data-main-webp="assets/img/fleet/truck/truck-1.webp"
                       data-main-jpg="assets/img/fleet/truck/truck-1.jpg"
                       data-main-alt="Ciężarówka plandeka TransLogix podczas postoju"
                       aria-label="Pokaż zdjęcie 1: Ciężarówka plandeka"
                       aria-pressed="true"
                       aria-current="true">
-                      <img src="assets/img/fleet/truck/truck-1.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/truck/truck-1-160.avif 160w, assets/img/fleet/responsive/truck/truck-1-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/truck/truck-1-160.webp 160w, assets/img/fleet/responsive/truck/truck-1-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/truck/truck-1-160.jpg" srcset="assets/img/fleet/responsive/truck/truck-1-160.jpg 160w, assets/img/fleet/responsive/truck/truck-1-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/truck/truck-2.avif"
+                      data-main-webp="assets/img/fleet/truck/truck-2.webp"
                       data-main-jpg="assets/img/fleet/truck/truck-2.jpg"
                       data-main-alt="Ciężarówka plandeka TransLogix z przestrzenią ładunkową"
                       aria-label="Pokaż zdjęcie 2: Ciężarówka plandeka"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/truck/truck-2.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/truck/truck-2-160.avif 160w, assets/img/fleet/responsive/truck/truck-2-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/truck/truck-2-160.webp 160w, assets/img/fleet/responsive/truck/truck-2-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/truck/truck-2-160.jpg" srcset="assets/img/fleet/responsive/truck/truck-2-160.jpg 160w, assets/img/fleet/responsive/truck/truck-2-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/truck/truck-3.avif"
+                      data-main-webp="assets/img/fleet/truck/truck-3.webp"
                       data-main-jpg="assets/img/fleet/truck/truck-3.jpg"
                       data-main-alt="Ciężarówka plandeka TransLogix na placu logistycznym"
                       aria-label="Pokaż zdjęcie 3: Ciężarówka plandeka"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/truck/truck-3.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/truck/truck-3-160.avif 160w, assets/img/fleet/responsive/truck/truck-3-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/truck/truck-3-160.webp 160w, assets/img/fleet/responsive/truck/truck-3-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/truck/truck-3-160.jpg" srcset="assets/img/fleet/responsive/truck/truck-3-160.jpg 160w, assets/img/fleet/responsive/truck/truck-3-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/truck/truck-4.avif"
+                      data-main-webp="assets/img/fleet/truck/truck-4.webp"
                       data-main-jpg="assets/img/fleet/truck/truck-4.jpg"
                       data-main-alt="Ciężarówka plandeka TransLogix przygotowana do transportu"
                       aria-label="Pokaż zdjęcie 4: Ciężarówka plandeka"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/truck/truck-4.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/truck/truck-4-160.avif 160w, assets/img/fleet/responsive/truck/truck-4-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/truck/truck-4-160.webp 160w, assets/img/fleet/responsive/truck/truck-4-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/truck/truck-4-160.jpg" srcset="assets/img/fleet/responsive/truck/truck-4-160.jpg 160w, assets/img/fleet/responsive/truck/truck-4-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                   </div>
                 </div>
@@ -330,8 +404,25 @@
                 <div class="fleet-card__gallery">
                   <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="chlodnia" data-title="Ciężarówka chłodnia" aria-label="Otwórz galerię: Ciężarówka chłodnia">
                     <picture>
-                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/chlodnia/1.avif" type="image/avif" />
-                      <img data-fleet-main-image src="assets/img/fleet/chlodnia/1.jpg" alt="Ciężarówka chłodnia TransLogix z zabudową temperaturową" loading="lazy" width="800" height="600" />
+                      <source
+                        data-fleet-main-source="avif"
+                        srcset="assets/img/fleet/responsive/chlodnia/1-320.avif 320w, assets/img/fleet/responsive/chlodnia/1-640.avif 640w, assets/img/fleet/chlodnia/1.avif 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/avif" />
+                      <source
+                        data-fleet-main-source="webp"
+                        srcset="assets/img/fleet/responsive/chlodnia/1-320.webp 320w, assets/img/fleet/responsive/chlodnia/1-640.webp 640w, assets/img/fleet/chlodnia/1.webp 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/webp" />
+                      <img
+                        data-fleet-main-image
+                        src="assets/img/fleet/responsive/chlodnia/1-320.jpg"
+                        srcset="assets/img/fleet/responsive/chlodnia/1-320.jpg 320w, assets/img/fleet/responsive/chlodnia/1-640.jpg 640w, assets/img/fleet/chlodnia/1.jpg 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        alt="Ciężarówka chłodnia TransLogix z zabudową temperaturową"
+                        loading="lazy"
+                        width="800"
+                        height="600" />
                     </picture>
                   </button>
                   <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Ciężarówka chłodnia">
@@ -340,45 +431,65 @@
                       class="fleet-card__thumb is-active"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/chlodnia/1.avif"
+                      data-main-webp="assets/img/fleet/chlodnia/1.webp"
                       data-main-jpg="assets/img/fleet/chlodnia/1.jpg"
                       data-main-alt="Ciężarówka chłodnia TransLogix z zabudową temperaturową"
                       aria-label="Pokaż zdjęcie 1: Ciężarówka chłodnia"
                       aria-pressed="true"
                       aria-current="true">
-                      <img src="assets/img/fleet/chlodnia/1.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/chlodnia/1-160.avif 160w, assets/img/fleet/responsive/chlodnia/1-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/chlodnia/1-160.webp 160w, assets/img/fleet/responsive/chlodnia/1-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/chlodnia/1-160.jpg" srcset="assets/img/fleet/responsive/chlodnia/1-160.jpg 160w, assets/img/fleet/responsive/chlodnia/1-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/chlodnia/2.avif"
+                      data-main-webp="assets/img/fleet/chlodnia/2.webp"
                       data-main-jpg="assets/img/fleet/chlodnia/2.jpg"
                       data-main-alt="Ciężarówka chłodnia TransLogix z agregatem temperatury"
                       aria-label="Pokaż zdjęcie 2: Ciężarówka chłodnia"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/chlodnia/2.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/chlodnia/2-160.avif 160w, assets/img/fleet/responsive/chlodnia/2-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/chlodnia/2-160.webp 160w, assets/img/fleet/responsive/chlodnia/2-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/chlodnia/2-160.jpg" srcset="assets/img/fleet/responsive/chlodnia/2-160.jpg 160w, assets/img/fleet/responsive/chlodnia/2-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/chlodnia/3.avif"
+                      data-main-webp="assets/img/fleet/chlodnia/3.webp"
                       data-main-jpg="assets/img/fleet/chlodnia/3.jpg"
                       data-main-alt="Ciężarówka chłodnia TransLogix przy rampie"
                       aria-label="Pokaż zdjęcie 3: Ciężarówka chłodnia"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/chlodnia/3.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/chlodnia/3-160.avif 160w, assets/img/fleet/responsive/chlodnia/3-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/chlodnia/3-160.webp 160w, assets/img/fleet/responsive/chlodnia/3-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/chlodnia/3-160.jpg" srcset="assets/img/fleet/responsive/chlodnia/3-160.jpg 160w, assets/img/fleet/responsive/chlodnia/3-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
                       class="fleet-card__thumb"
                       data-fleet-thumb
                       data-main-avif="assets/img/fleet/chlodnia/4.avif"
+                      data-main-webp="assets/img/fleet/chlodnia/4.webp"
                       data-main-jpg="assets/img/fleet/chlodnia/4.jpg"
                       data-main-alt="Ciężarówka chłodnia TransLogix gotowa do transportu temperaturowego"
                       aria-label="Pokaż zdjęcie 4: Ciężarówka chłodnia"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/chlodnia/4.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/chlodnia/4-160.avif 160w, assets/img/fleet/responsive/chlodnia/4-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/chlodnia/4-160.webp 160w, assets/img/fleet/responsive/chlodnia/4-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/chlodnia/4-160.jpg" srcset="assets/img/fleet/responsive/chlodnia/4-160.jpg 160w, assets/img/fleet/responsive/chlodnia/4-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                   </div>
                 </div>
@@ -455,9 +566,25 @@
                 <div class="fleet-card__gallery">
                   <button type="button" class="fleet-card__main lightbox-trigger" data-gallery="set" data-title="Zestaw Mega" aria-label="Otwórz galerię: Zestaw Mega">
                     <picture>
-                      <source data-fleet-main-source="avif" srcset="assets/img/fleet/mega/1.avif" type="image/avif" />
-                      <source data-fleet-main-source="webp" srcset="assets/img/fleet/mega/1.webp" type="image/webp" />
-                      <img data-fleet-main-image src="assets/img/fleet/mega/1.jpg" alt="Zestaw Mega TransLogix przygotowany do transportu dalekobieżnego" loading="lazy" width="800" height="600" />
+                      <source
+                        data-fleet-main-source="avif"
+                        srcset="assets/img/fleet/responsive/mega/1-320.avif 320w, assets/img/fleet/responsive/mega/1-640.avif 640w, assets/img/fleet/mega/1.avif 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/avif" />
+                      <source
+                        data-fleet-main-source="webp"
+                        srcset="assets/img/fleet/responsive/mega/1-320.webp 320w, assets/img/fleet/responsive/mega/1-640.webp 640w, assets/img/fleet/mega/1.webp 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        type="image/webp" />
+                      <img
+                        data-fleet-main-image
+                        src="assets/img/fleet/responsive/mega/1-320.jpg"
+                        srcset="assets/img/fleet/responsive/mega/1-320.jpg 320w, assets/img/fleet/responsive/mega/1-640.jpg 640w, assets/img/fleet/mega/1.jpg 800w"
+                        sizes="(min-width: 1334px) 551px, (min-width: 760px) calc(45vw - 46px), calc(90vw - 36px)"
+                        alt="Zestaw Mega TransLogix przygotowany do transportu dalekobieżnego"
+                        loading="lazy"
+                        width="800"
+                        height="600" />
                     </picture>
                   </button>
                   <div class="fleet-card__thumbs" role="group" aria-label="Podgląd zdjęć: Zestaw Mega">
@@ -472,7 +599,11 @@
                       aria-label="Pokaż zdjęcie 1: Zestaw Mega"
                       aria-pressed="true"
                       aria-current="true">
-                      <img src="assets/img/fleet/mega/1.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/mega/1-160.avif 160w, assets/img/fleet/responsive/mega/1-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/mega/1-160.webp 160w, assets/img/fleet/responsive/mega/1-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/mega/1-160.jpg" srcset="assets/img/fleet/responsive/mega/1-160.jpg 160w, assets/img/fleet/responsive/mega/1-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
@@ -484,7 +615,11 @@
                       data-main-alt="Zestaw Mega TransLogix z naczepą do dużych wolumenów"
                       aria-label="Pokaż zdjęcie 2: Zestaw Mega"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/mega/2.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/mega/2-160.avif 160w, assets/img/fleet/responsive/mega/2-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/mega/2-160.webp 160w, assets/img/fleet/responsive/mega/2-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/mega/2-160.jpg" srcset="assets/img/fleet/responsive/mega/2-160.jpg 160w, assets/img/fleet/responsive/mega/2-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
@@ -496,7 +631,11 @@
                       data-main-alt="Zestaw Mega TransLogix na trasie linehaul"
                       aria-label="Pokaż zdjęcie 3: Zestaw Mega"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/mega/3.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/mega/3-160.avif 160w, assets/img/fleet/responsive/mega/3-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/mega/3-160.webp 160w, assets/img/fleet/responsive/mega/3-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/mega/3-160.jpg" srcset="assets/img/fleet/responsive/mega/3-160.jpg 160w, assets/img/fleet/responsive/mega/3-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                     <button
                       type="button"
@@ -508,7 +647,11 @@
                       data-main-alt="Zestaw Mega TransLogix gotowy do przewozu międzynarodowego"
                       aria-label="Pokaż zdjęcie 4: Zestaw Mega"
                       aria-pressed="false">
-                      <img src="assets/img/fleet/mega/4.jpg" alt="" loading="lazy" width="800" height="600" />
+                      <picture>
+                        <source srcset="assets/img/fleet/responsive/mega/4-160.avif 160w, assets/img/fleet/responsive/mega/4-320.avif 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/avif" />
+                        <source srcset="assets/img/fleet/responsive/mega/4-160.webp 160w, assets/img/fleet/responsive/mega/4-320.webp 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" type="image/webp" />
+                        <img src="assets/img/fleet/responsive/mega/4-160.jpg" srcset="assets/img/fleet/responsive/mega/4-160.jpg 160w, assets/img/fleet/responsive/mega/4-320.jpg 320w" sizes="(min-width: 1334px) 130px, (min-width: 760px) calc(11.25vw - 19px), calc(22.5vw - 17px)" alt="" loading="lazy" width="800" height="600" />
+                      </picture>
                     </button>
                   </div>
                 </div>
@@ -596,7 +739,9 @@
           </svg>
         </button>
         <div class="lightbox__hero-frame">
-          <img class="lightbox__hero" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+          <picture>
+            <img class="lightbox__hero" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+          </picture>
         </div>
         <ul class="lightbox__grid"></ul>
         <div class="lightbox__controls">

@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "assets:verify": "node scripts/verify-assets.js",
     "assets:optimize": "node scripts/optimize-images.js",
+    "assets:fleet": "node scripts/generate-fleet-images.js",
     "qa:html": "node scripts/validate-source-html.js",
     "qa:jsonld": "node scripts/validate-jsonld.js",
     "qa:links": "node scripts/check-local-links.js",

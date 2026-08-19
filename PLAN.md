@@ -14,10 +14,9 @@
 
 ## Current priorities
 
-1. `PH5-11` — Optimize fleet image delivery so the production package meets the retained Lighthouse performance contract.
-2. `PH5-09` — Assess the current clean-install dependency advisories and make an evidence-based risk decision.
-3. `PH5-10` — Reconcile Lighthouse assertions that cannot produce a score while preserving applicable checks.
-4. `PH5-12` — Avoid eager transfer of hidden and offscreen shared images.
+1. `PH5-09` — Assess the current clean-install dependency advisories and make an evidence-based risk decision.
+2. `PH5-10` — Reconcile Lighthouse assertions that cannot produce a score while preserving applicable checks.
+3. `PH5-12` — Avoid eager transfer of hidden and offscreen shared images.
 
 `PH6-02` remains blocked pending the owner's release version and date. `D-01` remains deferred pending the owner's postal identification data.
 
@@ -196,9 +195,14 @@
   - **Completion condition:** all five reports are still collected from `dist/`, applicable assertions remain enforced, and unavailable audits no longer turn a successful collection into an uninformative hard failure
   - **Source:** `daily-AUDIT.md` — P2-01
 
-- [ ] **PH5-11 — Optimize fleet image delivery in the production package** — **Priority:** High
+- [x] **PH5-11 — Optimize fleet image delivery in the production package** — **Priority:** High
   - **Observed failure:** the mobile Lighthouse audit for `/fleet.html` scored 0.75 for performance with a 5,194 KiB transfer, 11.0 s LCP and 11.4 s Time to Interactive; 16 JPEGs failed optimized/modern-format checks and 20 images exposed 4,720 KiB of responsive-sizing savings
   - **Related evidence:** the same card-image delivery produced two responsive-sizing findings and 37 KiB of potential savings on the home page
+  - [x] add deterministic 160, 320 and 640 px AVIF/WebP/JPG derivatives for the 16 fleet images used by cards and thumbnails, generated from the maintained 800×600 JPG sources
+  - [x] serve measured responsive candidates on the fleet and home cards, retain the 800 px compatibility fallback for main cards, and give only the first above-the-fold fleet image eager high-priority delivery
+  - [x] keep full-size lightbox images event-driven, prefer AVIF then WebP through a real `<picture>` fallback, and preserve selected-index, keyboard, focus, Escape, zoom and navigation behavior
+  - [x] pass source asset/HTML checks, the production Vite build and the focused fleet Playwright suite (3/3)
+  - **Resolved outcome (2026-08-19):** a pinned local LHCI collection from `dist/` scored `/fleet.html` at 1.00 performance with 357 KiB total transfer, 1.5 s LCP and 1.5 s Time to Interactive; `uses-responsive-images`, `uses-optimized-images` and `modern-image-formats` scored 1 with zero findings on both `/fleet.html` and `/`; the overall assertion command still exited with code 1 only for the separately scoped `PH5-10` unavailable audits and `PH5-12` offscreen-image findings
   - **Completion condition:** the built fleet and home card/gallery paths deliver right-sized modern image resources without eagerly transferring full-size lightbox media, while preserving the AVIF/WebP/JPG fallback and gallery behavior; the related Lighthouse image assertions pass and the fleet category reaches the configured performance threshold
   - **Source:** `daily-AUDIT.md` — P1-02
 

@@ -260,7 +260,7 @@ Mechanizmy obecne w repozytorium:
 - precache i runtime caching w service workerze;
 - polityki `Cache-Control` w `_headers` (długi cache dla assetów, rewalidacja dla HTML i `sw.js`).
 
-Bieżące wyniki Lighthouse i otwarte ryzyka wydajności są podsumowane w `daily-AUDIT.md` i śledzone w `PLAN.md`; repozytorium nie przechowuje surowych artefaktów raportów Lighthouse.
+Wyniki końcowego audytu Lighthouse i stan ryzyk wydajności są podsumowane w `docs/audits/daily-AUDIT-2026-08-19.md` i udokumentowane w `docs/plans/PLAN-2026-08-19.md`; repozytorium nie przechowuje surowych artefaktów raportów Lighthouse.
 
 ### Dane i trwałość stanu
 
@@ -545,7 +545,7 @@ Mechanisms present in the repository:
 - service worker precache and runtime caching;
 - `Cache-Control` policies in `_headers` (long-lived cache for assets, revalidation for HTML and `sw.js`).
 
-Current Lighthouse results and open performance risks are summarized in `daily-AUDIT.md` and tracked in `PLAN.md`; the repository does not retain raw Lighthouse report artifacts.
+Final Lighthouse audit results and the performance-risk status are summarized in `docs/audits/daily-AUDIT-2026-08-19.md` and documented in `docs/plans/PLAN-2026-08-19.md`; the repository does not retain raw Lighthouse report artifacts.
 
 ### Data and State Persistence
 

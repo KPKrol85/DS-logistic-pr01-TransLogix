@@ -4,6 +4,10 @@ All significant changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Archived the completed implementation plan and zero-finding daily audit as dated records under `docs/plans/` and `docs/audits/`.
+
 ## [1.0.0] - 2026-08-19
 
 ### Added

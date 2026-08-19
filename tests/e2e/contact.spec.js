@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { grantSiteConsent } = require('./helpers/site-consent');
 
-const GOOGLE_MAP_URL = 'https://www.google.com/maps?q=ul.+Marynarki+Wojennej+12,+33-100+Tarn%C3%B3w,+Polska&output=embed';
+const GOOGLE_MAP_URL = 'https://www.google.com/maps?q=ul.+Marynarki+Wojennej+12%2F31,+33-100+Tarn%C3%B3w,+Polska&output=embed';
 
 test('loads Google Maps only after dedicated keyboard activation', async ({ page }) => {
   const googleMapRequests = [];
@@ -26,6 +26,9 @@ test('loads Google Maps only after dedicated keyboard activation', async ({ page
   const mapComponent = page.locator('[data-deferred-map]');
   const activateButton = page.getByRole('button', { name: 'Wyświetl mapę Google' });
 
+  await expect(page.getByRole('heading', { name: 'Dane operatora projektu' })).toBeVisible();
+  await expect(page.locator('main').getByRole('link', { name: '+48 533 537 091' })).toHaveAttribute('href', 'tel:+48533537091');
+  await expect(page.locator('main').getByRole('link', { name: 'kontakt@kp-code.pl' })).toHaveAttribute('href', 'mailto:kontakt@kp-code.pl');
   await expect(mapComponent.locator('iframe')).toHaveCount(0);
   await expect(activateButton).toBeVisible();
   await expect(activateButton).toBeEnabled();
@@ -41,7 +44,7 @@ test('loads Google Maps only after dedicated keyboard activation', async ({ page
   expect(requestedMap.url()).toBe(GOOGLE_MAP_URL);
   const mapFrame = mapComponent.locator('iframe');
   await expect(mapFrame).toHaveAttribute('src', GOOGLE_MAP_URL);
-  await expect(mapFrame).toHaveAttribute('title', 'Mapa dojazdu do ul. Marynarki Wojennej 12, 33-100 Tarnow');
+  await expect(mapFrame).toHaveAttribute('title', 'Mapa lokalizacji operatora projektu: ul. Marynarki Wojennej 12/31, 33-100 Tarnów');
   await expect(mapFrame).toHaveAttribute('loading', 'lazy');
   await expect(mapFrame).toHaveAttribute('referrerpolicy', 'no-referrer-when-downgrade');
   await expect(mapFrame).not.toBeFocused();

@@ -10,14 +10,14 @@ The repository has no current P0 finding. The canonical source/generated boundar
 
 The implementation and QA cycle resolved the former packaging, non-JavaScript, structured-data, accessibility, route-state, source-duplication, asset-reference, contact-flow, shared-header, fleet-image, offscreen shared-image and Lighthouse assertion-contract findings. Those completed changes are recorded in `CHANGELOG.md` and are not retained below as audit history.
 
-One current finding remains: operator postal identification data that the project owner has not supplied. The clean-install dependency advisory set has been assessed, minimally remediated and given an explicit decision for its one residual advisory path. The first release record also remains blocked by an owner decision, but it is a release-planning constraint rather than an implementation defect.
+No current audit finding remains. The owner-supplied operator postal and contact data has been published consistently and separated from the fictional TransLogix presentation. The clean-install dependency advisory set has been assessed, minimally remediated and given an explicit decision for its one residual advisory path. The first release record remains blocked by an owner decision, but it is a release-planning constraint rather than an implementation defect.
 
 ## Active finding count
 
 - **P0 — Critical:** 0
 - **P1 — Important:** 0
-- **P2 — Minor or deferred:** 1
-- **Total active findings:** 1
+- **P2 — Minor or deferred:** 0
+- **Total active findings:** 0
 
 ## Verified current strengths
 
@@ -41,26 +41,20 @@ No active P1 finding. `PH5-09` records the completed assessment, remediation and
 
 ## P2 — Minor or deferred issues
 
-### [P2-03] Operator postal identification data is not present
-
-- **Classification:** Deferred legal-document data gap
-- **Evidence:** `terms.html` identifies the operator as KP_Code Digital Studio (Kamil Król) and provides `kontakt@kp-code.pl`, but no owner postal identification data; the displayed TransLogix address is explicitly fictional and not the operator's address
-- **Current state:** The required owner-supplied postal data is absent from the repository, so it cannot be added safely during implementation or documentation maintenance. `D-01` remains unchecked and deferred.
-- **Risk:** The operator-identification section cannot be completed until the project owner supplies the authoritative data.
-- **Tracking:** `PLAN.md` — `D-01`.
+No active P2 finding.
 
 ## Current release constraints
 
 - `PH6-02` remains **blocked**. The repository still declares package version `1.0.0`, has no first dated release section in `CHANGELOG.md`, and the owner has not supplied the release version and date required to reconcile and tag the first release.
-- `D-01` remains **deferred** for the owner-data reason described in [P2-03].
 - This audit does not treat a PLAN entry as resolved without corresponding implementation evidence.
 
 ## Current priority summary
 
-1. `PH6-02` and `D-01` remain owner-blocked or deferred rather than actionable implementation work.
+1. `PH6-02` remains owner-blocked rather than actionable implementation work.
 
 ## Verification context and limits
 
+- D-01 published the supplied real operator identity and contact data in the legal documents, Contact page and shared footer, removed contradictory fictional-organization contact metadata, retained the explicit demonstration disclosure, and passed `qa:html`, `qa:jsonld` (11 blocks), `qa:links` (12 files), `assets:verify`, the Vite production build and the focused Contact/deferred-map Playwright test (1/1).
 - PH5-09 started from a lockfile-controlled clean install with 20 findings (5 moderate and 15 high). The affected graph was confined to development/build/QA dependencies; no affected package is shipped in `dist/`. Approved direct and safe transitive updates removed every advisory except `GHSA-jmr9-qjv8-65gv`, which appears as 6 high-severity package entries along the supported `pa11y-ci@4.1.1 -> pa11y`/`puppeteer@24.43.1 -> @puppeteer/browsers@2.13.2 -> extract-zip@2.0.1` chain.
 - The residual advisory is accepted for the current release because it is reachable during Puppeteer's browser-archive extraction rather than in the deployed site or normal post-install Pa11y scans. A malicious archive or redirected browser download could affect the developer or CI filesystem; reassessment is required when the supported Pa11y/Puppeteer graph removes `extract-zip@2.0.1` or the repository begins consuming untrusted archives, download URLs or build inputs.
 - The final `npm ci` reproduced `package.json` and `package-lock.json` byte-for-byte. The current `release-check` passed `qa:html`, `qa:jsonld` (11 blocks), `qa:links` (12 files), `qa:a11y` (12/12 URLs with zero errors), `assets:verify`, `qa:budget`, `qa:package` and Playwright 17/17. Isolated `assets:fleet` and `assets:optimize` runs also exercised the updated Sharp major successfully.

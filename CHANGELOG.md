@@ -57,6 +57,7 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Published Kamil Król's real operator postal and contact details under the KP_Code Digital Studio brand across the legal documents, Contact page, shared footer and structured data, while keeping the TransLogix transport company explicitly fictional and the Google Maps embed visitor-activated.
 - Deferred the Contact page's Google Maps embed until a dedicated visitor action and synchronized the privacy and cookies policies with the conditional loading behavior.
 - Aligned the production service-worker precache with Vite by deriving the current versioned CSS and JavaScript paths from each build, generating `dist/sw.js` from the canonical source, and advancing the cache to `translogix-static-v4`.
 - Removed the unused `templates/partials/` and `assets/data/jsonld/` copies, leaving `partials/` and inline HTML JSON-LD as the respective canonical sources and aligning source-file discovery in QA tooling.

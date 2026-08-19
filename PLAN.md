@@ -16,7 +16,7 @@
 
 No implementation item is currently actionable without owner input.
 
-`PH6-02` remains blocked pending the owner's release version and date. `D-01` remains deferred pending the owner's postal identification data.
+`PH6-02` remains blocked pending the owner's release version and date.
 
 ## Phase 1 — Contact conversion path
 
@@ -277,8 +277,9 @@ No implementation item is currently actionable without owner input.
   - **Value:** `assets/js/services-filters.js` registers an `input` listener at module scope, duplicating the range handler already registered inside the init function; moving it would match the pattern used by every other module
   - **Scope boundary:** non-blocking cleanup; the current code works because the module loads after the markup is parsed
 
-## Deferred work
+## Completed owner-data work
 
-- [ ] **D-01 — Publish the operator's postal identification data in the legal documents**
-  - **Reason:** `terms.html` identifies the operator by name and e-mail only; the postal data required of a service provider is a decision for the project owner and is not present anywhere in the repository
-  - **Source:** `daily-AUDIT.md` — P2-03
+- [x] **D-01 — Publish the operator's postal identification data in the legal documents**
+  - **Completion evidence (2026-08-19):** published the owner-supplied name, KP_Code Digital Studio brand, postal address, telephone and e-mail in the legal documents, Contact page and shared footer; separated those real operator details from the fictional TransLogix presentation in visible copy and JSON-LD; updated the deferred Google Maps destination and its focused regression test
+  - **Verification:** `qa:html`, `qa:jsonld` (11 blocks), `qa:links` (12 files), `assets:verify`, the Vite production build and the focused Contact/deferred-map Playwright test passed
+  - **Source:** resolved `daily-AUDIT.md` finding P2-03

@@ -14,9 +14,9 @@
 
 ## Current priorities
 
-No implementation item is currently actionable without owner input.
+No implementation work remains open.
 
-`PH6-02` remains blocked pending the owner's release version and date.
+`PH6-02` release metadata is prepared for `v1.0.0` dated 2026-08-19. The only remaining action is for the project owner to create and push the annotated tag on the final release commit after this change is cherry-picked to `main`.
 
 ## Phase 1 — Contact conversion path
 
@@ -241,11 +241,14 @@ No implementation item is currently actionable without owner input.
   - **Completion condition:** a lockfile-controlled clean install completes without manifest changes; the canonical `release-check` has a recorded result for every current gate; the standalone Lighthouse build, five-URL collection, scores, warnings and assertions have a current-tree result; and deterministic unresolved issues are captured as separate plan work
   - **Depends on:** `PH1-01`, `PH2-01`
 
-- [ ] **PH6-02 — Establish the first released version in `CHANGELOG.md`** — **Status:** Blocked — **Priority:** Low
-  - [ ] move the entries from `[Unreleased]` into a dated version section
-  - [ ] reconcile the version with the `1.0.0` value declared in `package.json` and tag the repository
-  - **Blocker:** no release version and date have been decided; the repository has no tags and `CHANGELOG.md` holds its entire history in `[Unreleased]`
-  - **Unblocks when:** the project owner confirms the version number and release date
+- [ ] **PH6-02 — Establish the first released version in `CHANGELOG.md`** — **Status:** Awaiting owner tag — **Priority:** Low
+  - [x] record the owner-approved release version `1.0.0`, release date 2026-08-19 and tag name `v1.0.0`
+  - [x] retain an empty `[Unreleased]` section and move the complete existing history into `## [1.0.0] - 2026-08-19`
+  - [x] confirm that `package.json`, the lockfile package version and the lockfile root package version all declare `1.0.0`
+  - [x] run the final current-tree `npm run release-check`: HTML validation, JSON-LD (11 blocks), local links (12 files), Pa11y (12/12 URLs), asset verification, Vite production budgets, package smoke validation and Playwright (17/17) all passed
+  - [ ] Pending owner action after cherry-pick: create and push annotated tag `v1.0.0` on the final release commit on `main`.
+  - **Current evidence (2026-08-19):** release version and date are approved, the changelog migration is complete, package metadata is consistent, the final release gate passes, and the repository still has no `v1.0.0` tag.
+  - **Completion condition:** the dated changelog and npm package metadata agree on `1.0.0`, and the annotated `v1.0.0` tag exists on the final release commit on `main`
 
 ## Optional future improvements
 

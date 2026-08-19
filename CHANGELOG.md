@@ -4,6 +4,8 @@ All significant changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-19
+
 ### Added
 
 - Added the initial TransLogix static multi-page front-end in a dedicated repository, covering the home, services, service detail, fleet, pricing, contact, thank-you, privacy, terms, cookies, `404`, and `offline` pages built with HTML, modular CSS, and Vanilla JavaScript ES modules.

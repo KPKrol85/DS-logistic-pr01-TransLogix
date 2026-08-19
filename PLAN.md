@@ -14,7 +14,7 @@
 
 ## Current priorities
 
-1. `PH5-09` — Assess the current clean-install dependency advisories and make an evidence-based risk decision.
+No implementation item is currently actionable without owner input.
 
 `PH6-02` remains blocked pending the owner's release version and date. `D-01` remains deferred pending the owner's postal identification data.
 
@@ -181,9 +181,15 @@
   - **Root cause:** Playwright serves the generated `dist/` package, where Vite bundles the source module into a versioned production asset, so the source-only URL was not part of the production-package contract
   - **Completion condition:** the test exercises current-page marking through the production package without depending on a source-only module URL, retains coverage for extensionless and `.html` routes, and the canonical `npm run test:e2e` command passes
 
-- [ ] **PH5-09 — Assess the clean-install dependency advisories** — **Priority:** Medium
+- [x] **PH5-09 — Assess the clean-install dependency advisories** — **Priority:** Medium
   - **Observed issue:** lockfile-controlled `npm ci` reported 20 audit findings (5 moderate and 15 high) in the installed build and QA dependency graph
   - **Scope:** map the advisories to direct and transitive development dependencies, determine their actual exposure in this static-site toolchain, and perform any justified minimal lockfile-controlled remediation as a separate dependency task
+  - [x] map the findings to the direct development roots `cssnano`, `html-validate`, `http-server`, `pa11y-ci`, `sharp`, `start-server-and-test` and `vite`, and confirm that none of the affected packages ship in the static production site
+  - [x] update the justified direct ranges for `cssnano`, `pa11y-ci`, `sharp` and `start-server-and-test`, refresh the safe `ajv`, `brace-expansion`, `fast-uri`, `minimatch`, `qs`, `undici` and `yaml` transitive resolutions, and retain the lockfile without force fixes or overrides
+  - [x] reduce the clean-install audit result from 20 findings to 6 high-severity entries, all propagated from the single `extract-zip` advisory `GHSA-jmr9-qjv8-65gv` through `pa11y-ci@4.1.1 -> pa11y`/`puppeteer@24.43.1 -> @puppeteer/browsers@2.13.2 -> extract-zip@2.0.1`
+  - **Residual risk decision (2026-08-19):** accept the remaining development-only install-time path for this release. It is reachable while Puppeteer extracts a downloaded browser archive, not while the deployed static site executes or during a normal Pa11y page scan after installation. A malicious or compromised archive or explicitly redirected download source could write outside the extraction directory, so the impact on a developer or CI machine is high, but the current trusted lockfile/project-input workflow makes exploitation unlikely. Reassess when a supported `pa11y-ci`/Puppeteer chain removes `extract-zip@2.0.1` or when the repository begins accepting untrusted browser archives, download URLs or build inputs.
+  - [x] confirm an unchanged lockfile across a final `npm ci`, pass the complete `npm run release-check` gate including Pa11y 12/12 and Playwright 17/17, and pass isolated `assets:fleet` and `assets:optimize` Sharp workflows
+  - **Lighthouse follow-up (2026-08-19):** `npm run qa:lighthouse` collected all five configured URLs and exited with code 0. `/pricing.html` retained non-blocking warning assertions for performance (0.85), First Contentful Paint (0.71), main-thread work (0) and Max Potential FID (0.18); no threshold or assertion was weakened as part of this dependency task.
   - **Completion condition:** a current `npm audit` has no unresolved findings, or every remaining finding has an explicit evidence-based risk decision, and the complete release gate still passes after any approved dependency changes
   - **Source:** `daily-AUDIT.md` — P1-01
 

@@ -19,6 +19,7 @@ All significant changes to this project are documented in this file.
 
 ### Build and Tooling
 
+- Assessed the clean-install development dependency advisories and updated `cssnano`, `pa11y-ci`, `sharp`, `start-server-and-test` plus safe lockfile-resolved advisory paths, reducing `npm audit` from 20 findings (5 moderate and 15 high) to 6 high entries propagated from one accepted Puppeteer install-time `extract-zip` advisory; the clean install, complete release gate, Sharp image workflows and five-URL Lighthouse command passed after the update.
 - Reconciled the Lighthouse CI assertion contract by overriding only the scoreless `lcp-lazy-loaded`, `prioritize-lcp-image`, and `non-composited-animations` preset audits to `off`, while retaining `lighthouse:no-pwa`, every other applicable preset assertion, and the existing category thresholds.
 - Added a deployment-package smoke check that rebuilds `dist/` and validates built local form actions, static and Vite-generated service-worker precache targets, canonical paths, and sitemap paths, with standalone and `release-check` integration.
 - Migrated Lighthouse CI from the repository source root to the Vite-generated `dist/` deployment package, with `qa:lighthouse` rebuilding the package before collecting the existing five production URLs and an explicit Lighthouse-compatible mobile form factor.

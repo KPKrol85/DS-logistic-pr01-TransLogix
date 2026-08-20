@@ -6,6 +6,7 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Standardized `terms.html` against the canonical KP_Code Terms template using the verified TransLogix functionality, Netlify Forms, browser-storage, PWA, external-service, Operator-data, and proprietary-license contracts.
 - Archived the completed implementation plan and zero-finding daily audit as dated records under `docs/plans/` and `docs/audits/`.
 
 ## [1.0.0] - 2026-08-19

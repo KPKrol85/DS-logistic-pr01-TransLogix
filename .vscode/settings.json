@@ -1,6 +1,4 @@
 {
-  "editor.wordWrap": "on",
-  "editor.wrappingIndent": "deepIndent",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

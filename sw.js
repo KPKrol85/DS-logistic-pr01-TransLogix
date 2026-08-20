@@ -88,7 +88,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname === "/robots.txt" || url.pathname === "/sitemap.xml" || url.pathname === "/site.webmanifest" || url.pathname === "/404.html") {
+  if (
+    url.pathname === "/robots.txt" ||
+    url.pathname === "/sitemap.xml" ||
+    url.pathname === "/site.webmanifest" ||
+    url.pathname === "/404.html"
+  ) {
     event.respondWith(staleWhileRevalidate(request));
     return;
   }

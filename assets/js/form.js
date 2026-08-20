@@ -63,7 +63,10 @@ function validateField(input) {
   }
 
   if (type === "tel" && value && !validators.tel(value)) {
-    showError(input, "Podaj numer w formacie międzynarodowym, np. +48123456789.");
+    showError(
+      input,
+      "Podaj numer w formacie międzynarodowym, np. +48123456789.",
+    );
     return false;
   }
 
@@ -81,7 +84,10 @@ function validateField(input) {
   return true;
 }
 
-function attachValidation(form, { onValid, resetOnValid = true, allowNativeSubmit = false } = {}) {
+function attachValidation(
+  form,
+  { onValid, resetOnValid = true, allowNativeSubmit = false } = {},
+) {
   const inputs = form.querySelectorAll("input, select, textarea");
   inputs.forEach((input) => {
     input.addEventListener("blur", () => validateField(input));
@@ -98,7 +104,9 @@ function attachValidation(form, { onValid, resetOnValid = true, allowNativeSubmi
       }
     });
 
-    const requiredCheckbox = form.querySelector("input[type='checkbox'][required]");
+    const requiredCheckbox = form.querySelector(
+      "input[type='checkbox'][required]",
+    );
     if (requiredCheckbox && !requiredCheckbox.checked) {
       showError(requiredCheckbox, "To potwierdzenie jest wymagane.");
       valid = false;
@@ -162,7 +170,9 @@ function initQuickQuote() {
       const distance = Number(form.distance.value);
       const weight = Number(form.weight.value);
       const type = form.serviceType.value;
-      const extras = Array.from(form.querySelectorAll("input[type='checkbox']:checked")).map((c) => c.value);
+      const extras = Array.from(
+        form.querySelectorAll("input[type='checkbox']:checked"),
+      ).map((c) => c.value);
 
       if (!distance || !weight || !type) {
         result.textContent = "Uzupełnij pola, aby obliczyć koszt.";
@@ -221,7 +231,9 @@ function initPricingForm() {
       const distance = Number(form.distance.value);
       const weight = Number(form.weight.value);
       const type = form.service.value;
-      const extras = Array.from(form.querySelectorAll("input[type='checkbox']:checked")).map((c) => c.value);
+      const extras = Array.from(
+        form.querySelectorAll("input[type='checkbox']:checked"),
+      ).map((c) => c.value);
       if (!distance || !weight || !type) {
         result.textContent = "Uzupełnij wszystkie pola, aby zobaczyć wynik.";
         return;

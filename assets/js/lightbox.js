@@ -1,5 +1,7 @@
 export function initLightbox() {
-  const triggers = Array.from(document.querySelectorAll(".lightbox-trigger[data-gallery]"));
+  const triggers = Array.from(
+    document.querySelectorAll(".lightbox-trigger[data-gallery]"),
+  );
   const lightbox = document.querySelector(".lightbox");
   const dialog = lightbox?.querySelector(".lightbox__dialog");
   const titleEl = lightbox?.querySelector(".lightbox__title");
@@ -12,7 +14,21 @@ export function initLightbox() {
   const zoom = lightbox?.querySelector(".lightbox__zoom");
   const zoomImg = lightbox?.querySelector(".lightbox__zoom-img");
   const zoomClose = lightbox?.querySelector(".lightbox__zoom-close");
-  if (!lightbox || !dialog || !titleEl || !heroImg || !heroPicture || !grid || !closeBtn || !prevBtn || !nextBtn || !zoom || !zoomImg || !zoomClose || !triggers.length) {
+  if (
+    !lightbox ||
+    !dialog ||
+    !titleEl ||
+    !heroImg ||
+    !heroPicture ||
+    !grid ||
+    !closeBtn ||
+    !prevBtn ||
+    !nextBtn ||
+    !zoom ||
+    !zoomImg ||
+    !zoomClose ||
+    !triggers.length
+  ) {
     return;
   }
 
@@ -31,36 +47,156 @@ export function initLightbox() {
 
   const GALLERIES = {
     solo: [
-      { avif: "assets/img/fleet/bus/1.avif", webp: "assets/img/fleet/bus/1.webp", jpg: "assets/img/fleet/bus/1.jpg", alt: "Bus dostawczy - zdjęcie 1" },
-      { avif: "assets/img/fleet/bus/2.avif", webp: "assets/img/fleet/bus/2.webp", jpg: "assets/img/fleet/bus/2.jpg", alt: "Bus dostawczy - zdjęcie 2" },
-      { avif: "assets/img/fleet/bus/3.avif", webp: "assets/img/fleet/bus/3.webp", jpg: "assets/img/fleet/bus/3.jpg", alt: "Bus dostawczy - zdjęcie 3" },
-      { avif: "assets/img/fleet/bus/4.avif", webp: "assets/img/fleet/bus/4.webp", jpg: "assets/img/fleet/bus/4.jpg", alt: "Bus dostawczy - zdjęcie 4" },
-      { avif: "assets/img/fleet/bus/5.avif", webp: "assets/img/fleet/bus/5.webp", jpg: "assets/img/fleet/bus/5.jpg", alt: "Bus dostawczy - zdjęcie 5" },
-      { avif: "assets/img/fleet/bus/6.avif", webp: "assets/img/fleet/bus/6.webp", jpg: "assets/img/fleet/bus/6.jpg", alt: "Bus dostawczy - zdjęcie 6" },
+      {
+        avif: "assets/img/fleet/bus/1.avif",
+        webp: "assets/img/fleet/bus/1.webp",
+        jpg: "assets/img/fleet/bus/1.jpg",
+        alt: "Bus dostawczy - zdjęcie 1",
+      },
+      {
+        avif: "assets/img/fleet/bus/2.avif",
+        webp: "assets/img/fleet/bus/2.webp",
+        jpg: "assets/img/fleet/bus/2.jpg",
+        alt: "Bus dostawczy - zdjęcie 2",
+      },
+      {
+        avif: "assets/img/fleet/bus/3.avif",
+        webp: "assets/img/fleet/bus/3.webp",
+        jpg: "assets/img/fleet/bus/3.jpg",
+        alt: "Bus dostawczy - zdjęcie 3",
+      },
+      {
+        avif: "assets/img/fleet/bus/4.avif",
+        webp: "assets/img/fleet/bus/4.webp",
+        jpg: "assets/img/fleet/bus/4.jpg",
+        alt: "Bus dostawczy - zdjęcie 4",
+      },
+      {
+        avif: "assets/img/fleet/bus/5.avif",
+        webp: "assets/img/fleet/bus/5.webp",
+        jpg: "assets/img/fleet/bus/5.jpg",
+        alt: "Bus dostawczy - zdjęcie 5",
+      },
+      {
+        avif: "assets/img/fleet/bus/6.avif",
+        webp: "assets/img/fleet/bus/6.webp",
+        jpg: "assets/img/fleet/bus/6.jpg",
+        alt: "Bus dostawczy - zdjęcie 6",
+      },
     ],
     truck: [
-      { avif: "assets/img/fleet/truck/truck-1.avif", webp: "assets/img/fleet/truck/truck-1.webp", jpg: "assets/img/fleet/truck/truck-1.jpg", alt: "Ciężarówka plandeka - zdjęcie 1" },
-      { avif: "assets/img/fleet/truck/truck-2.avif", webp: "assets/img/fleet/truck/truck-2.webp", jpg: "assets/img/fleet/truck/truck-2.jpg", alt: "Ciężarówka plandeka - zdjęcie 2" },
-      { avif: "assets/img/fleet/truck/truck-3.avif", webp: "assets/img/fleet/truck/truck-3.webp", jpg: "assets/img/fleet/truck/truck-3.jpg", alt: "Ciężarówka plandeka - zdjęcie 3" },
-      { avif: "assets/img/fleet/truck/truck-4.avif", webp: "assets/img/fleet/truck/truck-4.webp", jpg: "assets/img/fleet/truck/truck-4.jpg", alt: "Ciężarówka plandeka - zdjęcie 4" },
-      { avif: "assets/img/fleet/truck/truck-5.avif", webp: "assets/img/fleet/truck/truck-5.webp", jpg: "assets/img/fleet/truck/truck-5.jpg", alt: "Ciężarówka plandeka - zdjęcie 5" },
-      { avif: "assets/img/fleet/truck/truck-6.avif", webp: "assets/img/fleet/truck/truck-6.webp", jpg: "assets/img/fleet/truck/truck-6.jpg", alt: "Ciężarówka plandeka - zdjęcie 6" },
+      {
+        avif: "assets/img/fleet/truck/truck-1.avif",
+        webp: "assets/img/fleet/truck/truck-1.webp",
+        jpg: "assets/img/fleet/truck/truck-1.jpg",
+        alt: "Ciężarówka plandeka - zdjęcie 1",
+      },
+      {
+        avif: "assets/img/fleet/truck/truck-2.avif",
+        webp: "assets/img/fleet/truck/truck-2.webp",
+        jpg: "assets/img/fleet/truck/truck-2.jpg",
+        alt: "Ciężarówka plandeka - zdjęcie 2",
+      },
+      {
+        avif: "assets/img/fleet/truck/truck-3.avif",
+        webp: "assets/img/fleet/truck/truck-3.webp",
+        jpg: "assets/img/fleet/truck/truck-3.jpg",
+        alt: "Ciężarówka plandeka - zdjęcie 3",
+      },
+      {
+        avif: "assets/img/fleet/truck/truck-4.avif",
+        webp: "assets/img/fleet/truck/truck-4.webp",
+        jpg: "assets/img/fleet/truck/truck-4.jpg",
+        alt: "Ciężarówka plandeka - zdjęcie 4",
+      },
+      {
+        avif: "assets/img/fleet/truck/truck-5.avif",
+        webp: "assets/img/fleet/truck/truck-5.webp",
+        jpg: "assets/img/fleet/truck/truck-5.jpg",
+        alt: "Ciężarówka plandeka - zdjęcie 5",
+      },
+      {
+        avif: "assets/img/fleet/truck/truck-6.avif",
+        webp: "assets/img/fleet/truck/truck-6.webp",
+        jpg: "assets/img/fleet/truck/truck-6.jpg",
+        alt: "Ciężarówka plandeka - zdjęcie 6",
+      },
     ],
     chlodnia: [
-      { avif: "assets/img/fleet/chlodnia/1.avif", webp: "assets/img/fleet/chlodnia/1.webp", jpg: "assets/img/fleet/chlodnia/1.jpg", alt: "Ciężarówka chłodnia - zdjęcie 1" },
-      { avif: "assets/img/fleet/chlodnia/2.avif", webp: "assets/img/fleet/chlodnia/2.webp", jpg: "assets/img/fleet/chlodnia/2.jpg", alt: "Ciężarówka chłodnia - zdjęcie 2" },
-      { avif: "assets/img/fleet/chlodnia/3.avif", webp: "assets/img/fleet/chlodnia/3.webp", jpg: "assets/img/fleet/chlodnia/3.jpg", alt: "Ciężarówka chłodnia - zdjęcie 3" },
-      { avif: "assets/img/fleet/chlodnia/4.avif", webp: "assets/img/fleet/chlodnia/4.webp", jpg: "assets/img/fleet/chlodnia/4.jpg", alt: "Ciężarówka chłodnia - zdjęcie 4" },
-      { avif: "assets/img/fleet/chlodnia/5.avif", webp: "assets/img/fleet/chlodnia/5.webp", jpg: "assets/img/fleet/chlodnia/5.jpg", alt: "Ciężarówka chłodnia - zdjęcie 5" },
-      { avif: "assets/img/fleet/chlodnia/6.avif", webp: "assets/img/fleet/chlodnia/6.webp", jpg: "assets/img/fleet/chlodnia/6.jpg", alt: "Ciężarówka chłodnia - zdjęcie 6" },
+      {
+        avif: "assets/img/fleet/chlodnia/1.avif",
+        webp: "assets/img/fleet/chlodnia/1.webp",
+        jpg: "assets/img/fleet/chlodnia/1.jpg",
+        alt: "Ciężarówka chłodnia - zdjęcie 1",
+      },
+      {
+        avif: "assets/img/fleet/chlodnia/2.avif",
+        webp: "assets/img/fleet/chlodnia/2.webp",
+        jpg: "assets/img/fleet/chlodnia/2.jpg",
+        alt: "Ciężarówka chłodnia - zdjęcie 2",
+      },
+      {
+        avif: "assets/img/fleet/chlodnia/3.avif",
+        webp: "assets/img/fleet/chlodnia/3.webp",
+        jpg: "assets/img/fleet/chlodnia/3.jpg",
+        alt: "Ciężarówka chłodnia - zdjęcie 3",
+      },
+      {
+        avif: "assets/img/fleet/chlodnia/4.avif",
+        webp: "assets/img/fleet/chlodnia/4.webp",
+        jpg: "assets/img/fleet/chlodnia/4.jpg",
+        alt: "Ciężarówka chłodnia - zdjęcie 4",
+      },
+      {
+        avif: "assets/img/fleet/chlodnia/5.avif",
+        webp: "assets/img/fleet/chlodnia/5.webp",
+        jpg: "assets/img/fleet/chlodnia/5.jpg",
+        alt: "Ciężarówka chłodnia - zdjęcie 5",
+      },
+      {
+        avif: "assets/img/fleet/chlodnia/6.avif",
+        webp: "assets/img/fleet/chlodnia/6.webp",
+        jpg: "assets/img/fleet/chlodnia/6.jpg",
+        alt: "Ciężarówka chłodnia - zdjęcie 6",
+      },
     ],
     set: [
-      { avif: "assets/img/fleet/mega/1.avif", webp: "assets/img/fleet/mega/1.webp", jpg: "assets/img/fleet/mega/1.jpg", alt: "Zestaw Mega - zdjęcie 1" },
-      { avif: "assets/img/fleet/mega/2.avif", webp: "assets/img/fleet/mega/2.webp", jpg: "assets/img/fleet/mega/2.jpg", alt: "Zestaw Mega - zdjęcie 2" },
-      { avif: "assets/img/fleet/mega/3.avif", webp: "assets/img/fleet/mega/3.webp", jpg: "assets/img/fleet/mega/3.jpg", alt: "Zestaw Mega - zdjęcie 3" },
-      { avif: "assets/img/fleet/mega/4.avif", webp: "assets/img/fleet/mega/4.webp", jpg: "assets/img/fleet/mega/4.jpg", alt: "Zestaw Mega - zdjęcie 4" },
-      { avif: "assets/img/fleet/mega/5.avif", webp: "assets/img/fleet/mega/5.webp", jpg: "assets/img/fleet/mega/5.jpg", alt: "Zestaw Mega - zdjęcie 5" },
-      { avif: "assets/img/fleet/mega/6.avif", webp: "assets/img/fleet/mega/6.webp", jpg: "assets/img/fleet/mega/6.jpg", alt: "Zestaw Mega - zdjęcie 6" },
+      {
+        avif: "assets/img/fleet/mega/1.avif",
+        webp: "assets/img/fleet/mega/1.webp",
+        jpg: "assets/img/fleet/mega/1.jpg",
+        alt: "Zestaw Mega - zdjęcie 1",
+      },
+      {
+        avif: "assets/img/fleet/mega/2.avif",
+        webp: "assets/img/fleet/mega/2.webp",
+        jpg: "assets/img/fleet/mega/2.jpg",
+        alt: "Zestaw Mega - zdjęcie 2",
+      },
+      {
+        avif: "assets/img/fleet/mega/3.avif",
+        webp: "assets/img/fleet/mega/3.webp",
+        jpg: "assets/img/fleet/mega/3.jpg",
+        alt: "Zestaw Mega - zdjęcie 3",
+      },
+      {
+        avif: "assets/img/fleet/mega/4.avif",
+        webp: "assets/img/fleet/mega/4.webp",
+        jpg: "assets/img/fleet/mega/4.jpg",
+        alt: "Zestaw Mega - zdjęcie 4",
+      },
+      {
+        avif: "assets/img/fleet/mega/5.avif",
+        webp: "assets/img/fleet/mega/5.webp",
+        jpg: "assets/img/fleet/mega/5.jpg",
+        alt: "Zestaw Mega - zdjęcie 5",
+      },
+      {
+        avif: "assets/img/fleet/mega/6.avif",
+        webp: "assets/img/fleet/mega/6.webp",
+        jpg: "assets/img/fleet/mega/6.jpg",
+        alt: "Zestaw Mega - zdjęcie 6",
+      },
     ],
   };
 
@@ -77,7 +213,8 @@ export function initLightbox() {
     return Math.min(Math.max(index, 0), length - 1);
   };
 
-  const getItemFallbackSrc = (item) => item?.jpg || item?.webp || item?.avif || item?.src || "";
+  const getItemFallbackSrc = (item) =>
+    item?.jpg || item?.webp || item?.avif || item?.src || "";
 
   const setPictureSource = (source, value) => {
     if (value) {
@@ -107,8 +244,14 @@ export function initLightbox() {
     window.scrollTo(0, scrollY);
   };
 
-  const getDialogFocusable = () => Array.from(dialog.querySelectorAll("button")).filter((node) => !node.closest("[hidden]"));
-  const getZoomFocusable = () => Array.from(zoom.querySelectorAll("button,[href],[tabindex]:not([tabindex='-1'])"));
+  const getDialogFocusable = () =>
+    Array.from(dialog.querySelectorAll("button")).filter(
+      (node) => !node.closest("[hidden]"),
+    );
+  const getZoomFocusable = () =>
+    Array.from(
+      zoom.querySelectorAll("button,[href],[tabindex]:not([tabindex='-1'])"),
+    );
 
   const setCurrentImage = (index) => {
     const items = GALLERIES[currentGalleryKey] || [];
@@ -123,12 +266,20 @@ export function initLightbox() {
   };
 
   const requestZoomFullscreen = () => {
-    if (document.fullscreenElement || typeof zoom.requestFullscreen !== "function") return;
+    if (
+      document.fullscreenElement ||
+      typeof zoom.requestFullscreen !== "function"
+    )
+      return;
     zoom.requestFullscreen().catch(() => {});
   };
 
   const exitZoomFullscreen = () => {
-    if (document.fullscreenElement !== zoom || typeof document.exitFullscreen !== "function") return;
+    if (
+      document.fullscreenElement !== zoom ||
+      typeof document.exitFullscreen !== "function"
+    )
+      return;
     document.exitFullscreen().catch(() => {});
   };
 
@@ -157,7 +308,8 @@ export function initLightbox() {
     zoomImg.alt = "";
     zoomOpen = false;
     dialog.removeAttribute("aria-hidden");
-    if (lastZoomTriggerEl && typeof lastZoomTriggerEl.focus === "function") lastZoomTriggerEl.focus();
+    if (lastZoomTriggerEl && typeof lastZoomTriggerEl.focus === "function")
+      lastZoomTriggerEl.focus();
     lastZoomTriggerEl = null;
   };
 
@@ -166,7 +318,10 @@ export function initLightbox() {
     const items = GALLERIES[key] || [];
     if (!key || !items.length) return false;
     currentGalleryKey = key;
-    currentImageIndex = clampIndex(Number.parseInt(triggerEl.dataset.lightboxIndex || "0", 10), items.length);
+    currentImageIndex = clampIndex(
+      Number.parseInt(triggerEl.dataset.lightboxIndex || "0", 10),
+      items.length,
+    );
     titleEl.textContent = triggerEl.dataset.title || "Galeria pojazdu";
     grid.hidden = true;
     grid.innerHTML = "";
@@ -246,7 +401,9 @@ export function initLightbox() {
   zoomImg.addEventListener("click", (e) => {
     e.stopPropagation();
     const isZoomed = zoom.classList.toggle("is-zoomed");
-    zoomImg.title = isZoomed ? "Kliknij, aby dopasować zdjęcie" : "Kliknij, aby wypełnić ekran";
+    zoomImg.title = isZoomed
+      ? "Kliknij, aby dopasować zdjęcie"
+      : "Kliknij, aby wypełnić ekran";
   });
   lightbox.addEventListener(
     "touchmove",

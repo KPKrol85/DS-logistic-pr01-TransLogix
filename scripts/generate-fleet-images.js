@@ -35,7 +35,10 @@ async function generateVariant(sourcePath, width, format) {
   const outputPath = getOutputPath(sourcePath, width, format);
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
 
-  const pipeline = sharp(sourcePath).resize({ width, withoutEnlargement: true });
+  const pipeline = sharp(sourcePath).resize({
+    width,
+    withoutEnlargement: true,
+  });
   if (format === "jpg") {
     await pipeline.jpeg(formatOptions.jpg).toFile(outputPath);
   } else {
@@ -45,7 +48,9 @@ async function generateVariant(sourcePath, width, format) {
   const metadata = await sharp(outputPath).metadata();
   const expectedHeight = Math.round((width * 3) / 4);
   if (metadata.width !== width || metadata.height !== expectedHeight) {
-    throw new Error(`Unexpected dimensions for ${path.relative(projectRoot, outputPath)}: ${metadata.width}x${metadata.height}`);
+    throw new Error(
+      `Unexpected dimensions for ${path.relative(projectRoot, outputPath)}: ${metadata.width}x${metadata.height}`,
+    );
   }
 }
 
@@ -61,13 +66,21 @@ async function generateFleetImages() {
   for (const source of cardSources) {
     const sourcePath = path.resolve(projectRoot, source);
     const relativeSource = path.relative(fleetRoot, sourcePath);
-    if (relativeSource.startsWith("..") || path.isAbsolute(relativeSource) || path.extname(sourcePath).toLowerCase() !== ".jpg") {
-      throw new Error(`Fleet card source is outside the supported JPG inventory: ${source}`);
+    if (
+      relativeSource.startsWith("..") ||
+      path.isAbsolute(relativeSource) ||
+      path.extname(sourcePath).toLowerCase() !== ".jpg"
+    ) {
+      throw new Error(
+        `Fleet card source is outside the supported JPG inventory: ${source}`,
+      );
     }
 
     const metadata = await sharp(sourcePath).metadata();
     if (metadata.width !== 800 || metadata.height !== 600) {
-      throw new Error(`Expected an 800x600 fleet source, received ${metadata.width}x${metadata.height}: ${source}`);
+      throw new Error(
+        `Expected an 800x600 fleet source, received ${metadata.width}x${metadata.height}: ${source}`,
+      );
     }
 
     for (const width of widths) {
@@ -78,7 +91,9 @@ async function generateFleetImages() {
     }
   }
 
-  console.log(`Generated ${generated} responsive fleet image variants from ${cardSources.length} card sources.`);
+  console.log(
+    `Generated ${generated} responsive fleet image variants from ${cardSources.length} card sources.`,
+  );
 }
 
 generateFleetImages().catch((error) => {

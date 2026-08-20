@@ -25,21 +25,39 @@
       "short_name": "Usługi",
       "description": "Zakres usług transportowych TransLogix",
       "url": "/services.html",
-      "icons": [{ "src": "/assets/img/shortcuts/service.png", "sizes": "96x96", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "/assets/img/shortcuts/service.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Flota",
       "short_name": "Flota",
       "description": "Nowoczesna flota transportowa",
       "url": "/fleet.html",
-      "icons": [{ "src": "/assets/img/shortcuts/fleet.png", "sizes": "96x96", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "/assets/img/shortcuts/fleet.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Kontakt",
       "short_name": "Kontakt",
       "description": "Skontaktuj się z TransLogix",
       "url": "/contact.html",
-      "icons": [{ "src": "/assets/img/shortcuts/contact.png", "sizes": "96x96", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "/assets/img/shortcuts/contact.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "screenshots": [

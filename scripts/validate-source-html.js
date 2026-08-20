@@ -1,17 +1,17 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const { spawnSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { spawnSync } = require("child_process");
 
-const projectRoot = path.resolve(__dirname, '..');
-const sourceHtmlDirectories = [
-  path.join(projectRoot, 'partials'),
-];
+const projectRoot = path.resolve(__dirname, "..");
+const sourceHtmlDirectories = [path.join(projectRoot, "partials")];
 
 function getRootHtmlFiles() {
   return fs
     .readdirSync(projectRoot, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.html'))
+    .filter(
+      (entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".html"),
+    )
     .map((entry) => path.join(projectRoot, entry.name));
 }
 
@@ -29,7 +29,7 @@ function getHtmlFiles(dir) {
       continue;
     }
 
-    if (entry.isFile() && entry.name.toLowerCase().endsWith('.html')) {
+    if (entry.isFile() && entry.name.toLowerCase().endsWith(".html")) {
       files.push(fullPath);
     }
   }
@@ -47,14 +47,14 @@ const relativeFiles = sourceHtmlFiles
   .sort();
 
 if (relativeFiles.length === 0) {
-  console.error('No source HTML files found to validate.');
+  console.error("No source HTML files found to validate.");
   process.exit(1);
 }
 
-const result = spawnSync('html-validate', relativeFiles, {
+const result = spawnSync("html-validate", relativeFiles, {
   cwd: projectRoot,
-  stdio: 'inherit',
-  shell: process.platform === 'win32',
+  stdio: "inherit",
+  shell: process.platform === "win32",
 });
 
 process.exit(result.status ?? 1);

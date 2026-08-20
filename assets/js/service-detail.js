@@ -15,8 +15,12 @@ export async function initServiceDetail() {
   const wrapper = document.getElementById("service-detail");
   if (!wrapper) return;
 
-  const titleEl = document.querySelector('[data-role="service-title"]') || document.getElementById("service-title");
-  const breadcrumbCurrentEl = document.getElementById("service-breadcrumb-current");
+  const titleEl =
+    document.querySelector('[data-role="service-title"]') ||
+    document.getElementById("service-title");
+  const breadcrumbCurrentEl = document.getElementById(
+    "service-breadcrumb-current",
+  );
   const descriptionEl = document.getElementById("service-description");
   const routeEl = document.getElementById("service-route");
   const weightLimitEl = document.getElementById("service-weight-limit");
@@ -51,13 +55,21 @@ export async function initServiceDetail() {
     if (breadcrumbCurrentEl) breadcrumbCurrentEl.textContent = service.name;
     if (descriptionEl) descriptionEl.textContent = service.description;
     if (routeEl) routeEl.textContent = service.route;
-    if (weightLimitEl) weightLimitEl.textContent = service.weightLimit || "na zapytanie";
+    if (weightLimitEl)
+      weightLimitEl.textContent = service.weightLimit || "na zapytanie";
     if (etaEl) etaEl.textContent = service.eta || `${service.time} h`;
     if (priceEl) priceEl.textContent = `od ${service.price} zł netto`;
-    if (loadTypesEl) loadTypesEl.textContent = service.loadTypes || "Palety, LTL/FTL";
-    if (securityEl) securityEl.textContent = service.security || "Monitoring GPS, plomby, check-call";
-    if (documentsEl) documentsEl.textContent = service.documents || "CMR, potwierdzenie dostawy";
-    if (extrasEl) extrasEl.textContent = service.extras || "Express, ubezpieczenie, ADR/chłodnia";
+    if (loadTypesEl)
+      loadTypesEl.textContent = service.loadTypes || "Palety, LTL/FTL";
+    if (securityEl)
+      securityEl.textContent =
+        service.security || "Monitoring GPS, plomby, check-call";
+    if (documentsEl)
+      documentsEl.textContent =
+        service.documents || "CMR, potwierdzenie dostawy";
+    if (extrasEl)
+      extrasEl.textContent =
+        service.extras || "Express, ubezpieczenie, ADR/chłodnia";
 
     if (tagsEl && Array.isArray(service.tags)) {
       tagsEl.replaceChildren();
@@ -69,7 +81,11 @@ export async function initServiceDetail() {
       });
     }
 
-    if (audienceEl && Array.isArray(service.audience) && service.audience.length) {
+    if (
+      audienceEl &&
+      Array.isArray(service.audience) &&
+      service.audience.length
+    ) {
       audienceEl.replaceChildren();
       service.audience.forEach((item) => {
         const li = document.createElement("li");
@@ -84,7 +100,8 @@ export async function initServiceDetail() {
       const errorEl = document.createElement("p");
       errorEl.className = "text-muted";
       errorEl.dataset.serviceError = "true";
-      errorEl.textContent = "Nie udało się wczytać szczegółów usługi. Wyświetlamy treść zastępczą.";
+      errorEl.textContent =
+        "Nie udało się wczytać szczegółów usługi. Wyświetlamy treść zastępczą.";
       wrapper.appendChild(errorEl);
     }
   }

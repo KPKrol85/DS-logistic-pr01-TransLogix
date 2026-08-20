@@ -10,16 +10,27 @@ export function initFleetCardGalleries() {
 
   const getCardSrcset = (src) => {
     if (!src) return "";
-    return [...cardWidths.map((width) => `${getResponsivePath(src, width)} ${width}w`), `${src} ${fullImageWidth}w`].join(", ");
+    return [
+      ...cardWidths.map(
+        (width) => `${getResponsivePath(src, width)} ${width}w`,
+      ),
+      `${src} ${fullImageWidth}w`,
+    ].join(", ");
   };
 
   const galleries = document.querySelectorAll(".fleet-card__gallery");
   if (!galleries.length) return;
 
   galleries.forEach((gallery) => {
-    const mainTrigger = gallery.querySelector(".fleet-card__main.lightbox-trigger[data-gallery]");
-    const mainAvifSource = gallery.querySelector("[data-fleet-main-source='avif']");
-    const mainWebpSource = gallery.querySelector("[data-fleet-main-source='webp']");
+    const mainTrigger = gallery.querySelector(
+      ".fleet-card__main.lightbox-trigger[data-gallery]",
+    );
+    const mainAvifSource = gallery.querySelector(
+      "[data-fleet-main-source='avif']",
+    );
+    const mainWebpSource = gallery.querySelector(
+      "[data-fleet-main-source='webp']",
+    );
     const mainImage = gallery.querySelector("[data-fleet-main-image]");
     const thumbs = gallery.querySelectorAll("[data-fleet-thumb]");
     if (!mainImage || !thumbs.length) return;
@@ -33,8 +44,10 @@ export function initFleetCardGalleries() {
         const { mainAvif, mainWebp, mainJpg, mainAlt } = thumb.dataset;
         if (!mainJpg) return;
 
-        if (mainAvifSource && mainAvif) mainAvifSource.srcset = getCardSrcset(mainAvif);
-        if (mainWebpSource && mainWebp) mainWebpSource.srcset = getCardSrcset(mainWebp);
+        if (mainAvifSource && mainAvif)
+          mainAvifSource.srcset = getCardSrcset(mainAvif);
+        if (mainWebpSource && mainWebp)
+          mainWebpSource.srcset = getCardSrcset(mainWebp);
         mainImage.srcset = getCardSrcset(mainJpg);
         mainImage.src = getResponsivePath(mainJpg, cardWidths[0]);
         mainImage.alt = mainAlt || "";

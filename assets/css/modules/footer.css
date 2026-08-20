@@ -164,7 +164,13 @@
   width: 160%;
   height: 1px;
   border-radius: var(--radius-pill);
-  background: linear-gradient(to right, transparent 0%, currentColor 35%, currentColor 65%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    currentColor 35%,
+    currentColor 65%,
+    transparent 100%
+  );
   transform: translateX(-50%) scaleX(0);
   transform-origin: center;
   opacity: 0;
@@ -263,7 +269,6 @@
 }
 
 @media (min-width: 480px) {
-
   .footer__grid {
     grid-template-columns: 1fr;
   }
@@ -274,7 +279,6 @@
 }
 
 @media (min-width: 760px) {
-
   .footer__inner {
     align-items: stretch;
     text-align: left;

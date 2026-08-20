@@ -1,7 +1,9 @@
-
 export function initReveal() {
   const elements = document.querySelectorAll(".reveal");
-  if (!elements.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (
+    !elements.length ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
     elements.forEach((el) => el.classList.add("is-visible"));
     return;
   }
@@ -15,7 +17,7 @@ export function initReveal() {
         }
       });
     },
-    { threshold: 0.15 }
+    { threshold: 0.15 },
   );
 
   elements.forEach((el) => observer.observe(el));

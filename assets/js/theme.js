@@ -1,7 +1,8 @@
 const STORAGE_KEY = "translogix-theme";
 const THEME_IMAGE_URLS = {
   light: {
-    logo: new URL("../img/logo/logo-translogix-light.svg", import.meta.url).href,
+    logo: new URL("../img/logo/logo-translogix-light.svg", import.meta.url)
+      .href,
     toggle: new URL("../img/svg/sun.svg", import.meta.url).href,
   },
   dark: {
@@ -22,7 +23,9 @@ function getStoredTheme() {
 function getPreferredTheme() {
   const stored = getStoredTheme();
   if (stored) return stored;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 function updateThemeImages(theme) {
@@ -50,7 +53,10 @@ function applyTheme(theme) {
 function updateToggleA11y(toggle, theme) {
   const isDark = theme === "dark";
   toggle.setAttribute("aria-pressed", isDark);
-  toggle.setAttribute("aria-label", isDark ? "Przełącz na tryb jasny" : "Przełącz na tryb ciemny");
+  toggle.setAttribute(
+    "aria-label",
+    isDark ? "Przełącz na tryb jasny" : "Przełącz na tryb ciemny",
+  );
 }
 
 export function initThemeToggle() {

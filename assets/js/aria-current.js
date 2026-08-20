@@ -4,7 +4,9 @@ const normalizeRouteKey = (pathname) => {
 };
 
 export function applyAriaCurrent() {
-  const links = Array.from(document.querySelectorAll(".nav__links a[href], .footer__list a[href]"));
+  const links = Array.from(
+    document.querySelectorAll(".nav__links a[href], .footer__list a[href]"),
+  );
   if (!links.length) return;
 
   const currentRouteKey = normalizeRouteKey(window.location.pathname);

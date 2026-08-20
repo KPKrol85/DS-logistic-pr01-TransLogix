@@ -11,7 +11,9 @@ try {
 } catch (error) {}
 
 if (!theme) {
-  theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 root.classList.toggle("theme-dark", theme === "dark");

@@ -1,7 +1,12 @@
 export function initFooterStats() {
-  const statHeaders = document.querySelectorAll(".footer__stats .stat [data-stat]");
+  const statHeaders = document.querySelectorAll(
+    ".footer__stats .stat [data-stat]",
+  );
   if (!statHeaders.length) return;
-  const prefersReducedMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const prefersReducedMotion = !!(
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 
   let deliveriesEl = null;
   let vehiclesEl = null;
@@ -15,7 +20,9 @@ export function initFooterStats() {
   });
 
   if (deliveriesEl) {
-    const raw = deliveriesEl.dataset.value || deliveriesEl.textContent.trim().replace(/[^\d]/g, "");
+    const raw =
+      deliveriesEl.dataset.value ||
+      deliveriesEl.textContent.trim().replace(/[^\d]/g, "");
     const deliveriesValue = parseInt(raw, 10);
     if (!Number.isNaN(deliveriesValue)) {
       deliveriesEl.textContent = deliveriesValue.toLocaleString("pl-PL") + "+";
@@ -23,7 +30,9 @@ export function initFooterStats() {
   }
 
   if (countriesEl) {
-    const raw = countriesEl.dataset.value || countriesEl.textContent.trim().replace(/[^\d]/g, "");
+    const raw =
+      countriesEl.dataset.value ||
+      countriesEl.textContent.trim().replace(/[^\d]/g, "");
     const countriesValue = parseInt(raw, 10);
     const valueToShow = Number.isNaN(countriesValue) ? 27 : countriesValue;
     countriesEl.textContent = valueToShow.toString();
@@ -32,7 +41,9 @@ export function initFooterStats() {
 
   if (!vehiclesEl) return;
 
-  const rawVehicles = vehiclesEl.dataset.value || vehiclesEl.textContent.trim().replace(/[^\d]/g, "");
+  const rawVehicles =
+    vehiclesEl.dataset.value ||
+    vehiclesEl.textContent.trim().replace(/[^\d]/g, "");
   const initialVehicles = parseInt(rawVehicles, 10);
 
   if (Number.isNaN(initialVehicles)) return;

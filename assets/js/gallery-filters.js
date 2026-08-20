@@ -1,4 +1,3 @@
-
 export function initGalleryFilters() {
   const chips = document.querySelectorAll("[data-filter]");
   const items = document.querySelectorAll("#fleet-grid [data-type]");
@@ -12,7 +11,10 @@ export function initGalleryFilters() {
 
   const applyFilters = (filter) => {
     items.forEach((item) => {
-      const match = filter === "all" || item.dataset.type === filter || item.dataset.purpose === filter;
+      const match =
+        filter === "all" ||
+        item.dataset.type === filter ||
+        item.dataset.purpose === filter;
 
       item.style.display = match ? "" : "none";
     });
@@ -25,7 +27,9 @@ export function initGalleryFilters() {
       chips.forEach((c) => c.classList.remove("is-active"));
       chip.classList.add("is-active");
       chip.setAttribute("aria-pressed", "true");
-      chips.forEach((c) => c !== chip && c.setAttribute("aria-pressed", "false"));
+      chips.forEach(
+        (c) => c !== chip && c.setAttribute("aria-pressed", "false"),
+      );
       applyFilters(chip.dataset.filter);
     });
     if (chip.dataset.filter === "all") chip.classList.add("is-active");

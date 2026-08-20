@@ -35,7 +35,9 @@ function renderServices(services, container) {
     const route = service.route || "Trasa na zapytanie";
     const short = service.shortDescription || service.description;
     const icon = service.icon || service.image;
-    const linkTarget = service.slug ? `service.html?service=${service.slug}` : `service.html?id=${service.id}`;
+    const linkTarget = service.slug
+      ? `service.html?service=${service.slug}`
+      : `service.html?id=${service.id}`;
 
     const image = document.createElement("img");
     image.src = icon;
@@ -78,7 +80,9 @@ function renderServices(services, container) {
 function filterServices(services, state) {
   let result = [...services];
   if (state.filter && state.filter !== "all") {
-    result = result.filter((s) => s.type === state.filter || s.category === state.filter);
+    result = result.filter(
+      (s) => s.type === state.filter || s.category === state.filter,
+    );
   }
   if (state.price) {
     result = result.filter((s) => s.price <= state.price);
@@ -112,14 +116,21 @@ export async function initServicesFilters() {
   }
   const params = new URLSearchParams(window.location.search);
   const urlFilter = params.get("filter");
-  let state = { filter: "all", price: Number(priceRange?.value) || 10000, sort: "none", ...loadState() };
+  let state = {
+    filter: "all",
+    price: Number(priceRange?.value) || 10000,
+    sort: "none",
+    ...loadState(),
+  };
   if (urlFilter) state.filter = urlFilter;
 
   const update = () => {
     const filtered = filterServices(allServices, state);
     renderServices(filtered, container);
     if (countEl) {
-      countEl.textContent = filtered.length ? `Wyświetlono ${filtered.length}/${allServices.length}` : "Brak wyników dla wybranych filtrów.";
+      countEl.textContent = filtered.length
+        ? `Wyświetlono ${filtered.length}/${allServices.length}`
+        : "Brak wyników dla wybranych filtrów.";
     }
     if (state.filter && state.filter !== "all") {
       params.set("filter", state.filter);
@@ -137,7 +148,9 @@ export async function initServicesFilters() {
       chip.classList.add("is-active");
       state.filter = chip.dataset.filter;
       chip.setAttribute("aria-pressed", "true");
-      chips.forEach((c) => c !== chip && c.setAttribute("aria-pressed", "false"));
+      chips.forEach(
+        (c) => c !== chip && c.setAttribute("aria-pressed", "false"),
+      );
       update();
     });
     if (chip.dataset.filter === state.filter) chip.classList.add("is-active");

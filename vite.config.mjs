@@ -71,8 +71,13 @@ function sharedPartialsPlugin() {
           transformedHtml = transformedHtml.replaceAll(marker, markup);
         }
 
-        if (transformedHtml.includes('data-partial="header"') || transformedHtml.includes('data-partial="footer"')) {
-          throw new Error(`Shared partial marker was not resolved in ${context.filename}`);
+        if (
+          transformedHtml.includes('data-partial="header"') ||
+          transformedHtml.includes('data-partial="footer"')
+        ) {
+          throw new Error(
+            `Shared partial marker was not resolved in ${context.filename}`,
+          );
         }
 
         return transformedHtml;
@@ -90,23 +95,40 @@ function serviceWorkerPlugin() {
     async writeBundle(outputOptions, bundle) {
       const outputRoot = resolve(projectRoot, outputOptions.dir || "dist");
       const generatedAssetUrls = Object.values(bundle)
-        .filter((output) => output.fileName.endsWith(".css") || output.fileName.endsWith(".js"))
+        .filter(
+          (output) =>
+            output.fileName.endsWith(".css") || output.fileName.endsWith(".js"),
+        )
         .map((output) => `/${output.fileName}`)
         .sort();
 
       if (generatedAssetUrls.length === 0) {
-        throw new Error("Vite did not emit any CSS or JavaScript assets for the service worker precache.");
+        throw new Error(
+          "Vite did not emit any CSS or JavaScript assets for the service worker precache.",
+        );
       }
 
-      const serviceWorkerSource = await readFile(resolve(projectRoot, "sw.js"), "utf8");
+      const serviceWorkerSource = await readFile(
+        resolve(projectRoot, "sw.js"),
+        "utf8",
+      );
       if (!serviceWorkerSource.includes(assetPlaceholder)) {
-        throw new Error("The service worker Vite asset placeholder is missing.");
+        throw new Error(
+          "The service worker Vite asset placeholder is missing.",
+        );
       }
 
       const generatedAssetList = `const VITE_ASSET_URLS = ${JSON.stringify(generatedAssetUrls, null, 2)};`;
-      const productionServiceWorker = serviceWorkerSource.replace(assetPlaceholder, generatedAssetList);
+      const productionServiceWorker = serviceWorkerSource.replace(
+        assetPlaceholder,
+        generatedAssetList,
+      );
 
-      await writeFile(resolve(outputRoot, "sw.js"), productionServiceWorker, "utf8");
+      await writeFile(
+        resolve(outputRoot, "sw.js"),
+        productionServiceWorker,
+        "utf8",
+      );
     },
   };
 }
@@ -132,13 +154,20 @@ function staticDeploymentFilesPlugin() {
 }
 
 const pageInputs = Object.fromEntries(
-  maintainedPages.map((page) => [page.replace(/\.html$/, ""), resolve(projectRoot, page)]),
+  maintainedPages.map((page) => [
+    page.replace(/\.html$/, ""),
+    resolve(projectRoot, page),
+  ]),
 );
 
 export default defineConfig({
   base: "/",
   publicDir: false,
-  plugins: [sharedPartialsPlugin(), staticDeploymentFilesPlugin(), serviceWorkerPlugin()],
+  plugins: [
+    sharedPartialsPlugin(),
+    staticDeploymentFilesPlugin(),
+    serviceWorkerPlugin(),
+  ],
   build: {
     outDir: "dist",
     emptyOutDir: true,

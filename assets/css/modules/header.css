@@ -9,9 +9,15 @@ body > header {
 
 [data-partial="header"] > header,
 body > header {
-  background: linear-gradient(to bottom, rgba(224, 242, 254, 0.96) 0%, rgba(255, 255, 255, 0.94) 45%, rgba(255, 255, 255, 0.88) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(224, 242, 254, 0.96) 0%,
+    rgba(255, 255, 255, 0.94) 45%,
+    rgba(255, 255, 255, 0.88) 100%
+  );
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-border) 70%, transparent);
   box-shadow: var(--shadow-sm);
   transition:
     background var(--transition),
@@ -21,7 +27,12 @@ body > header {
 
 html.theme-dark [data-partial="header"] > header,
 html.theme-dark body > header {
-  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.88) 50%, rgba(15, 23, 42, 0.82) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0.94) 0%,
+    rgba(15, 23, 42, 0.88) 50%,
+    rgba(15, 23, 42, 0.82) 100%
+  );
 }
 
 .header-inner {
@@ -337,7 +348,11 @@ html.theme-dark .header-actions .btn:hover {
 
 [data-partial="header"] > .header--compact,
 body > .header--compact {
-  border-bottom-color: color-mix(in srgb, var(--color-border) 90%, var(--color-accent) 10%);
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--color-border) 90%,
+    var(--color-accent) 10%
+  );
   box-shadow: var(--color-shadow);
 }
 

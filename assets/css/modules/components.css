@@ -15,7 +15,12 @@
   inset: 0;
   z-index: 0;
   background-image:
-    linear-gradient(120deg, rgba(15, 23, 42, 0.82), rgba(14, 165, 233, 0.5) 48%, rgba(15, 23, 42, 0.9)),
+    linear-gradient(
+      120deg,
+      rgba(15, 23, 42, 0.82),
+      rgba(14, 165, 233, 0.5) 48%,
+      rgba(15, 23, 42, 0.9)
+    ),
     image-set(
       url("/assets/img/hero/hero-01-1920x1080.avif") type("image/avif"),
       url("/assets/img/hero/hero-01-1920x1080.webp") type("image/webp"),
@@ -62,7 +67,11 @@
 .hero__actions .cta--primary {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+  background: linear-gradient(
+    135deg,
+    var(--color-accent),
+    var(--color-accent-strong)
+  );
   color: #0b1020;
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.28);
 }
@@ -78,7 +87,12 @@
   left: -120%;
   width: 120%;
   height: 100%;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
   transform: skewX(-22deg);
   transition: left 650ms ease;
   pointer-events: none;
@@ -102,7 +116,12 @@
 @media (min-width: 1600px) {
   .hero::before {
     background-image:
-      linear-gradient(120deg, rgba(15, 23, 42, 0.82), rgba(14, 165, 233, 0.5) 48%, rgba(15, 23, 42, 0.9)),
+      linear-gradient(
+        120deg,
+        rgba(15, 23, 42, 0.82),
+        rgba(14, 165, 233, 0.5) 48%,
+        rgba(15, 23, 42, 0.9)
+      ),
       image-set(
         url("/assets/img/hero/hero-01-2560x1440.avif") type("image/avif"),
         url("/assets/img/hero/hero-01-2560x1440.webp") type("image/webp"),
@@ -114,7 +133,12 @@
 @media (min-width: 2200px) {
   .hero::before {
     background-image:
-      linear-gradient(120deg, rgba(15, 23, 42, 0.82), rgba(14, 165, 233, 0.5) 48%, rgba(15, 23, 42, 0.9)),
+      linear-gradient(
+        120deg,
+        rgba(15, 23, 42, 0.82),
+        rgba(14, 165, 233, 0.5) 48%,
+        rgba(15, 23, 42, 0.9)
+      ),
       image-set(
         url("/assets/img/hero/hero-01-3840x1600.avif") type("image/avif"),
         url("/assets/img/hero/hero-01-3840x1600.webp") type("image/webp"),
@@ -226,7 +250,11 @@ html.theme-dark .card:focus-within {
 .card.fleet-card:hover,
 .card.fleet-card:focus-within {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--color-border) 70%, var(--color-accent) 30%);
+  border-color: color-mix(
+    in srgb,
+    var(--color-border) 70%,
+    var(--color-accent) 30%
+  );
   box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14);
 }
 
@@ -261,7 +289,11 @@ html.theme-dark .calculator {
 
 #quote .summary {
   border-radius: var(--radius-lg);
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.03), rgba(14, 165, 233, 0.03));
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.03),
+    rgba(14, 165, 233, 0.03)
+  );
   border: 1px solid rgba(14, 165, 233, 0.15);
   padding: clamp(var(--space-04), 3vw, var(--space-05));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -272,7 +304,11 @@ html.theme-dark .calculator {
 }
 
 html.theme-dark #quote .summary {
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.03), rgba(14, 165, 233, 0.04));
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.03),
+    rgba(14, 165, 233, 0.04)
+  );
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
@@ -453,7 +489,13 @@ html.theme-dark #quick-quote fieldset {
   width: 60%;
   height: 1.2px;
   border-radius: var(--radius-pill);
-  background: linear-gradient(to right, transparent 0%, currentColor 18%, currentColor 82%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    currentColor 18%,
+    currentColor 82%,
+    transparent 100%
+  );
   transform: translateX(-50%) scaleX(0);
   transform-origin: center;
   opacity: 0;
@@ -635,7 +677,13 @@ html.theme-dark #quick-quote fieldset {
   display: grid;
   place-items: center;
   padding: clamp(var(--space-02), 2vw, var(--space-04));
-  background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.18), transparent 34%), rgba(0, 0, 0, 0.2);
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(14, 165, 233, 0.18),
+      transparent 34%
+    ),
+    rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   visibility: hidden;
   opacity: 0;
@@ -664,7 +712,11 @@ html.theme-dark #quick-quote fieldset {
 }
 
 html.theme-dark .lightbox__dialog {
-  background: color-mix(in srgb, var(--color-surface-elevated, #0f172a) 60%, #000 7%);
+  background: color-mix(
+    in srgb,
+    var(--color-surface-elevated, #0f172a) 60%,
+    #000 7%
+  );
 }
 
 .lightbox__title {
@@ -695,7 +747,9 @@ html.theme-dark .lightbox__dialog {
   overflow: hidden;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 42%), rgba(0, 0, 0, 0.9);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 42%),
+    rgba(0, 0, 0, 0.9);
 }
 
 .lightbox__hero-frame picture {
@@ -785,7 +839,11 @@ html.theme-dark .lightbox__dialog {
 
 .lightbox__controls .btn:hover,
 .lightbox__close:hover {
-  background-color: color-mix(in srgb, var(--color-accent) 22%, rgba(17, 24, 39, 0.72));
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent) 22%,
+    rgba(17, 24, 39, 0.72)
+  );
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 
@@ -813,7 +871,9 @@ html.theme-dark .lightbox__dialog {
   z-index: 1400;
   display: grid;
   place-items: center;
-  padding: max(var(--space-02), env(safe-area-inset-top)) max(var(--space-02), env(safe-area-inset-right)) max(var(--space-02), env(safe-area-inset-bottom))
+  padding: max(var(--space-02), env(safe-area-inset-top))
+    max(var(--space-02), env(safe-area-inset-right))
+    max(var(--space-02), env(safe-area-inset-bottom))
     max(var(--space-02), env(safe-area-inset-left));
   background: #000;
   overflow: hidden;
@@ -1060,7 +1120,11 @@ html.theme-dark .lightbox__dialog {
 }
 
 .site-consent__primary {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-strong) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-accent) 0%,
+    var(--color-accent-strong) 100%
+  );
   color: #fff;
   border-color: var(--color-accent);
   box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
@@ -1070,7 +1134,11 @@ html.theme-dark .lightbox__dialog {
 
 .site-consent__primary:hover,
 .site-consent__primary:focus-visible {
-  background: linear-gradient(135deg, var(--color-accent-strong) 0%, var(--color-accent) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-accent-strong) 0%,
+    var(--color-accent) 100%
+  );
   transform: translateY(-1px);
 }
 

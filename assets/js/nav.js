@@ -17,7 +17,10 @@ export function initNav() {
   toggle.setAttribute("aria-label", "Otwórz menu");
   panel.hidden = false;
   panel.setAttribute("role", panel.getAttribute("role") || "navigation");
-  panel.setAttribute("aria-label", panel.getAttribute("aria-label") || "Główne menu");
+  panel.setAttribute(
+    "aria-label",
+    panel.getAttribute("aria-label") || "Główne menu",
+  );
   panel.setAttribute("aria-hidden", "true");
 
   const closeMenu = () => {
@@ -42,7 +45,12 @@ export function initNav() {
     }
   };
 
-  const getPanelFocusable = () => Array.from(panel.querySelectorAll("a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])"));
+  const getPanelFocusable = () =>
+    Array.from(
+      panel.querySelectorAll(
+        "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])",
+      ),
+    );
 
   toggle.addEventListener("click", () => {
     const isOpen = toggle.getAttribute("aria-expanded") === "true";

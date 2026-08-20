@@ -17,7 +17,11 @@
     "documents": "CMR + potwierdzenie doręczenia",
     "extras": "Express 24/7, ubezpieczenie cargo",
     "slug": "ekspres-pl-de",
-    "audience": ["Pilne dostawy PL-DE do 18h", "E-commerce i automotive just-in-time", "Gdy liczy sie dedykowany bus zamiast grupage"],
+    "audience": [
+      "Pilne dostawy PL-DE do 18h",
+      "E-commerce i automotive just-in-time",
+      "Gdy liczy sie dedykowany bus zamiast grupage"
+    ],
     "shortDescription": "Dedykowany bus plandeka, zaladunek w 2h, dostawa rano."
   },
   {
@@ -38,7 +42,11 @@
     "documents": "List przewozowy, proof of delivery",
     "extras": "Okna czasowe, pobranie dokumentow",
     "slug": "krajowy-standard",
-    "audience": ["Retail i FMCG krajowe linie", "Stałe sloty nocne/poranne", "Track & trace dla sieci sklepów"],
+    "audience": [
+      "Retail i FMCG krajowe linie",
+      "Stałe sloty nocne/poranne",
+      "Track & trace dla sieci sklepów"
+    ],
     "shortDescription": "Stałe linie krajowe z monitoringiem GPS i elastycznymi oknami czasowymi."
   },
   {
@@ -59,7 +67,11 @@
     "documents": "CMR, raport temperatury",
     "extras": "Backup agregatu, alerty temp.",
     "slug": "chlodnia-eu",
-    "audience": ["Pharma/food w 2-8C", "Stała kontrola temperatury", "Raporty temperatury dla QA"],
+    "audience": [
+      "Pharma/food w 2-8C",
+      "Stała kontrola temperatury",
+      "Raporty temperatury dla QA"
+    ],
     "shortDescription": "Chlodnia 2-8C z rejestratorem temperatury i czujnikami drzwi."
   },
   {
@@ -80,7 +92,11 @@
     "documents": "CMR, listy przewozowe, slot booking",
     "extras": "Dodatkowe ubezpieczenie, express double-driver",
     "slug": "miedzynarodowy-standard",
-    "audience": ["FTL/LTL do EU", "High-cube i retail", "Terminowe sloty produkcyjne"],
+    "audience": [
+      "FTL/LTL do EU",
+      "High-cube i retail",
+      "Terminowe sloty produkcyjne"
+    ],
     "shortDescription": "Zestaw Mega 100 m3 z kurtyna XL i zabezpieczeniami high-value."
   },
   {
@@ -101,7 +117,11 @@
     "documents": "CMR + karta charakterystyki",
     "extras": "DGSA konsultacja, dodatkowe ubezpieczenie",
     "slug": "adr-polska",
-    "audience": ["Chemia/ADR kl.3/8", "Kontrola szczelnosci", "Konsultacje DGSA"],
+    "audience": [
+      "Chemia/ADR kl.3/8",
+      "Kontrola szczelnosci",
+      "Konsultacje DGSA"
+    ],
     "shortDescription": "ADR krajowy z kierowcami z uprawnieniami i wsparciem DGSA."
   },
   {
@@ -122,7 +142,11 @@
     "documents": "CMR, MRN, eksport/import T1 w razie potrzeby",
     "extras": "Express double-driver, dodatkowe ubezpieczenie cargo",
     "slug": "ftl-uk-benelux",
-    "audience": ["FTL UK/Benelux", "Odprawy eksport/import", "Sloty na terminalach"],
+    "audience": [
+      "FTL UK/Benelux",
+      "Odprawy eksport/import",
+      "Sloty na terminalach"
+    ],
     "shortDescription": "FTL plandeka XL z odprawa eksport/import i slotami terminalow."
   },
   {
@@ -143,7 +167,11 @@
     "documents": "List przewozowy + etykiety cross-dock, SLA dostaw",
     "extras": "Okna czasowe, zwroty opakowań, pobranie dokumentów",
     "slug": "ecommerce-nocny-pl",
-    "audience": ["Linehaul nocny e-commerce", "Dostawy D+0 poranne", "Zwroty i dokumenty"],
+    "audience": [
+      "Linehaul nocny e-commerce",
+      "Dostawy D+0 poranne",
+      "Zwroty i dokumenty"
+    ],
     "shortDescription": "Nocne linie krajowe dla e-commerce z dostawami porannymi."
   },
   {
@@ -164,7 +192,11 @@
     "documents": "CMR, karta charakterystyki, cert. kalibracji, GDP SOP",
     "extras": "Backup agregatu, podwojna zaloga, dodatkowe ubezpieczenie",
     "slug": "pharma-cold-adr",
-    "audience": ["Pharma GDP 2-8C", "ADR kl.3/6/8 kontrolowany", "Med-tech high-value"],
+    "audience": [
+      "Pharma GDP 2-8C",
+      "ADR kl.3/6/8 kontrolowany",
+      "Med-tech high-value"
+    ],
     "shortDescription": "Kwalifikowana chlodnia GDP + ADR z monitoringiem i alertami."
   }
 ]

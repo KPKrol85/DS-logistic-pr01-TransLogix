@@ -27,7 +27,9 @@ function getSharp() {
     sharp = require("sharp");
     return sharp;
   } catch (error) {
-    console.error('Missing dependency: sharp. Run "npm install" before "npm run img:opt".');
+    console.error(
+      'Missing dependency: sharp. Run "npm install" before "npm run img:opt".',
+    );
     process.exit(1);
   }
 }
@@ -63,7 +65,10 @@ async function collectImageFiles(dir) {
 
 async function fileIsUpToDate(inputFile, outputFile) {
   try {
-    const [inputStat, outputStat] = await Promise.all([fsp.stat(inputFile), fsp.stat(outputFile)]);
+    const [inputStat, outputStat] = await Promise.all([
+      fsp.stat(inputFile),
+      fsp.stat(outputFile),
+    ]);
     return outputStat.mtimeMs >= inputStat.mtimeMs;
   } catch {
     return false;
@@ -91,11 +96,21 @@ async function optimizeImages() {
 
   for (const sourceFile of sourceFiles) {
     const relativePath = path.relative(sourceDir, sourceFile);
-    const outputBasePath = path.join(outputDir, relativePath).replace(/\.[^.]+$/, "");
+    const outputBasePath = path
+      .join(outputDir, relativePath)
+      .replace(/\.[^.]+$/, "");
 
     const targets = [
-      { format: "webp", options: WEBP_OPTIONS, outputFile: `${outputBasePath}.webp` },
-      { format: "avif", options: AVIF_OPTIONS, outputFile: `${outputBasePath}.avif` },
+      {
+        format: "webp",
+        options: WEBP_OPTIONS,
+        outputFile: `${outputBasePath}.webp`,
+      },
+      {
+        format: "avif",
+        options: AVIF_OPTIONS,
+        outputFile: `${outputBasePath}.avif`,
+      },
     ];
 
     for (const target of targets) {
@@ -107,17 +122,26 @@ async function optimizeImages() {
       }
 
       try {
-        await convertToFormat(sourceFile, target.outputFile, target.format, target.options);
+        await convertToFormat(
+          sourceFile,
+          target.outputFile,
+          target.format,
+          target.options,
+        );
         converted += 1;
       } catch (error) {
         errors += 1;
-        console.error(`Failed to convert ${toPosixPath(path.relative(projectRoot, sourceFile))} -> ${toPosixPath(path.relative(projectRoot, target.outputFile))}`);
+        console.error(
+          `Failed to convert ${toPosixPath(path.relative(projectRoot, sourceFile))} -> ${toPosixPath(path.relative(projectRoot, target.outputFile))}`,
+        );
         console.error(`  ${error.message}`);
       }
     }
   }
 
-  console.log(`Converted: ${converted}, skipped: ${skipped}, errors: ${errors}`);
+  console.log(
+    `Converted: ${converted}, skipped: ${skipped}, errors: ${errors}`,
+  );
 
   if (errors > 0) {
     process.exit(1);

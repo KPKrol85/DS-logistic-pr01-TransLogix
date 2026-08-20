@@ -1,20 +1,18 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const projectRoot = path.resolve(__dirname, '..');
-const ignoredPrefixes = ['http://', 'https://', 'data:', 'mailto:', '#'];
+const projectRoot = path.resolve(__dirname, "..");
+const ignoredPrefixes = ["http://", "https://", "data:", "mailto:", "#"];
 const ignoredDirectories = new Set([
-  '.git',
-  'coverage',
-  'dist',
-  'node_modules',
-  'playwright-report',
-  'test-results',
+  ".git",
+  "coverage",
+  "dist",
+  "node_modules",
+  "playwright-report",
+  "test-results",
 ]);
-const projectOwnedHtmlDirectories = [
-  path.join(projectRoot, 'partials'),
-];
-const projectDataDirectory = path.join(projectRoot, 'assets', 'data');
+const projectOwnedHtmlDirectories = [path.join(projectRoot, "partials")];
+const projectDataDirectory = path.join(projectRoot, "assets", "data");
 
 function isIgnoredDirectory(entryName) {
   return ignoredDirectories.has(entryName);
@@ -23,7 +21,9 @@ function isIgnoredDirectory(entryName) {
 function getRootHtmlFiles() {
   return fs
     .readdirSync(projectRoot, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.html'))
+    .filter(
+      (entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".html"),
+    )
     .map((entry) => path.join(projectRoot, entry.name));
 }
 
@@ -43,7 +43,7 @@ function getProjectHtmlFiles(dir) {
       continue;
     }
 
-    if (entry.isFile() && entry.name.toLowerCase().endsWith('.html')) {
+    if (entry.isFile() && entry.name.toLowerCase().endsWith(".html")) {
       files.push(fullPath);
     }
   }
@@ -74,7 +74,7 @@ function getProjectJsonFiles(dir) {
       continue;
     }
 
-    if (entry.isFile() && entry.name.toLowerCase().endsWith('.json')) {
+    if (entry.isFile() && entry.name.toLowerCase().endsWith(".json")) {
       files.push(fullPath);
     }
   }
@@ -92,8 +92,8 @@ function normalizeAssetPath(rawPath) {
   const trimmed = rawPath.trim();
   if (!trimmed || shouldIgnoreAsset(trimmed)) return null;
 
-  const withoutHash = trimmed.split('#')[0];
-  const withoutQuery = withoutHash.split('?')[0];
+  const withoutHash = trimmed.split("#")[0];
+  const withoutQuery = withoutHash.split("?")[0];
 
   if (!withoutQuery || shouldIgnoreAsset(withoutQuery)) return null;
 
@@ -101,11 +101,11 @@ function normalizeAssetPath(rawPath) {
 }
 
 function resolveFromRoot(assetPath) {
-  if (assetPath === '/') {
-    return path.join(projectRoot, 'index.html');
+  if (assetPath === "/") {
+    return path.join(projectRoot, "index.html");
   }
 
-  const withoutLeadingSlash = assetPath.replace(/^\/+/, '');
+  const withoutLeadingSlash = assetPath.replace(/^\/+/, "");
   return path.join(projectRoot, withoutLeadingSlash);
 }
 
@@ -118,11 +118,11 @@ function extractSrcsetAssets(srcset) {
     if (index >= srcset.length) break;
 
     const start = index;
-    const isDataUrl = srcset.slice(index, index + 5).toLowerCase() === 'data:';
+    const isDataUrl = srcset.slice(index, index + 5).toLowerCase() === "data:";
 
     if (isDataUrl) {
       while (index < srcset.length && !/\s/.test(srcset[index])) {
-        if (srcset[index] === ',' && /\s/.test(srcset[index + 1] || '')) break;
+        if (srcset[index] === "," && /\s/.test(srcset[index + 1] || "")) break;
         index += 1;
       }
     } else {
@@ -131,8 +131,8 @@ function extractSrcsetAssets(srcset) {
 
     assets.push(srcset.slice(start, index));
 
-    while (index < srcset.length && srcset[index] !== ',') index += 1;
-    if (srcset[index] === ',') index += 1;
+    while (index < srcset.length && srcset[index] !== ",") index += 1;
+    if (srcset[index] === ",") index += 1;
   }
 
   return assets;
@@ -165,9 +165,9 @@ function extractHtmlAssets(htmlContent) {
 }
 
 function extractJsonAssets(value, assets) {
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     const trimmed = value.trim();
-    if (trimmed.startsWith('assets/') || trimmed.startsWith('/assets/')) {
+    if (trimmed.startsWith("assets/") || trimmed.startsWith("/assets/")) {
       assets.push(trimmed);
     }
     return;
@@ -178,13 +178,15 @@ function extractJsonAssets(value, assets) {
     return;
   }
 
-  if (value && typeof value === 'object') {
+  if (value && typeof value === "object") {
     Object.values(value).forEach((item) => extractJsonAssets(item, assets));
   }
 }
 
 function extractPrecacheAssets(swContent) {
-  const precacheMatch = swContent.match(/const\s+PRECACHE_URLS\s*=\s*\[([\s\S]*?)\];/);
+  const precacheMatch = swContent.match(
+    /const\s+PRECACHE_URLS\s*=\s*\[([\s\S]*?)\];/,
+  );
   if (!precacheMatch) return [];
 
   const arrayBody = precacheMatch[1];
@@ -207,7 +209,7 @@ function verifyAssets() {
   const htmlFiles = getVerifiableHtmlFiles();
 
   for (const htmlFile of htmlFiles) {
-    const htmlContent = fs.readFileSync(htmlFile, 'utf8');
+    const htmlContent = fs.readFileSync(htmlFile, "utf8");
     const htmlAssets = extractHtmlAssets(htmlContent);
 
     for (const rawAsset of htmlAssets) {
@@ -223,9 +225,11 @@ function verifyAssets() {
   for (const jsonFile of jsonFiles) {
     let jsonData;
     try {
-      jsonData = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+      jsonData = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
     } catch (error) {
-      verificationErrors.push(`Invalid JSON in ${path.relative(projectRoot, jsonFile)}: ${error.message}`);
+      verificationErrors.push(
+        `Invalid JSON in ${path.relative(projectRoot, jsonFile)}: ${error.message}`,
+      );
       continue;
     }
 
@@ -240,9 +244,9 @@ function verifyAssets() {
     }
   }
 
-  const swPath = path.join(projectRoot, 'sw.js');
+  const swPath = path.join(projectRoot, "sw.js");
   if (fs.existsSync(swPath)) {
-    const swContent = fs.readFileSync(swPath, 'utf8');
+    const swContent = fs.readFileSync(swPath, "utf8");
     const swAssets = extractPrecacheAssets(swContent);
 
     for (const rawAsset of swAssets) {
@@ -261,14 +265,14 @@ function verifyAssets() {
   }
 
   if (verificationErrors.length > 0) {
-    console.error('Asset verification errors:');
+    console.error("Asset verification errors:");
     for (const error of verificationErrors.sort()) {
       console.error(`- ${error}`);
     }
   }
 
   if (missingAssets.size > 0) {
-    console.error('Missing assets:');
+    console.error("Missing assets:");
     for (const asset of [...missingAssets].sort()) {
       console.error(`- ${asset}`);
     }
@@ -276,7 +280,7 @@ function verifyAssets() {
 
   if (verificationErrors.length > 0 || missingAssets.size > 0) process.exit(1);
 
-  console.log('All referenced assets exist.');
+  console.log("All referenced assets exist.");
   process.exit(0);
 }
 

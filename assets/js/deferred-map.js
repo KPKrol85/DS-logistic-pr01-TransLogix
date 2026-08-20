@@ -10,7 +10,8 @@ export function initDeferredMap() {
     const mapSrc = component.dataset.mapSrc;
     const mapTitle = component.dataset.mapTitle;
 
-    if (!activateButton || !placeholder || !target || !mapSrc || !mapTitle) return;
+    if (!activateButton || !placeholder || !target || !mapSrc || !mapTitle)
+      return;
 
     component.dataset.mapInitialized = "true";
     activateButton.hidden = false;

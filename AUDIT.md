@@ -3,13 +3,13 @@
 **Audit date:** 2026-08-19  
 **Project type:** Static multi-page B2B logistics website built with HTML, modular CSS, Vanilla JavaScript ES modules, Vite, and Netlify-compatible static-hosting files  
 **Audit mode:** Final repository and implementation review  
-**Current readiness:** Blocked
+**Current readiness:** Ready
 
 ## 1. Executive assessment
 
 The repository has a coherent source-to-production boundary: twelve explicit HTML inputs, canonical shared partials, a deterministic Vite package, and focused validation tooling. The inspected source and fresh production-package checks show no current build, local-link, asset-reference, JSON-LD syntax, production-dependency, or automated Pa11y failure.
 
-One release-blocking service-worker defect remains. Its root-scoped activation handler deletes every Cache Storage entry on the origin except its current cache name, including entries it does not own. This can disrupt an unrelated application hosted on the same origin. The project is therefore not ready for deployment or final presentation as a PWA until cache ownership is constrained.
+The release-blocking service-worker cache-ownership defect has been resolved. Activation cleanup is now restricted to obsolete caches in the explicit `translogix-static-` namespace, while the current cache and unrelated Cache Storage entries are preserved. A focused Playwright lifecycle regression verifies that boundary against the generated production worker.
 
 ## 2. Audit scope and verification
 
@@ -27,6 +27,7 @@ One release-blocking service-worker defect remains. Its root-scoped activation h
 - `npm run qa:package` — passed. The generated package contained 12 HTML files, 2 local form actions, 22 service-worker precache targets, 10 canonical targets, and 9 sitemap targets.
 - `npm audit --omit=dev --audit-level=high` — passed with 0 production dependency vulnerabilities reported.
 - `npx playwright test --reporter=dot` — launched the configured Chromium suite and reported 17 tests; its final aggregate result was not available from the command capture and is not treated as a passing result here.
+- `npx playwright test tests/e2e/service-worker-offline.spec.js --grep "service worker activation removes only obsolete TransLogix caches" --reporter=line` — passed 1/1 in Chromium against the Vite-generated production worker, proving that two obsolete TransLogix caches are removed while the current cache and an unrelated cache are preserved.
 - Static review of the production worker source, build plugin, navigation, deferred third-party map, deferred images, form contract, no-JavaScript test coverage, and hosting configuration.
 
 ### Verification limitations
@@ -46,15 +47,20 @@ One release-blocking service-worker defect remains. Its root-scoped activation h
 
 ## 4. P0 — Critical risks
 
-### [P0-01] Service worker deletes caches outside the TransLogix namespace
+No open P0 findings.
 
+### [P0-01] Service worker deletes caches outside the TransLogix namespace — Resolved
+
+- **Status:** Resolved on 2026-08-20
 - **Classification:** Defect
 - **Affected area:** PWA runtime, Cache Storage, shared-origin applications
-- **Evidence:** `sw.js:58-68`
-- **Current behavior:** On activation, the root-scoped worker enumerates every Cache Storage name and deletes each entry whose name is not exactly `translogix-static-v4`. The condition does not limit deletion to a TransLogix-owned prefix or an explicit legacy-cache allowlist.
-- **Impact:** Deploying this worker on an origin that also serves another application can erase that application's caches when TransLogix activates. This is a real cross-application runtime risk and blocks safe release of the PWA under the current cache-ownership contract.
+- **Original evidence:** `sw.js:58-68`
+- **Previous behavior:** On activation, the root-scoped worker enumerated every Cache Storage name and deleted each entry whose name was not exactly `translogix-static-v4`. The condition did not limit deletion to a TransLogix-owned prefix or an explicit legacy-cache allowlist.
+- **Original impact:** Deploying the previous worker on an origin that also served another application could erase that application's caches when TransLogix activated. This cross-application runtime risk blocked safe release of the PWA under the cache-ownership contract.
 - **Recommended direction:** Restrict activation cleanup to obsolete cache names owned by TransLogix; preserve all caches outside that namespace.
 - **Verification criteria:** With one non-TransLogix cache and multiple legacy TransLogix caches seeded before activation, a new worker version removes only the obsolete TransLogix entries and retains the unrelated cache.
+- **Resolution:** `sw.js` now defines the owned prefix as `translogix-static-` and deletes a cache during activation only when its name starts with that prefix and differs from the current `translogix-static-v4` cache.
+- **Verification result:** The focused Playwright lifecycle test passed against the generated production worker. It removed `translogix-static-v2` and `translogix-static-v3`, retained `unrelated-app-cache`, and preserved both the current cache and its seeded sentinel entry.
 
 ## 5. P1 — Important issues worth fixing next
 
@@ -70,12 +76,12 @@ None detected.
 
 ## 8. Current readiness conclusion
 
-**Status:** Blocked
+**Status:** Ready
 
-The source and generated-package contracts checked in this audit are otherwise in a good state, but the service worker's unrestricted cache deletion is a P0 release blocker. After cache cleanup is limited to TransLogix-owned entries and the activation behavior is proved with an isolation test, the project should be reassessed within the same verified scope.
+No open P0, P1, or P2 finding remains in this audit. The service worker now limits activation cleanup to obsolete TransLogix-owned cache entries, and the focused lifecycle regression passed within the same verified scope. The separate live-host, real assistive-technology, cross-browser, and field-performance limitations listed above remain unchanged.
 
 ## 9. Senior rating
 
-**Rating:** 7/10
+**Rating:** 9/10
 
-The project demonstrates strong static-site architecture, canonical-source ownership, package validation, automated accessibility coverage, and measured production bundles. The root-scoped service-worker cache-deletion defect is nevertheless severe enough to block a higher final rating until it is corrected and verified.
+The project demonstrates strong static-site architecture, canonical-source ownership, package validation, automated accessibility coverage, measured production bundles, and an explicit cache-ownership boundary verified through the real service-worker lifecycle. The remaining point reflects the unchanged live-host, assistive-technology, cross-browser, and field-performance verification limitations rather than an open repository finding.

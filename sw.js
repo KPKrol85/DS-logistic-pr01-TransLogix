@@ -1,3 +1,4 @@
+const CACHE_PREFIX = "translogix-static-";
 const CACHE_NAME = "translogix-static-v4";
 
 const VITE_ASSET_URLS = [];
@@ -59,7 +60,7 @@ self.addEventListener("activate", (event) => {
       const cacheNames = await caches.keys();
       await Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
           return undefined;

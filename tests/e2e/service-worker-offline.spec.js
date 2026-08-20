@@ -37,6 +37,59 @@ async function installAndControlServiceWorker(page) {
   });
 }
 
+test('service worker activation removes only obsolete TransLogix caches', async ({ page }) => {
+  const testCaches = {
+    current: 'translogix-static-v4',
+    obsolete: ['translogix-static-v2', 'translogix-static-v3'],
+    unrelated: 'unrelated-app-cache',
+  };
+  const allTestCacheNames = [testCaches.current, ...testCaches.obsolete, testCaches.unrelated];
+
+  await page.goto('/robots.txt');
+
+  try {
+    const seededCacheNames = await page.evaluate(async (cacheNames) => {
+      await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+
+      await Promise.all(
+        cacheNames.map(async (cacheName) => {
+          const cache = await caches.open(cacheName);
+          const sentinelUrl = new URL(`/__cache-ownership-test__/${cacheName}`, location.origin).href;
+          await cache.put(sentinelUrl, new Response(cacheName));
+        }),
+      );
+
+      return caches.keys();
+    }, allTestCacheNames);
+
+    expect(seededCacheNames).toEqual(expect.arrayContaining(allTestCacheNames));
+
+    await installAndControlServiceWorker(page);
+
+    const activationResult = await page.evaluate(async ({ current, obsolete, unrelated }) => {
+      const cacheNames = await caches.keys();
+      const currentCache = await caches.open(current);
+      const currentSentinelUrl = new URL(`/__cache-ownership-test__/${current}`, location.origin).href;
+
+      return {
+        cacheNames,
+        currentSentinelPreserved: Boolean(await currentCache.match(currentSentinelUrl)),
+        obsoleteCachesExist: obsolete.map((cacheName) => cacheNames.includes(cacheName)),
+        unrelatedCacheExists: cacheNames.includes(unrelated),
+      };
+    }, testCaches);
+
+    expect(activationResult.obsoleteCachesExist).toEqual([false, false]);
+    expect(activationResult.cacheNames).toContain(testCaches.current);
+    expect(activationResult.currentSentinelPreserved).toBe(true);
+    expect(activationResult.unrelatedCacheExists).toBe(true);
+  } finally {
+    await page.evaluate(async (cacheNames) => {
+      await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+    }, allTestCacheNames);
+  }
+});
+
 test('service worker serves precached pages and offline navigation fallback', async ({ context, page }) => {
   await page.goto('/index.html');
 

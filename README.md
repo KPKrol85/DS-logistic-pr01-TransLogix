@@ -77,7 +77,7 @@ JavaScript: `assets/js/theme-init.js` i `assets/js/boot.js` są ładowane jako k
 
 Partiale: podczas developmentu nagłówek i stopka są pobierane przez `fetch` z kanonicznego katalogu `partials/`. Produkcyjny plugin w `vite.config.mjs` wstawia tę samą zawartość bezpośrednio do wszystkich 12 stron w `dist/`, zanim Vite przetworzy odwołania do assetów.
 
-Service worker: kanoniczny `sw.js` używa cache `translogix-static-v4`, a plugin Vite generuje `dist/sw.js` z listą aktualnych bundli CSS/JS. Worker stosuje strategię network-first dla nawigacji i stale-while-revalidate dla `/assets/`, a przy braku sieci zwraca `offline.html`, a w dalszej kolejności `404.html`. Podczas aktywacji usuwa cache o innych nazwach.
+Service worker: kanoniczny `sw.js` używa cache `translogix-static-v4`, a plugin Vite generuje `dist/sw.js` z listą aktualnych bundli CSS/JS. Worker stosuje strategię network-first dla nawigacji i stale-while-revalidate dla `/assets/`, a przy braku sieci zwraca `offline.html`, a w dalszej kolejności `404.html`. Podczas aktywacji usuwa wyłącznie nieaktualne cache z prefiksem `translogix-static-`, zachowując bieżący cache oraz przestrzenie nazw innych aplikacji.
 
 ### Struktura projektu
 
@@ -243,7 +243,7 @@ Bloki JSON-LD osadzone bezpośrednio w stronach są jedynym utrzymywanym źród�
 - `assets/icons/site.webmanifest` deklaruje `start_url` `/`, tryb `standalone`, kolory motywu, ikony 192 i 512 px (`any maskable`), trzy skróty i dwa screenshoty.
 - `sw.js` utrzymuje statyczną listę stron, ikon, `robots.txt` i `sitemap.xml`, a build Vite automatycznie dodaje do produkcyjnego precache'u aktualne wersjonowane pliki CSS i JavaScript.
 - Nawigacje obsługuje strategia network-first z fallbackiem na `offline.html`, a następnie `404.html`; zasoby z `/assets/` obsługuje stale-while-revalidate.
-- Wersjonowanie cache odbywa się przez stałą `CACHE_NAME` (`translogix-static-v4`); podczas aktywacji pozostałe cache są usuwane.
+- Wersjonowanie cache odbywa się przez stałą `CACHE_NAME` (`translogix-static-v4`); podczas aktywacji usuwane są wyłącznie nieaktualne cache z prefiksem `translogix-static-`, a cache spoza tej przestrzeni nazw pozostają nienaruszone.
 - Rejestracja service workera następuje tylko dla `https:` lub `localhost`.
 - Zachowanie offline i fallback pokrywają testy `offline.spec.js` oraz `service-worker-offline.spec.js`.
 
@@ -362,7 +362,7 @@ JavaScript: `assets/js/theme-init.js` and `assets/js/boot.js` are loaded as clas
 
 Partials: during development the header and footer are fetched from the canonical `partials/` directory. A production plugin in `vite.config.mjs` inlines that same content into all 12 pages in `dist/` before Vite processes asset references.
 
-Service worker: the canonical `sw.js` uses the `translogix-static-v4` cache, and a Vite plugin generates `dist/sw.js` with the current CSS/JS bundle list. The worker applies network-first for navigation and stale-while-revalidate for `/assets/`; when the network is unavailable, it returns `offline.html`, then `404.html`. On activation it removes caches with other names.
+Service worker: the canonical `sw.js` uses the `translogix-static-v4` cache, and a Vite plugin generates `dist/sw.js` with the current CSS/JS bundle list. The worker applies network-first for navigation and stale-while-revalidate for `/assets/`; when the network is unavailable, it returns `offline.html`, then `404.html`. On activation it removes only obsolete caches with the `translogix-static-` prefix, preserving the current cache and other applications' cache namespaces.
 
 ### Project Structure
 
@@ -528,7 +528,7 @@ The JSON-LD blocks embedded directly in the pages are the only maintained struct
 - `assets/icons/site.webmanifest` declares the `start_url` `/`, `standalone` display, theme colors, 192 and 512 px icons (`any maskable`), three shortcuts, and two screenshots.
 - `sw.js` maintains the static list of pages, icons, `robots.txt`, and `sitemap.xml`, while the Vite build automatically adds the current versioned CSS and JavaScript files to the production precache.
 - Navigation uses a network-first strategy with a fallback to `offline.html`, then `404.html`; resources under `/assets/` use stale-while-revalidate.
-- Cache versioning is handled by the `CACHE_NAME` constant (`translogix-static-v4`); other caches are removed on activation.
+- Cache versioning is handled by the `CACHE_NAME` constant (`translogix-static-v4`); activation removes only obsolete caches with the `translogix-static-` prefix and leaves caches outside that namespace untouched.
 - The service worker is registered only for `https:` or `localhost`.
 - Offline behavior and the fallback are covered by `offline.spec.js` and `service-worker-offline.spec.js`.
 

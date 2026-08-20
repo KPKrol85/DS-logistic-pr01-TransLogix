@@ -42,9 +42,8 @@ html.theme-dark #why .card__icon {
   }
 }
 
-.home-fleet-card {
-  gap: var(--space-03);
-  padding: var(--space-03);
+.card.home-fleet-card {
+  gap: var(--space-02);
   min-width: 0;
 }
 
@@ -86,11 +85,8 @@ html.theme-dark #why .card__icon {
   line-height: var(--lh-title);
 }
 
-.home-fleet-card p {
-  margin-bottom: 0;
-  color: var(--color-muted);
+.home-fleet-card .fleet-specs li {
   font-size: var(--fs-03);
-  line-height: var(--lh-base);
 }
 
 /* Page: service.html */
@@ -333,10 +329,15 @@ html.theme-dark #why .card__icon {
   align-content: start;
 }
 
+.fleet-card__content h3 {
+  margin-bottom: 0;
+  line-height: var(--lh-title);
+}
+
 .fleet-card__content > .badge {
   justify-self: start;
   align-self: start;
-  margin-top: var(--space-01);
+  margin-top: var(--space-02);
 }
 
 .fleet-card__media {
@@ -436,11 +437,6 @@ html.theme-dark #why .card__icon {
 
 .fleet-card__thumb:hover {
   transform: translateY(-1px);
-}
-
-.fleet-card__summary {
-  margin: 0;
-  max-width: 62ch;
 }
 
 .fleet-grid.is-single .fleet-card {

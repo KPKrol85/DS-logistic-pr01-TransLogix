@@ -7,8 +7,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "dev": "vite",
-    "format": "prettier --write index.html assets/css/modules/pages.css assets/js/accordion-faq.js",
-    "format:check": "prettier --check index.html assets/css/modules/pages.css assets/js/accordion-faq.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "build": "vite build",
     "preview": "vite preview",

@@ -983,9 +983,7 @@ html.theme-dark #why .card__icon {
 .accordion__item {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 62%),
-    var(--color-surface);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 62%), var(--color-surface);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   transition:
@@ -1155,7 +1153,9 @@ html.theme-dark .accordion__item.is-open {
   display: grid;
   align-items: center;
   padding: var(--space-08) 0;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-soft) 42%, transparent), transparent 44%), var(--color-bg);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--color-accent-soft) 42%, transparent), transparent 44%),
+    var(--color-bg);
 }
 
 .system-page::before {
@@ -1164,8 +1164,10 @@ html.theme-dark .accordion__item.is-open {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-border) 42%, transparent), transparent) 0 0 / 100% 1px no-repeat,
-    linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-border) 36%, transparent), transparent) 50% 0 / 1px 100% no-repeat;
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-border) 42%, transparent), transparent) 0 0 /
+      100% 1px no-repeat,
+    linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-border) 36%, transparent), transparent) 50% 0 /
+      1px 100% no-repeat;
 }
 
 .system-page__inner {
@@ -1184,7 +1186,11 @@ html.theme-dark .accordion__item.is-open {
   padding: var(--space-06);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-surface) 92%, var(--color-accent-soft)));
+  background: linear-gradient(
+    180deg,
+    var(--color-surface),
+    color-mix(in srgb, var(--color-surface) 92%, var(--color-accent-soft))
+  );
   box-shadow: var(--shadow-lg);
 }
 
@@ -1265,7 +1271,9 @@ html.theme-dark .accordion__item.is-open {
 }
 
 html.theme-dark .system-page {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-soft) 58%, transparent), transparent 46%), var(--color-bg);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--color-accent-soft) 58%, transparent), transparent 46%),
+    var(--color-bg);
 }
 
 html.theme-dark .system-page__card {

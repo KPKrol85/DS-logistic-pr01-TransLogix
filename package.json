@@ -7,6 +7,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "dev": "vite",
+    "format": "prettier --write index.html assets/css/modules/pages.css assets/js/accordion-faq.js",
+    "format:check": "prettier --check index.html assets/css/modules/pages.css assets/js/accordion-faq.js",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "build": "vite build",
     "preview": "vite preview",
@@ -36,6 +38,7 @@
     "pa11y-ci": "^4.1.1",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1",
+    "prettier": "3.9.6",
     "sharp": "^0.35.3",
     "start-server-and-test": "^2.1.5",
     "vite": "^8.2.1"

@@ -6,6 +6,7 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Added a repository-owned Prettier contract plus VS Code formatter selection and deep-indented soft wrapping for deterministic, readable HTML, CSS, and JavaScript editing.
 - Improved hero pill contrast in both themes with a semantic accent-text color token.
 - Restricted service-worker activation cleanup to obsolete `translogix-static-` caches, preserving the current TransLogix cache and unrelated Cache Storage namespaces.
 - Aligned the privacy and cookies policies with the active service-filter `sessionStorage`, the `translogix-static-v4` cache name, and the verified absence of analytics.

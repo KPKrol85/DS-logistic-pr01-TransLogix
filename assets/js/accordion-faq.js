@@ -1,4 +1,3 @@
-
 export function initAccordion() {
   const accordions = document.querySelectorAll(".accordion__item");
   if (!accordions.length) return;
@@ -39,7 +38,7 @@ export function initAccordion() {
     item.classList.add("is-open");
     panel.removeAttribute("hidden");
     panel.style.maxHeight = "0px";
-    panel.offsetHeight; 
+    panel.offsetHeight;
     panel.style.maxHeight = `${panel.scrollHeight}px`;
 
     const onOpenEnd = () => {

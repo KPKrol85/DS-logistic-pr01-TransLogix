@@ -594,6 +594,146 @@ html.theme-dark #quick-quote fieldset {
   overflow: hidden;
 }
 
+/* Component: Form field
+   Wraps a single control so the native spinner / select arrow can be
+   replaced by a project-owned indicator. Must stay after the shared
+   `.form` rules above so the reserved padding wins on equal specificity. */
+
+.form-field {
+  position: relative;
+
+  /* Indicator column reserved at the end of the control. Shared by the
+     numeric steppers and the select arrow so both sit on one optical line. */
+  --field-indicator: 26px;
+  --field-indicator-inset: 2px;
+  --field-chevron: 7px;
+}
+
+/* Number: the native spinner is suppressed only when JS can supply the
+   replacement buttons, so a no-JS visitor keeps the browser control. */
+
+.js .form-field--number input {
+  padding-right: calc(var(--space-03) + var(--field-indicator));
+  appearance: textfield;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.js .form-field--number input::-webkit-outer-spin-button,
+.js .form-field--number input::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-js .form-field__step {
+  display: none;
+}
+
+.form-field__step {
+  position: absolute;
+  right: var(--field-indicator-inset);
+  width: var(--field-indicator);
+  height: calc(50% - 3px);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    background-color var(--transition);
+}
+
+.form-field__step--up {
+  top: 3px;
+}
+
+.form-field__step--down {
+  bottom: 3px;
+}
+
+.form-field__step::before {
+  content: "";
+  width: var(--field-chevron);
+  height: var(--field-chevron);
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  border-radius: 1px;
+}
+
+.form-field__step--up::before {
+  transform: translateY(1.5px) rotate(-135deg);
+}
+
+.form-field__step--down::before {
+  transform: translateY(-1.5px) rotate(45deg);
+}
+
+.form-field__step:hover {
+  color: var(--color-accent-strong);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.form-field__step:active {
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+/* Select: keeps the native control, only the arrow is redrawn. */
+
+.form-field--select select {
+  padding-right: calc(var(--space-03) + var(--field-indicator));
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.form-field--select::after {
+  content: "";
+  position: absolute;
+
+  /* Centred on the same column as the numeric steppers. */
+  right: calc(
+    var(--field-indicator-inset) +
+      (var(--field-indicator) - var(--field-chevron)) / 2
+  );
+  top: 50%;
+  width: var(--field-chevron);
+  height: var(--field-chevron);
+  margin-top: calc(var(--field-chevron) / -2 - 1.5px);
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  border-radius: 1px;
+  color: var(--color-muted);
+  transform: rotate(45deg);
+  pointer-events: none;
+  transition: color var(--transition);
+}
+
+.form-field--select:hover::after {
+  color: var(--color-text);
+}
+
+.form-field--select:focus-within::after {
+  color: var(--color-accent-strong);
+}
+
+@media (pointer: coarse) {
+  .form-field {
+    --field-indicator: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-field__step,
+  .form-field--select::after {
+    transition: none;
+  }
+}
+
 /* Component: Pills */
 
 .pill {

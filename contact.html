@@ -256,18 +256,20 @@
                 />
                 <div class="form__error" id="phone-error"></div>
                 <label for="serviceType">Typ usługi</label>
-                <select
-                  id="serviceType"
-                  name="serviceType"
-                  required
-                  aria-describedby="serviceType-error"
-                >
-                  <option value="">Wybierz</option>
-                  <option value="standard">Standard</option>
-                  <option value="express">Express</option>
-                  <option value="adr">ADR</option>
-                  <option value="chlodnia">Chłodnia</option>
-                </select>
+                <div class="form-field form-field--select">
+                  <select
+                    id="serviceType"
+                    name="serviceType"
+                    required
+                    aria-describedby="serviceType-error"
+                  >
+                    <option value="">Wybierz</option>
+                    <option value="standard">Standard</option>
+                    <option value="express">Express</option>
+                    <option value="adr">ADR</option>
+                    <option value="chlodnia">Chłodnia</option>
+                  </select>
+                </div>
                 <div class="form__error" id="serviceType-error"></div>
                 <label for="route">Trasa (miejsce załadunku → dostawy)</label>
                 <input

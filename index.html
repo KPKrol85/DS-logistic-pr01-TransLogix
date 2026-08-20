@@ -503,38 +503,68 @@
           <div class="calculator">
             <form class="form" id="quick-quote" novalidate>
               <label for="distance">Dystans (km)</label>
-              <input
-                type="number"
-                id="distance"
-                name="distance"
-                min="1"
-                required
-                aria-describedby="distance-error"
-              />
+              <div class="form-field form-field--number">
+                <input
+                  type="number"
+                  id="distance"
+                  name="distance"
+                  min="1"
+                  required
+                  aria-describedby="distance-error"
+                />
+                <button
+                  class="form-field__step form-field__step--up"
+                  type="button"
+                  tabindex="-1"
+                  aria-label="Zwiększ dystans"
+                ></button>
+                <button
+                  class="form-field__step form-field__step--down"
+                  type="button"
+                  tabindex="-1"
+                  aria-label="Zmniejsz dystans"
+                ></button>
+              </div>
               <div class="form__error" id="distance-error"></div>
               <label for="weight">Waga ładunku (kg)</label>
-              <input
-                type="number"
-                id="weight"
-                name="weight"
-                min="1"
-                required
-                aria-describedby="weight-error"
-              />
+              <div class="form-field form-field--number">
+                <input
+                  type="number"
+                  id="weight"
+                  name="weight"
+                  min="1"
+                  required
+                  aria-describedby="weight-error"
+                />
+                <button
+                  class="form-field__step form-field__step--up"
+                  type="button"
+                  tabindex="-1"
+                  aria-label="Zwiększ wagę ładunku"
+                ></button>
+                <button
+                  class="form-field__step form-field__step--down"
+                  type="button"
+                  tabindex="-1"
+                  aria-label="Zmniejsz wagę ładunku"
+                ></button>
+              </div>
               <div class="form__error" id="weight-error"></div>
               <label for="serviceType">Typ usługi</label>
-              <select
-                id="serviceType"
-                name="serviceType"
-                required
-                aria-describedby="serviceType-error"
-              >
-                <option value="">Wybierz</option>
-                <option value="standard">Standard</option>
-                <option value="express">Express</option>
-                <option value="adr">ADR</option>
-                <option value="cold">Chłodnia</option>
-              </select>
+              <div class="form-field form-field--select">
+                <select
+                  id="serviceType"
+                  name="serviceType"
+                  required
+                  aria-describedby="serviceType-error"
+                >
+                  <option value="">Wybierz</option>
+                  <option value="standard">Standard</option>
+                  <option value="express">Express</option>
+                  <option value="adr">ADR</option>
+                  <option value="cold">Chłodnia</option>
+                </select>
+              </div>
               <div class="form__error" id="serviceType-error"></div>
               <fieldset>
                 <legend>Dodatki</legend>

@@ -254,7 +254,9 @@
 }
 
 .footer__bottom-text {
+  margin: 0;
   font-size: var(--fs-04);
+  line-height: var(--lh-base);
   color: var(--color-muted);
 }
 
@@ -266,6 +268,8 @@
   gap: var(--space-03);
   margin: 0;
   padding: 0;
+  font-size: var(--fs-04);
+  line-height: var(--lh-base);
 }
 
 @media (min-width: 480px) {

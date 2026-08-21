@@ -13,7 +13,7 @@ function requestedAsset(requestUrls, assetName) {
   return requestUrls.some((url) => url.includes(assetName));
 }
 
-test("light theme loads only active shared theme images and defers footer social icons", async ({
+test("light theme loads only active shared theme images and renders footer social icons inline", async ({
   page,
 }) => {
   const requestUrls = [];
@@ -40,9 +40,6 @@ test("light theme loads only active shared theme images and defers footer social
   expect(requestedAsset(requestUrls, "sun-")).toBe(true);
   expect(requestedAsset(requestUrls, "logo-translogix-dark-")).toBe(false);
   expect(requestedAsset(requestUrls, "moon-")).toBe(false);
-  for (const assetName of SOCIAL_IMAGE_NAMES) {
-    expect(requestedAsset(requestUrls, assetName)).toBe(false);
-  }
 
   const socialLinks = page.locator(".footer__social-row .social-link");
   await expect(socialLinks).toHaveCount(4);
@@ -50,11 +47,14 @@ test("light theme loads only active shared theme images and defers footer social
   await expect(socialLinks.nth(1)).toHaveAccessibleName("Instagram");
   await expect(socialLinks.nth(2)).toHaveAccessibleName("LinkedIn");
   await expect(socialLinks.nth(3)).toHaveAccessibleName("GitHub");
-  await expect(socialLinks.locator("[data-deferred-image]")).toHaveCount(4);
+  const socialIcons = socialLinks.locator(".social-link__icon > svg");
+  await expect(socialIcons).toHaveCount(4);
+  await expect(socialIcons.first()).toHaveAttribute("aria-hidden", "true");
+  await expect(socialIcons.first()).toHaveAttribute("focusable", "false");
 
   await page.locator(".footer__social").scrollIntoViewIfNeeded();
   for (const assetName of SOCIAL_IMAGE_NAMES) {
-    await expect.poll(() => requestedAsset(requestUrls, assetName)).toBe(true);
+    expect(requestedAsset(requestUrls, assetName)).toBe(false);
   }
 
   await themeToggle.click();
@@ -144,13 +144,16 @@ test("built shared header and footer retain their no-JavaScript image baseline",
     "src",
     /logo-translogix-light/,
   );
-  const scriptedImages = page.locator(
-    "[data-theme-image], [data-deferred-image]",
-  );
+  const scriptedImages = page.locator("[data-theme-image]");
   for (let index = 0; index < (await scriptedImages.count()); index += 1) {
     await expect(scriptedImages.nth(index)).toBeHidden();
   }
   await expect(page.locator(".footer__social-row .social-link")).toHaveCount(4);
+  const socialLabels = page.locator(".footer__social-row .social-link__label");
+  await expect(socialLabels).toHaveCount(4);
+  for (let index = 0; index < 4; index += 1) {
+    await expect(socialLabels.nth(index)).toBeVisible();
+  }
 
   await context.close();
 });

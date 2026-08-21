@@ -17,7 +17,6 @@ import { initServicesFilters } from "./services-filters.js";
 import { initServiceDetail } from "./service-detail.js";
 import { initFooterStats } from "./stats.js";
 import { initDeferredMap } from "./deferred-map.js";
-import { initDeferredImages } from "./deferred-images.js";
 
 await initPartials();
 
@@ -38,7 +37,6 @@ initLightbox();
 initServicesFilters();
 initServiceDetail();
 initDeferredMap();
-initDeferredImages();
 
 initFooterStats();
 

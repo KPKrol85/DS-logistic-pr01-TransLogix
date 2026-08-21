@@ -80,9 +80,6 @@
   /* Other */
   --container: 1120px;
   --ring: 0 0 0 3px rgba(14, 165, 233, 0.35);
-
-  /* social */
-  --social-icon-filter: brightness(0);
 }
 
 :root.theme-dark {
@@ -104,6 +101,4 @@
   --logo-light: #f1f5f9;
 
   --ring: 0 0 0 3px rgba(34, 211, 238, 0.3);
-
-  --social-icon-filter: none;
 }

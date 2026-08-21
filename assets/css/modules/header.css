@@ -67,8 +67,7 @@ body > header.header--compact .header-inner {
   flex-shrink: 0;
 }
 
-.no-js [data-theme-image],
-.no-js [data-deferred-image] {
+.no-js [data-theme-image] {
   display: none;
 }
 

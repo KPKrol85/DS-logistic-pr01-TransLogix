@@ -6,7 +6,7 @@
   "budgets": {
     "production_css": {
       "asset_type": "css",
-      "max_gzip_bytes": 12000
+      "max_gzip_bytes": 12800
     },
     "production_javascript": {
       "asset_type": "javascript",

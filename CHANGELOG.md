@@ -6,6 +6,7 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Refined the home and pricing quick quote calculator form column: paired the distance and weight controls into one compact numeric row that falls back to full-width controls on narrow columns, replaced the browser-default add-on checkboxes with a project-styled component that keeps the native inputs, exchanged the nested add-on card for a hairline-separated titled group, and retuned label, error, fieldset and submit spacing, leaving the calculator width, field names, calculation logic, validation behavior and quote history unchanged.
 - Replaced the native number spinners in the home and pricing quote calculators with project-styled step controls and standardized the calculator and contact-form select indicators on a shared chevron, keeping the native control semantics, validation, token-based theming, coarse-pointer sizing, and the no-JavaScript fallback to the browser controls.
 - Converted the home and fleet vehicle summaries from paragraphs into semantic specification lists backed by one reusable fleet specification component style, and refined fleet card hierarchy and spacing while preserving the existing card galleries and responsive structure.
 - Established project-wide Prettier formatting with default behavior, shared editor encoding and indentation rules, and preserved VS Code formatter and soft-wrap settings.

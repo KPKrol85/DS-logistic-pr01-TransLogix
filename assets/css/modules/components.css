@@ -351,41 +351,10 @@ html.theme-dark #quote .summary {
   font-size: var(--fs-06);
 }
 
-#quick-quote {
-  display: grid;
-  gap: var(--space-03);
-}
+/* The panel is a grid, so its gap is the single source of vertical rhythm. */
 
-#quick-quote fieldset {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-04);
-  margin: var(--space-01) 0;
-  background: var(--color-surface);
-  display: grid;
-}
-
-html.theme-dark #quick-quote fieldset {
-  background: var(--color-surface-elevated, rgba(15, 23, 42, 0.9));
-}
-
-#quick-quote fieldset legend {
-  padding: 0 var(--space-02);
-  font-weight: var(--fw-semibold);
-  color: var(--color-text);
-}
-
-#quick-quote fieldset label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-02);
-  line-height: var(--lh-base);
-  font-size: var(--fs-04);
-}
-
-#quick-quote fieldset input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+#quote .summary p {
+  margin-bottom: 0;
 }
 
 .quote-history {
@@ -457,21 +426,6 @@ html.theme-dark #quick-quote fieldset {
 
 .cta:hover {
   transform: translateY(-2px);
-}
-
-.quote-form__submit {
-  align-self: flex-start;
-  justify-self: start;
-  width: fit-content;
-  min-width: 12rem;
-  padding-inline: var(--space-05);
-}
-
-@media (max-width: 520px) {
-  .quote-form__submit {
-    justify-self: stretch;
-    width: 100%;
-  }
 }
 
 /* Component: Buttons */
@@ -731,6 +685,192 @@ html.theme-dark #quick-quote fieldset {
   .form-field__step,
   .form-field--select::after {
     transition: none;
+  }
+}
+
+/* Component: Checkbox
+   The native input stays the control and only its presentation is redrawn, so
+   keyboard operation, the label relationship and validation keep working. The
+   check mark is built from the same two-border geometry as the numeric
+   steppers above, which keeps it on `currentColor`, needs no asset and still
+   shows up in forced-colors mode. Component selectors are doubled up so they
+   win over the shared `.form input` rules without reaching for an id. */
+
+.checkbox {
+  --checkbox-size: 1.25rem;
+  --checkbox-line: calc(var(--fs-04) * var(--lh-base));
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-03);
+  padding-block: var(--space-02);
+  cursor: pointer;
+}
+
+.checkbox .checkbox__control {
+  flex: none;
+  display: grid;
+  place-content: center;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+
+  /* Optically centred on the first text line rather than on the whole label,
+     so a wrapped option still lines up with its box. */
+  margin: max(0px, calc((var(--checkbox-line) - var(--checkbox-size)) / 2)) 0 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1.5px solid color-mix(in srgb, var(--color-text) 50%, transparent);
+  border-radius: var(--radius-xs);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.checkbox .checkbox__control::after {
+  content: "";
+  width: 0.3rem;
+  height: 0.6rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  border-radius: 1px;
+  transform: translateY(-1px) rotate(45deg);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.checkbox .checkbox__control:checked {
+  border-color: var(--color-accent-strong);
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+}
+
+.checkbox .checkbox__control:checked::after {
+  opacity: 1;
+}
+
+.checkbox:hover .checkbox__control {
+  border-color: var(--color-accent-strong);
+}
+
+.checkbox:hover .checkbox__control:not(:checked) {
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+}
+
+.checkbox .checkbox__control.invalid {
+  border-color: #f87171;
+}
+
+.checkbox__label {
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-04);
+  line-height: var(--lh-base);
+}
+
+@media (pointer: coarse) {
+  .checkbox {
+    --checkbox-size: 1.375rem;
+
+    padding-block: var(--space-03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkbox .checkbox__control,
+  .checkbox .checkbox__control::after {
+    transition: none;
+  }
+}
+
+/* Component: Quote form
+   Composition of the quick quote calculator's form column. Must stay after the
+   shared `.form` and `.form-field` rules above so the component wins on equal
+   specificity, the same ordering the form field block relies on. */
+
+.quote-form {
+  gap: var(--space-04);
+  align-content: start;
+}
+
+/* One label, its control and the reserved error slot. */
+
+.quote-form__field {
+  display: grid;
+}
+
+.quote-form__field > label {
+  margin-bottom: var(--space-02);
+}
+
+/* The error element keeps its slot for `aria-describedby`; only a filled one
+   takes vertical space, so an untouched form keeps an even rhythm. */
+
+.quote-form__field > .form__error:not(:empty) {
+  margin-top: var(--space-02);
+}
+
+/* Distance and weight read as one compact numeric pair instead of two
+   full-width controls, and fall back to single column - the better touch
+   target - once the column can no longer hold two. */
+
+.quote-form__row {
+  display: grid;
+  gap: var(--space-04);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+
+.quote-form .form-field--number input {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Add-ons: one hairline-separated group with a quiet title, matching the
+   quote history in the summary column instead of nesting a second card. */
+
+.quote-form__addons {
+  display: grid;
+  gap: var(--space-01);
+  margin: 0;
+  padding: var(--space-04) 0 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* A floated legend is not the fieldset's rendered legend, so the title joins
+   the normal flow: it lines up with the field labels and leaves the separator
+   above unbroken. Browsers that keep the native placement simply fall back to
+   the legend sitting on that border. */
+
+.quote-form__legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--space-01);
+  font-size: var(--fs-04);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--color-muted);
+}
+
+.quote-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+  justify-self: start;
+  width: fit-content;
+  min-width: 12rem;
+  min-height: 2.75rem;
+  margin-top: var(--space-01);
+  padding-inline: var(--space-05);
+}
+
+@media (max-width: 520px) {
+  .quote-form__submit {
+    justify-self: stretch;
+    width: 100%;
   }
 }
 

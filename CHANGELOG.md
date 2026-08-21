@@ -6,6 +6,8 @@ All significant changes to this project are documented in this file.
 
 ### Changed
 
+- Replaced the native number spinners in the home and pricing quote calculators with project-styled step controls and standardized the calculator and contact-form select indicators on a shared chevron, keeping the native control semantics, validation, token-based theming, coarse-pointer sizing, and the no-JavaScript fallback to the browser controls.
+- Converted the home and fleet vehicle summaries from paragraphs into semantic specification lists backed by one reusable fleet specification component style, and refined fleet card hierarchy and spacing while preserving the existing card galleries and responsive structure.
 - Established project-wide Prettier formatting with default behavior, shared editor encoding and indentation rules, and preserved VS Code formatter and soft-wrap settings.
 - Improved hero pill contrast in both themes with a semantic accent-text color token.
 - Restricted service-worker activation cleanup to obsolete `translogix-static-` caches, preserving the current TransLogix cache and unrelated Cache Storage namespaces.

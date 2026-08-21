@@ -9,7 +9,7 @@
 
 The repository has a coherent source-to-production boundary: twelve explicit HTML inputs, canonical shared partials, a deterministic Vite package, and focused validation tooling. The inspected source and fresh production-package checks show no current build, local-link, asset-reference, JSON-LD syntax, production-dependency, or automated Pa11y failure.
 
-The release-blocking service-worker cache-ownership defect has been resolved. Activation cleanup is now restricted to obsolete caches in the explicit `translogix-static-` namespace, while the current cache and unrelated Cache Storage entries are preserved. A focused Playwright lifecycle regression verifies that boundary against the generated production worker.
+The generated production worker scopes activation cleanup to obsolete caches in the explicit `translogix-static-` namespace and preserves the current cache alongside unrelated Cache Storage entries. A focused Playwright lifecycle regression verifies that boundary against the production worker.
 
 ## 2. Audit scope and verification
 
@@ -49,19 +49,6 @@ The release-blocking service-worker cache-ownership defect has been resolved. Ac
 
 No open P0 findings.
 
-### [P0-01] Service worker deletes caches outside the TransLogix namespace — Resolved
-
-- **Status:** Resolved on 2026-08-20
-- **Classification:** Defect
-- **Affected area:** PWA runtime, Cache Storage, shared-origin applications
-- **Original evidence:** `sw.js:58-68`
-- **Previous behavior:** On activation, the root-scoped worker enumerated every Cache Storage name and deleted each entry whose name was not exactly `translogix-static-v4`. The condition did not limit deletion to a TransLogix-owned prefix or an explicit legacy-cache allowlist.
-- **Original impact:** Deploying the previous worker on an origin that also served another application could erase that application's caches when TransLogix activated. This cross-application runtime risk blocked safe release of the PWA under the cache-ownership contract.
-- **Recommended direction:** Restrict activation cleanup to obsolete cache names owned by TransLogix; preserve all caches outside that namespace.
-- **Verification criteria:** With one non-TransLogix cache and multiple legacy TransLogix caches seeded before activation, a new worker version removes only the obsolete TransLogix entries and retains the unrelated cache.
-- **Resolution:** `sw.js` now defines the owned prefix as `translogix-static-` and deletes a cache during activation only when its name starts with that prefix and differs from the current `translogix-static-v4` cache.
-- **Verification result:** The focused Playwright lifecycle test passed against the generated production worker. It removed `translogix-static-v2` and `translogix-static-v3`, retained `unrelated-app-cache`, and preserved both the current cache and its seeded sentinel entry.
-
 ## 5. P1 — Important issues worth fixing next
 
 None detected.
@@ -78,7 +65,7 @@ None detected.
 
 **Status:** Ready
 
-No open P0, P1, or P2 finding remains in this audit. The service worker now limits activation cleanup to obsolete TransLogix-owned cache entries, and the focused lifecycle regression passed within the same verified scope. The separate live-host, real assistive-technology, cross-browser, and field-performance limitations listed above remain unchanged.
+No open P0, P1, or P2 finding remains in this audit. The service worker limits activation cleanup to obsolete TransLogix-owned cache entries, and the focused lifecycle regression passed within the same verified scope. The separate live-host, real assistive-technology, cross-browser, and field-performance limitations listed above remain unchanged.
 
 ## 9. Senior rating
 

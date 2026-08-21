@@ -1,4 +1,5 @@
 import { initPartials } from "./partials.js";
+import { initIcons } from "./icons.js";
 import { initNav } from "./nav.js";
 import { initCompactHeader } from "./compact-header.js";
 import { initThemeToggle } from "./theme.js";
@@ -20,6 +21,7 @@ import { initDeferredImages } from "./deferred-images.js";
 
 await initPartials();
 
+initIcons();
 initNav();
 initCompactHeader();
 initThemeToggle();

@@ -951,6 +951,84 @@ html.theme-dark #why .card__icon {
 
 /* Page: contact.html */
 
+.operator-address {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-muted);
+  font-size: var(--fs-04);
+  font-style: normal;
+  line-height: var(--lh-relaxed);
+}
+
+.operator-address__identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-01);
+}
+
+.operator-address__name {
+  color: var(--color-text);
+  font-size: var(--fs-06);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-title);
+}
+
+.operator-address__company {
+  font-weight: var(--fw-regular);
+}
+
+.operator-address__place {
+  margin: var(--space-03) 0 0;
+  font-size: var(--fs-03);
+  line-height: var(--lh-relaxed);
+}
+
+.operator-address__contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-01);
+  margin-top: var(--space-03);
+}
+
+.operator-address__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-02);
+  padding-block: var(--space-01);
+  color: var(--color-text);
+  font-weight: var(--fw-medium);
+}
+
+.operator-address__icon {
+  display: inline-flex;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  color: var(--color-accent-strong);
+  opacity: 0.75;
+  transition: opacity var(--transition);
+}
+
+.operator-address__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.operator-address__link:hover,
+.operator-address__link:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+.operator-address__link:hover .operator-address__icon,
+.operator-address__link:focus-visible .operator-address__icon {
+  opacity: 1;
+}
+
+.no-js .operator-address__icon {
+  display: none;
+}
+
 .contact-panel {
   padding: var(--space-05);
   border: 1px solid var(--color-border);

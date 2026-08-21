@@ -842,6 +842,21 @@ html.theme-dark #quick-quote fieldset {
 /* Component: Lightbox */
 
 .lightbox {
+  /*
+   * Media chrome keeps a light surface in both themes on purpose: these
+   * controls sit on photography and on the fullscreen black canvas, never on
+   * the page surface, so they must not follow the page palette.
+   */
+  --lightbox-ctrl-size: 48px;
+  --lightbox-ctrl-inset: clamp(var(--space-02), 1.4vw, var(--space-04));
+  --lightbox-ctrl-surface: rgba(250, 248, 243, 0.9);
+  --lightbox-ctrl-surface-blur: rgba(250, 248, 243, 0.66);
+  --lightbox-ctrl-surface-hover: rgba(255, 255, 255, 0.97);
+  --lightbox-ctrl-surface-active: rgba(236, 233, 226, 0.95);
+  --lightbox-ctrl-border: rgba(15, 23, 42, 0.18);
+  --lightbox-ctrl-ink: #0f172a;
+  --lightbox-ctrl-ring: var(--color-accent);
+
   position: fixed;
   inset: 0;
   z-index: 950;
@@ -861,6 +876,13 @@ html.theme-dark #quick-quote fieldset {
   transition: opacity var(--transition);
 }
 
+html.theme-dark .lightbox {
+  --lightbox-ctrl-surface: rgba(241, 245, 249, 0.88);
+  --lightbox-ctrl-surface-blur: rgba(241, 245, 249, 0.64);
+  --lightbox-ctrl-surface-hover: rgba(248, 250, 252, 0.97);
+  --lightbox-ctrl-surface-active: rgba(226, 232, 240, 0.94);
+}
+
 .lightbox.is-open {
   visibility: visible;
   opacity: 1;
@@ -871,7 +893,7 @@ html.theme-dark #quick-quote fieldset {
   max-height: calc(100dvh - (var(--space-02) * 2));
   overflow: hidden;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   gap: var(--space-03);
   padding: clamp(var(--space-02), 2vw, var(--space-04));
   border-radius: var(--radius-lg);
@@ -890,6 +912,23 @@ html.theme-dark .lightbox__dialog {
   );
 }
 
+.lightbox__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-04);
+}
+
+.lightbox__heading {
+  min-width: 0;
+}
+
+.lightbox__actions {
+  display: flex;
+  flex: none;
+  gap: var(--space-02);
+}
+
 .lightbox__title {
   margin: 0;
   font-size: clamp(var(--fs-04), 1.8vw, var(--fs-06));
@@ -898,7 +937,7 @@ html.theme-dark .lightbox__dialog {
 }
 
 .lightbox__meta {
-  margin: calc(var(--space-02) * -0.5) 0 0;
+  margin: var(--space-01) 0 0;
   color: var(--color-muted);
   font-size: var(--fs-03);
   font-weight: var(--fw-semibold);
@@ -906,6 +945,7 @@ html.theme-dark .lightbox__dialog {
 }
 
 .lightbox__hero-frame {
+  position: relative;
   margin: 0;
   padding: 0;
   display: flex;
@@ -936,6 +976,9 @@ html.theme-dark .lightbox__dialog {
   max-height: none;
   object-fit: contain;
   object-position: center;
+}
+
+.lightbox.has-fullscreen .lightbox__hero {
   cursor: zoom-in;
 }
 
@@ -948,194 +991,133 @@ html.theme-dark .lightbox__dialog {
   padding: 0;
 }
 
-.lightbox__controls {
-  position: absolute;
-  inset: 0;
-  min-height: 0;
-  pointer-events: none;
-}
+/* One control family for close, fullscreen and gallery navigation. */
 
-.lightbox__controls .btn,
-.lightbox__close {
-  width: 48px;
-  height: 48px;
+.lightbox__ctrl {
+  flex: none;
+  inline-size: var(--lightbox-ctrl-size);
+  block-size: var(--lightbox-ctrl-size);
   padding: 0;
+  display: grid;
+  place-items: center;
   border-radius: var(--radius-pill);
-  display: grid;
-  place-items: center;
-  border: none;
-  background: rgba(17, 24, 39, 0.64);
-  color: #fff;
-  backdrop-filter: blur(12px);
-}
-
-.lightbox__controls .btn[data-lightbox-prev] {
-  position: absolute;
-  left: var(--space-04);
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: auto;
-}
-
-.lightbox__controls .btn[data-lightbox-next] {
-  position: absolute;
-  right: var(--space-04);
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: auto;
-}
-
-.lightbox__close {
-  position: absolute;
-  top: var(--space-03);
-  right: var(--space-03);
-  z-index: 30;
-}
-
-.lightbox__close svg,
-.lightbox__zoom-close svg,
-.lightbox__controls .btn svg {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
-.lightbox__controls .btn,
-.lightbox__close {
-  transition:
-    background-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 120ms ease;
-}
-
-.lightbox__controls .btn:hover,
-.lightbox__close:hover {
-  background-color: color-mix(
-    in srgb,
-    var(--color-accent) 22%,
-    rgba(17, 24, 39, 0.72)
-  );
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-}
-
-.lightbox__controls .btn:active,
-.lightbox__close:active {
-  transform: translateY(calc(-50% + 1px));
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
-}
-
-.lightbox__close:active {
-  transform: translateY(1px);
-}
-
-.lightbox__controls .btn:focus-visible,
-.lightbox__close:focus-visible {
-  outline: none;
+  border: 1px solid var(--lightbox-ctrl-border);
+  background: var(--lightbox-ctrl-surface);
+  color: var(--lightbox-ctrl-ink);
+  cursor: pointer;
   box-shadow:
-    0 0 0 2px rgba(0, 0, 0, 0.52),
-    0 0 0 4px var(--color-accent);
+    0 1px 2px rgba(2, 6, 23, 0.26),
+    0 8px 24px rgba(2, 6, 23, 0.22);
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
-.lightbox__zoom {
-  position: fixed;
-  inset: 0;
-  z-index: 1400;
+/* Blur is an enhancement, the surface stays readable without it. */
+@supports (backdrop-filter: blur(6px)) {
+  .lightbox__ctrl {
+    background: var(--lightbox-ctrl-surface-blur);
+    backdrop-filter: blur(12px) saturate(140%);
+  }
+}
+
+.lightbox__ctrl:hover {
+  background: var(--lightbox-ctrl-surface-hover);
+  border-color: rgba(15, 23, 42, 0.26);
+  box-shadow:
+    0 1px 2px rgba(2, 6, 23, 0.3),
+    0 12px 30px rgba(2, 6, 23, 0.3);
+}
+
+.lightbox__ctrl:active {
+  background: var(--lightbox-ctrl-surface-active);
+  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.3);
+}
+
+.lightbox__ctrl:focus-visible {
+  outline: 2px solid var(--lightbox-ctrl-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(2, 6, 23, 0.55);
+}
+
+.lightbox__ctrl-icon {
   display: grid;
-  place-items: center;
-  padding: max(var(--space-02), env(safe-area-inset-top))
-    max(var(--space-02), env(safe-area-inset-right))
-    max(var(--space-02), env(safe-area-inset-bottom))
-    max(var(--space-02), env(safe-area-inset-left));
-  background: #000;
-  overflow: hidden;
-  cursor: zoom-out;
+  inline-size: 24px;
+  block-size: 24px;
 }
 
-.lightbox__zoom[hidden] {
-  display: none;
-}
-
-.lightbox__zoom-img {
+.lightbox__ctrl-icon svg {
+  display: block;
   width: 100%;
   height: 100%;
-  max-width: none;
-  max-height: none;
-  object-fit: contain;
-  object-position: center;
-  border-radius: calc(var(--radius-lg) - 2px);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.44);
-  cursor: zoom-in;
-  transition:
-    transform 180ms ease,
-    object-fit 180ms ease;
 }
 
-.lightbox__zoom.is-zoomed .lightbox__zoom-img {
-  object-fit: cover;
-  cursor: zoom-out;
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
 }
 
-.lightbox__zoom-close {
-  position: fixed;
-  top: max(var(--space-03), env(safe-area-inset-top));
-  right: max(var(--space-03), env(safe-area-inset-right));
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-pill);
-  display: grid;
-  place-items: center;
+.lightbox__nav--prev {
+  left: var(--lightbox-ctrl-inset);
+}
+
+.lightbox__nav--next {
+  right: var(--lightbox-ctrl-inset);
+}
+
+/*
+ * Fullscreen presentation is driven by the native `:fullscreen` state rather
+ * than a toggled class, so however fullscreen ends - the close control, the
+ * Escape key, the browser chrome - the normal geometry comes back with nothing
+ * left for the script to undo.
+ */
+
+.lightbox:fullscreen {
   padding: 0;
-  font-size: 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition:
-    background-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 120ms ease;
+  background: #05070d;
+  backdrop-filter: none;
 }
 
-.lightbox__zoom:fullscreen {
-  padding: 0;
-  background: #000;
-}
-
-.lightbox__zoom:fullscreen .lightbox__zoom-img {
-  width: 100vw;
-  height: 100dvh;
-  max-width: none;
+.lightbox:fullscreen .lightbox__dialog {
+  width: 100%;
+  height: 100%;
   max-height: none;
+  padding: max(var(--space-03), env(safe-area-inset-top))
+    max(var(--space-03), env(safe-area-inset-right))
+    max(var(--space-03), env(safe-area-inset-bottom))
+    max(var(--space-03), env(safe-area-inset-left));
+  border: 0;
   border-radius: 0;
+  background: transparent;
   box-shadow: none;
 }
 
-.lightbox__zoom.is-zoomed:fullscreen .lightbox__zoom-img {
+.lightbox:fullscreen .lightbox__hero-frame {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+}
+
+.lightbox:fullscreen .lightbox__title {
+  color: #f8fafc;
+}
+
+.lightbox:fullscreen .lightbox__meta {
+  color: rgba(248, 250, 252, 0.74);
+}
+
+.lightbox.is-zoomed:fullscreen .lightbox__hero {
   object-fit: cover;
-}
-
-.lightbox__zoom:fullscreen .lightbox__zoom-close {
-  top: max(var(--space-03), env(safe-area-inset-top));
-  right: max(var(--space-03), env(safe-area-inset-right));
-}
-
-.lightbox__zoom-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.lightbox__zoom-close:active {
-  transform: translateY(1px);
-}
-
-.lightbox__zoom-close:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px rgba(0, 0, 0, 0.35),
-    0 0 0 4px rgba(255, 255, 255, 0.65);
+  cursor: zoom-out;
 }
 
 @media (max-width: 700px) {
   .lightbox {
+    --lightbox-ctrl-size: 44px;
+
     padding: var(--space-02);
   }
 
@@ -1147,68 +1129,24 @@ html.theme-dark .lightbox__dialog {
     padding: var(--space-02);
   }
 
-  .lightbox__hero-frame {
-    width: 100%;
-    height: 100%;
-    min-height: auto;
-    padding: 0;
+  .lightbox__header {
+    gap: var(--space-02);
   }
 
-  .lightbox__hero {
+  .lightbox:fullscreen .lightbox__dialog {
     width: 100%;
     height: 100%;
     max-height: none;
-    object-fit: contain;
-  }
-
-  .lightbox__controls .btn[data-lightbox-prev] {
-    left: var(--space-02);
-  }
-
-  .lightbox__controls .btn[data-lightbox-next] {
-    right: var(--space-02);
-  }
-
-  .lightbox__controls .btn,
-  .lightbox__close,
-  .lightbox__zoom-close {
-    width: 44px;
-    height: 44px;
-  }
-
-  .lightbox__zoom {
-    padding-top: max(var(--space-02), env(safe-area-inset-top));
-    padding-right: max(var(--space-02), env(safe-area-inset-right));
-    padding-bottom: max(var(--space-02), env(safe-area-inset-bottom));
-    padding-left: max(var(--space-02), env(safe-area-inset-left));
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .lightbox__zoom-img {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    object-fit: contain;
-    border-radius: calc(var(--radius-lg) - 2px);
-    box-sizing: border-box;
-  }
-
-  .lightbox__zoom-close {
-    top: max(var(--space-02), env(safe-area-inset-top));
-    right: max(var(--space-02), env(safe-area-inset-right));
+    padding: max(var(--space-02), env(safe-area-inset-top))
+      max(var(--space-02), env(safe-area-inset-right))
+      max(var(--space-02), env(safe-area-inset-bottom))
+      max(var(--space-02), env(safe-area-inset-left));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lightbox {
-    transition: none;
-  }
-
-  .lightbox__controls .btn,
-  .lightbox__close,
-  .lightbox__zoom-close {
+  .lightbox,
+  .lightbox__ctrl {
     transition: none;
   }
 }

@@ -1087,13 +1087,17 @@ html.theme-dark #why .card__icon {
 
 /* Contact: FAQ accordion */
 
+.contact-faq .section__header,
+.faq {
+  width: min(100%, 920px);
+  margin-inline: auto;
+}
+
 .contact-faq .section__header {
   margin-bottom: var(--space-05);
 }
 
 .faq {
-  width: min(100%, 920px);
-  margin-inline: auto;
   display: grid;
   gap: var(--space-03);
 }

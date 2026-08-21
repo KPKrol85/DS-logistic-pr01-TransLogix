@@ -4,6 +4,8 @@ All significant changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-21
+
 ### Changed
 
 - Refined the home and pricing quick quote calculator form column: paired the distance and weight controls into one compact numeric row that falls back to full-width controls on narrow columns, replaced the browser-default add-on checkboxes with a project-styled component that keeps the native inputs, exchanged the nested add-on card for a hairline-separated titled group, and retuned label, error, fieldset and submit spacing, leaving the calculator width, field names, calculation logic, validation behavior and quote history unchanged.
@@ -15,6 +17,7 @@ All significant changes to this project are documented in this file.
 - Aligned the privacy and cookies policies with the active service-filter `sessionStorage`, the `translogix-static-v4` cache name, and the verified absence of analytics.
 - Standardized `terms.html` against the canonical KP_Code Terms template using the verified TransLogix functionality, Netlify Forms, browser-storage, PWA, external-service, Operator-data, and proprietary-license contracts.
 - Archived the completed implementation plan and zero-finding daily audit as dated records under `docs/plans/` and `docs/audits/`.
+- Raised the production CSS gzip budget from 12000 B to 12800 B to reflect the expanded interface while preserving a strict release gate.
 
 ## [1.0.0] - 2026-08-19
 

@@ -4,13 +4,13 @@
 
 ### Przegląd projektu
 
-TransLogix to statyczny, wielostronicowy front-end serwisu transportowo-logistycznego B2B, przygotowany przez KP_Code Digital Studio (`package.json`, `LICENSE`, stopka serwisu). Treść stron jest w języku polskim (`<html lang="pl">`).
+TransLogix to statyczny, wielostronicowy front-end serwisu transportowo-logistycznego B2B, przygotowany przez KP_Code Digital Studio (`package.json`, `LICENSE.md`, stopka serwisu). Treść stron jest w języku polskim (`<html lang="pl">`).
 
 Serwis prezentuje realistyczne doświadczenie firmowe, ale jest projektem demonstracyjnym: dokumenty prawne (`terms.html`, `privacy.html`, `cookies.html`) wprost informują, że TransLogix jest marką fikcyjną, a prezentowana firma transportowa nie istnieje.
 
 Repozytorium nie zawiera frameworka front-endowego ani backendu aplikacyjnego. Warstwa źródłowa to strony HTML, modularny CSS i Vanilla JavaScript w modułach ES. Pliki źródłowe są kanoniczne, a Vite generuje deployowalny katalog `dist/`; budżety wydajności mierzą bezpośrednio aktualne, wersjonowane assety CSS i JavaScript z tego pakietu.
 
-Repozytorium: <https://github.com/KPKrol85/DS-logistic-pr01-TransLogix> (adres zadeklarowany w `LICENSE`).
+Repozytorium: <https://github.com/KPKrol85/DS-logistic-pr01-TransLogix> (adres zadeklarowany w `LICENSE.md`).
 
 ### Wersja online
 
@@ -123,7 +123,7 @@ Service worker: kanoniczny `sw.js` używa cache `translogix-static-v4`, a plugin
 ├── .htmlvalidate.json
 ├── start-local-server.bat
 ├── CHANGELOG.md
-├── LICENSE
+├── LICENSE.md
 └── package.json
 ```
 
@@ -283,19 +283,19 @@ Wyniki końcowego audytu Lighthouse i stan ryzyk wydajności są podsumowane w `
 
 ### Licencja
 
-Projekt podlega istniejącej własnościowej licencji KP_Code w pliku [`LICENSE`](LICENSE), który pozostaje autorytatywnym źródłem warunków w wersji polskiej i angielskiej. Metadane pakietu wskazują ten dokument wartością `"SEE LICENSE IN LICENSE"`. Licencja zastrzega wszelkie prawa i dopuszcza wyłącznie ograniczone wykorzystanie opisane w jej treści; nie obejmuje materiałów podmiotów trzecich, w tym zależności, fontów i ikon, które podlegają własnym warunkom.
+Projekt podlega istniejącej własnościowej licencji KP_Code w pliku [`LICENSE.md`](LICENSE.md), który pozostaje autorytatywnym źródłem warunków w wersji polskiej i angielskiej. Metadane pakietu wskazują ten dokument wartością `"SEE LICENSE IN LICENSE.md"`. Licencja zastrzega wszelkie prawa i dopuszcza wyłącznie ograniczone wykorzystanie opisane w jej treści; nie obejmuje materiałów podmiotów trzecich, w tym zależności, fontów i ikon, które podlegają własnym warunkom.
 
 ## EN
 
 ### Project Overview
 
-TransLogix is a static multi-page front-end for a B2B transport and logistics website, built by KP_Code Digital Studio (`package.json`, `LICENSE`, site footer). Page content is in Polish (`<html lang="pl">`).
+TransLogix is a static multi-page front-end for a B2B transport and logistics website, built by KP_Code Digital Studio (`package.json`, `LICENSE.md`, site footer). Page content is in Polish (`<html lang="pl">`).
 
 The site presents a realistic company experience, but it is a demonstration project: the legal documents (`terms.html`, `privacy.html`, `cookies.html`) state explicitly that TransLogix is a fictional brand and that the transport company shown does not exist.
 
 The repository contains no front-end framework and no application backend. The source layer consists of HTML pages, modular CSS, and Vanilla JavaScript ES modules. Source files are canonical, and Vite generates the deployable `dist/` directory; performance budgets measure the current versioned CSS and JavaScript assets in that package directly.
 
-Repository: <https://github.com/KPKrol85/DS-logistic-pr01-TransLogix> (URL declared in `LICENSE`).
+Repository: <https://github.com/KPKrol85/DS-logistic-pr01-TransLogix> (URL declared in `LICENSE.md`).
 
 ### Live Version
 
@@ -408,7 +408,7 @@ Service worker: the canonical `sw.js` uses the `translogix-static-v4` cache, and
 ├── .htmlvalidate.json
 ├── start-local-server.bat
 ├── CHANGELOG.md
-├── LICENSE
+├── LICENSE.md
 └── package.json
 ```
 
@@ -568,4 +568,4 @@ Final Lighthouse audit results and the performance-risk status are summarized in
 
 ### License
 
-The project is governed by the existing proprietary KP_Code [`LICENSE`](LICENSE), which remains the authoritative source of the Polish and English terms. The package metadata points readers to that document with `"SEE LICENSE IN LICENSE"`. The license reserves all rights and permits only the limited uses stated in its text; it does not cover third-party materials, including dependencies, fonts, and icons, which remain subject to their own terms.
+The project is governed by the existing proprietary KP_Code [`LICENSE.md`](LICENSE.md), which remains the authoritative source of the Polish and English terms. The package metadata points readers to that document with `"SEE LICENSE IN LICENSE.md"`. The license reserves all rights and permits only the limited uses stated in its text; it does not cover third-party materials, including dependencies, fonts, and icons, which remain subject to their own terms.
